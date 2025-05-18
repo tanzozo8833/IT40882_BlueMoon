@@ -12,7 +12,6 @@ class LoginController {
     // [POST] /login (dùng then/catch)
     postLogin(req, res) {
         const { email, password } = req.body;
-        console.log('Email nhận được:', email);
         TaiKhoan.findOne({ email })
             .then(taiKhoan => {
                 if (!taiKhoan) {
@@ -43,10 +42,8 @@ class LoginController {
                 // Điều hướng sau khi đăng nhập thành công
                 if (taiKhoan.role === 'admin') {
                     res.redirect('/admin');
-                } else if (taiKhoan.role === 'nhanvien') {
-                    res.redirect('/nhanvien');
-                } else {
-                    res.redirect('/home');
+                } else if (taiKhoan.role === 'user') {
+                    res.redirect('/user');
                 }
             })
             .catch(err => {

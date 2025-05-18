@@ -23,7 +23,12 @@ const db = require('./config/db');
 db.connect();
 
 // Cấu hình template
-app.engine('hbs', engine({ extname: '.hbs' }));
+app.engine('hbs', engine({
+    extname: '.hbs',
+    layoutsDir: path.join(__dirname, 'resources', 'views', 'layouts'),
+    partialsDir: path.join(__dirname, 'resources', 'views', 'partials'),
+    defaultLayout: 'main',
+}));
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'resources', 'views'));
 
