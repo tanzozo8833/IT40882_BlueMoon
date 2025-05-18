@@ -1,5 +1,5 @@
 class HomeController {
-    // [GET] /
+    // [GET] /home
     index(req, res) {
         res.render('home');
     }

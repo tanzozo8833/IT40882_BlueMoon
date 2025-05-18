@@ -27,8 +27,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "connect-mongo": "^5.1.0",
     "express": "^5.1.0",
     "express-handlebars": "^8.0.2",
+    "express-session": "^1.18.1",
     "method-override": "^3.0.0",
     "mongoose": "^8.15.0",
     "mongoose-delete": "^1.0.2",
