@@ -1,0 +1,47 @@
+{
+  "name": "it40882_bluemoon",
+  "version": "1.0.0",
+  "description": "pro web",
+  "keywords": [
+    "bluemoon",
+    "it4082"
+  ],
+  "homepage": "https://github.com/tanzozo8833/IT40882_BlueMoon#readme",
+  "bugs": {
+    "url": "https://github.com/tanzozo8833/IT40882_BlueMoon/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tanzozo8833/IT40882_BlueMoon.git"
+  },
+  "license": "ISC",
+  "author": "nhom 8",
+  "type": "commonjs",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "start": "nodemon --inspect src/index.js",
+    "watch": "sass --watch src/resources/scss/app.scss src/public/css/app.css",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "connect-mongo": "^5.1.0",
+    "express": "^5.1.0",
+    "express-handlebars": "^8.0.2",
+    "express-session": "^1.18.1",
+    "method-override": "^3.0.0",
+    "mongoose": "^8.15.0",
+    "mongoose-delete": "^1.0.2",
+    "mongoose-sequence": "^6.0.1",
+    "mongoose-slug-generator": "^1.0.4",
+    "slugify": "^1.6.6"
+  },
+  "devDependencies": {
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.10",
+    "sass": "^1.89.0"
+  }
+}
