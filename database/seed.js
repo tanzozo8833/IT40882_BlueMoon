@@ -22,23 +22,8 @@ async function seed() {
   try {
     // 1) Kết nối tới MongoDB và chờ kết nối hoàn tất
     console.log('✅ Connected to MongoDB');
-    await CanHo.create([
-      { idCanHo: 'CH01', idChungCu: 'CC01', idSoHoKhau: 'SHK01', soXeMay: 1, soOTo: 1, dienTich: 75, tang: 10, huong: 'Đông', trangThai: 'Đang sử dụng', thoiGianThue: { batDau: '2022-01-01', ketThuc: null }, ghiChu: '' }
-    ]);
-   
-    // 3) Sổ hộ khẩu
-    const sh1 = await SoHoKhau.create({
-      idSoHoKhau: 'SHK01', soSoHoKhau: '001/2025',
-      chuHo: { idNhanKhau: 'NK001', hoTen: nk1.hoTen },
-      thanhVien: [
-        { idNhanKhau: 'NK001', quanHe: 'Chủ hộ' },
-        { idNhanKhau: 'NK002', quanHe: 'Thành viên' }
-      ],
-      thongTinThem: 'Hộ 2 thành viên',
-      diaChi: { sonha: '12', duong: 'Hùng Vương', phuong: 'Nguyễn Du', quan: 'Hai Bà Trưng', thanhPho: 'Hà Nội' },
-      ngayCap: '2020-01-01', coQuanCap: 'UBND Quận', hoatDong: true, ghiChu: ''
-    });
- // 2) Nhân khẩu
+
+    // 2) Nhân khẩu
     const nk1 = await NhanKhau.create({
       idNhanKhau: 'NK001', hoTen: 'Nguyễn Văn A', biDanh: 'Anh A',
       dob: '1990-01-01', noiSinh: 'Hà Nội', queQuan: 'Hà Nội',
@@ -58,6 +43,19 @@ async function seed() {
       ngayDangKy: new Date(),
     });
 
+    // 3) Sổ hộ khẩu
+    const sh1 = await SoHoKhau.create({
+      idSoHoKhau: 'SHK01', soSoHoKhau: '001/2025',
+      chuHo: { idNhanKhau: 'NK001', hoTen: nk1.hoTen },
+      thanhVien: [
+        { idNhanKhau: 'NK001', quanHe: 'Chủ hộ' },
+        { idNhanKhau: 'NK002', quanHe: 'Thành viên' }
+      ],
+      thongTinThem: 'Hộ 2 thành viên',
+      diaChi: { sonha: '12', duong: 'Hùng Vương', phuong: 'Nguyễn Du', quan: 'Hai Bà Trưng', thanhPho: 'Hà Nội' },
+      ngayCap: '2020-01-01', coQuanCap: 'UBND Quận', hoatDong: true, ghiChu: ''
+    });
+
     // 4) Tài khoản
     await TaiKhoan.create([
       { idTaiKhoan: 'TK001', idSoHoKhau: 'SHK01', email: 'a@example.com', passwordHash: '$2a$10$...', role: 'user', fullName: nk1.hoTen, lastLogin: new Date(), isActive: true, twoFactorEnabled: false, createdAt: new Date() },
@@ -72,7 +70,9 @@ async function seed() {
     });
 
     // 6) Căn hộ
-    
+    await CanHo.create([
+      { idCanHo: 'CH01', idChungCu: 'CC01', idSoHoKhau: 'SHK01', soXeMay: 1, soOTo: 1, dienTich: 75, tang: 10, huong: 'Đông', trangThai: 'Đang sử dụng', thoiGianThue: { batDau: '2022-01-01', ketThuc: null }, ghiChu: '' }
+    ]);
 
     // 7) Khoản thu (quỹ & phí)
     await KhoanThu.create([
