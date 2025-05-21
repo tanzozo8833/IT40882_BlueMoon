@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const NhanKhauSchema = new Schema({
+    idSoHoKhau: { type: Schema.Types.ObjectId, ref: 'SoHoKhau' },
+    quanHeVoiChuHo: String,
     hoTen: { type: String, required: true },
     biDanh: { type: String },
     ngaySinh: { type: Date, required: true },
