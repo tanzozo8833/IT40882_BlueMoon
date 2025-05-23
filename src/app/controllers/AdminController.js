@@ -6,6 +6,14 @@ class AdminController {
             layout: 'adminLayout',
         });
     }
+
+    // [GET] /thuphi
+    thuphi(req, res) {
+        res.render('admin/KeToan/thuphi', {
+            title: 'Thu Phí',
+            layout: 'adminLayout',
+        });
+    }
 }
 
 module.exports = new AdminController();
