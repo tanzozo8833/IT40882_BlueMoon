@@ -5,7 +5,7 @@ const userRouter = require('./user');
 const authMiddleware = require('../app/middlewares/authMiddleware');
 
 function route(app) {
-
+    app.use(authMiddleware);
     app.use('/login', loginRouter);
 
     app.use(authMiddleware.ensureAuthenticated);

@@ -44,6 +44,7 @@ app.use(session({
     cookie: { maxAge: 1000 * 60 * 60 * 24 },
 }));
 
+// Middleware xác thực
 route(app);
 
 app.listen(port, () => {

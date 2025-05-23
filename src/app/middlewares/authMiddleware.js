@@ -6,6 +6,7 @@ function authMiddleware(req, res, next) {
 }
 
 authMiddleware.ensureAuthenticated = function (req, res, next) {
+    console.log('Session taiKhoan:', req.session.taiKhoan);
     if (req.session && req.session.taiKhoan) {
         return next();
     }
