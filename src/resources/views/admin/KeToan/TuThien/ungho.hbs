@@ -1,0 +1,45 @@
+<style>
+    body {
+        background-color: #f0f0f0;
+    }
+
+    .form-container {
+        max-width: 700px;
+        margin: 50px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-custom {
+        background-color: #7b68ee;
+        color: white;
+        font-weight: bold;
+    }
+
+    .btn-custom:hover {
+        background-color: #6a5acd;
+    }
+</style>
+<div class="container">
+    <div class="form-container">
+        <h2 class="text-center mb-4"></h2>
+        <p class="text-center mb-4">Ủng hộ quỹ {{quy.tenQuy}}</p>
+        <form method="POST" action="/admin/tuthien/{{quy._id}}-{{quy.slug}}" id="ungho-form">
+            <div class="mb-3">
+                <label for="name" class="form-label">ID Căn hộ</label>
+                <input type="text" class="form-control" id="idCanHo" name="idCanHo" placeholder="ID Căn hộ">
+            </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Số tiền</label>
+                <input type="text" class="form-control" id="soTienDaDong" name="soTienDaDong"
+                    placeholder="Số tiền ủng hộ">
+            </div>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-custom">Ủng hộ</button>
+            </div>
+        </form>
+    </div>
+</div>

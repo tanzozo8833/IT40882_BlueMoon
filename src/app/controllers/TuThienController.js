@@ -1,6 +1,6 @@
 const QuyTuThien = require('../models/QuyTuThien');
 const TuThienPayment = require('../models/TuThienPayment');
-const { mutipleMongooseToObject } = require('../../utils/mongoose');
+const { mutipleMongooseToObject, mongooseToObject } = require('../../utils/mongoose');
 
 class TuThienController {
     show(req, res, next) {
@@ -85,7 +85,7 @@ class TuThienController {
                                 res.render('admin/KeToan/TuThien/chitiet', {
                                     layout: 'adminLayout',
                                     title: 'Chi tiết quỹ từ thiện',
-                                    quy,
+                                    quy: mongooseToObject(quy),
                                     trangThai,
                                     dongGopList,
                                     tongSoTien,
@@ -98,27 +98,46 @@ class TuThienController {
             })
             .catch(next);
     }
-    // [GET] /admin/tuthien/:idslug/dongtientuthien
-    dongtientuthien(req, res, next) {
+    // [GET] /admin/tuthien/:idslug/ungho
+    formungho(req, res, next) {
         const idslug = req.params.idslug; // ví dụ: '642a39b1d8e5f65a5c123abc-qua-tu-thien-ung-ho-tre-em'
-
         // Tách id từ idSlug
         const id = idslug.split('-')[0];
-
         QuyTuThien.findById(id)
             .then(quy => {
-                if (!quy) {
-                    return res.status(404).send('Quỹ từ thiện không tồn tại');
-                }
-
-                res.render('admin/KeToan/TuThien/dongtientuthien', {
+                res.render('admin/KeToan/TuThien/ungho', {
                     layout: 'adminLayout',
-                    title: 'Đóng góp quỹ từ thiện',
-                    quy
+                    title: 'Ung hộ quỹ từ thiện',
+                    quy: mongooseToObject(quy)
                 });
             })
             .catch(next);
     }
+
+    // [POST] /admin/tuthien/:idslug/ungho
+    ungho(req, res, next) {
+        const idslug = req.params.idslug;
+        const id = idslug.split('-')[0];
+
+        QuyTuThien.findById(id)
+            .then(quy => {
+                if (!quy) throw new Error("Không tìm thấy quỹ");
+
+                const payment = new TuThienPayment({
+                    idCanHo: req.body.idCanHo,
+                    soTienDaDong: req.body.soTienDaDong,
+                    idQuyTuThien: quy._id
+                });
+
+                return payment.save();
+            })
+            .then(() => res.redirect(`/admin/tuthien/${idslug}`))
+            .catch(err => {
+                console.error("Lỗi khi lưu ủng hộ:", err);
+                next(err);
+            });
+    }
+
 
 
 }
