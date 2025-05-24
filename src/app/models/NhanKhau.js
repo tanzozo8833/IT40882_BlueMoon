@@ -2,21 +2,31 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const NhanKhauSchema = new Schema({
-    idSoHoKhau: { type: Schema.Types.ObjectId, ref: 'SoHoKhau' },
-    quanHeVoiChuHo: String,
-    hoTen: { type: String, required: true },
-    biDanh: { type: String },
+    idSoHoKhau: {
+        type: Schema.Types.ObjectId,
+        ref: 'SoHoKhau',
+        required: true,
+        index: true
+    },
+    quanHeVoiChuHo: { type: String, trim: true },
+    hoTen: { type: String, required: true, trim: true, index: true },
+    biDanh: { type: String, trim: true },
     ngaySinh: { type: Date, required: true },
-    noiSinh: { type: String },
-    queQuan: { type: String },
-    danToc: { type: String },
-    ngheNghiep: { type: String },
-    noiLamViec: { type: String },
-    soCCCD: { type: String },
+    noiSinh: { type: String, trim: true },
+    queQuan: { type: String, trim: true },
+    danToc: { type: String, trim: true },
+    ngheNghiep: { type: String, trim: true },
+    noiLamViec: { type: String, trim: true },
+    soCCCD: {
+        type: String,
+        trim: true,
+        unique: true,
+        match: [/^[0-9]{12}$/, 'CCCD phải gồm đúng 12 chữ số']
+    },
     ngayCap: { type: Date },
-    noiCap: { type: String },
-    trangThai: { type: String },
-    thongTinKhac: { type: String },
+    noiCap: { type: String, trim: true },
+    trangThai: { type: String, trim: true },
+    thongTinKhac: { type: String, trim: true },
 }, {
     timestamps: true
 });
