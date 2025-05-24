@@ -1,0 +1,53 @@
+<div class="container mt-4">
+    <h3 class="mb-4">Danh sách Từ thiện</h3>
+
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <input type="text" class="form-control" placeholder="ID quỹ từ thiện">
+        </div>
+        <div class="col-md-3">
+            <select class="form-select">
+                <option>Chọn tháng</option>
+                <option>Tháng 1</option>
+                <option>Tháng 2</option>
+                <option>Tháng 3</option>
+                <!-- ... -->
+            </select>
+        </div>
+        <div class="col-md-2 d-grid">
+            <button class="btn btn-secondary">Làm mới</button>
+        </div>
+        <div class="col-md-2 d-grid">
+            <button class="btn btn-primary">Lọc</button>
+        </div>
+    </div>
+
+    <div class="mb-3 text-end">
+        <a href="/admin/tuthien/them" class="btn btn-outline-primary">+ Thêm mới</a>
+    </div>
+
+    <table class="table table-bordered mt-3">
+        <thead class="table-primary">
+            <tr>
+                <th>Tên Quỹ</th>
+                <th>Mô tả</th>
+                <th>Thời gian</th>
+                <th>Trạng thái</th>
+                <th>Xem chi tiết</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each danhSachTuThien}}
+            <tr>
+                <td>{{this.tenQuy}}</td>
+                <td>{{this.mota}}</td>
+                <td>{{this.ngayBatDau}} → {{this.ngayKetThuc}}</td>
+                <td><span class="badge bg-info">{{this.trangThai}}</span></td>
+                <td>
+                    <a href="/admin/tuthien/{{this.slug}}" class="btn btn-sm btn-primary">Xem</a>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
