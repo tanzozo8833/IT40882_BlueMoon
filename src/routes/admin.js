@@ -8,10 +8,9 @@ router.get('/', adminController.index);
 //Ke toan
 //Thu Phi
 router.get('/thuphi', adminController.thuphi);
-//Dong Gop
-router.get('/tuthien', tuthienController.show);
-router.get('/tuthien/them', tuthienController.them);
 
-
+//Tu thien
+const tuthienRouter = require('./tuthien');
+router.use('/tuthien', tuthienRouter);
 
 module.exports = router;

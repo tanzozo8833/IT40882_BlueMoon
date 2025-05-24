@@ -1,0 +1,82 @@
+<style>
+    body {
+        background-color: #f0f0f0;
+    }
+
+    .form-container {
+        max-width: 700px;
+        margin: 50px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-custom {
+        background-color: #7b68ee;
+        color: white;
+        font-weight: bold;
+    }
+
+    .btn-custom:hover {
+        background-color: #6a5acd;
+    }
+</style>
+<div class="container">
+    <div class="form-container">
+        <h2 class="text-center mb-4">Thêm khoản từ thiện</h2>
+        <form method="POST" action="/admin/tuthien" id="form-add-fee">
+            {{!-- <div class="mb-3">
+                <label for="idFee" class="form-label">ID Phí</label>
+                <input type="text" class="form-control" id="idFee" placeholder="Nhập ID phí">
+            </div> --}}
+
+            {{!-- <div class="mb-3">
+                <label for="amount" class="form-label">Số tiền</label>
+                <input type="text" class="form-control" id="amount" placeholder="Nhập số tiền">
+            </div> --}}
+            <div class="mb-3">
+                <label for="name" class="form-label">Tên quỹ từ thiện</label>
+                <input type="text" class="form-control" id="name" name="tenQuy" placeholder="Nhập tên quỹ từ thiện">
+            </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Mô tả</label>
+                <input type="text" class="form-control" id="description" name="mota" placeholder="Nhập mô tả">
+            </div>
+
+            {{!-- <div class="mb-3">
+                <label for="feeType" class="form-label">Loại phí</label>
+                <select class="form-select" id="feeType">
+                    <option selected disabled>Chọn loại phí</option>
+                    <option value="hocphi">Học phí</option>
+                    <option value="hocphi">Học phí</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="status" class="form-label">Trạng thái</label>
+                <select class="form-select" id="status">
+                    <option selected disabled>Chưa thu phí</option>
+                    <option value="chuathu">Chưa thu phí</option>
+                    <option value="dathu">Đã thu phí</option>
+                </select>
+            </div> --}}
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="startDate" class="form-label">Ngày bắt đầu</label>
+                    <input type="date" class="form-control" id="startDate" name="ngayBatDau">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="endDate" class="form-label">Ngày kết thúc</label>
+                    <input type="date" class="form-control" id="endDate" name="ngayKetThuc">
+                </div>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-custom">Xác nhận thêm</button>
+            </div>
+        </form>
+    </div>
+</div>

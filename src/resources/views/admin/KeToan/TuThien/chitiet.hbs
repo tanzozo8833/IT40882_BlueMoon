@@ -1,0 +1,58 @@
+<div class="container py-5">
+    <h2 class="fw-bold mb-4">Danh sách đóng góp</h2>
+
+    <!-- Bộ lọc -->
+    <form class="d-flex align-items-center mb-4">
+        <div class="me-3">
+            <label for="idCanHo" class="form-label">ID Căn hộ</label>
+            <input type="text" id="idCanHo" class="form-control" placeholder="Nhập ID căn hộ">
+        </div>
+
+        <button type="submit" class="btn btn-primary me-2 mt-4">Lọc</button>
+        <button type="reset" class="btn btn-secondary mt-4">Làm mới</button>
+    </form>
+
+    <!-- Nút thêm mới -->
+    <a href="/admin/donggop/them" class="btn btn-success mb-3">+ Thêm mới</a>
+
+    <!-- Thông tin tổng quan -->
+    <div class="mb-3">
+        <h2>Chi tiết quỹ từ thiện: {{quy.tenQuy}}</h2>
+        <p><strong>Mô tả:</strong> {{quy.mota}}</p>
+        <p><strong>Trạng thái:</strong> {{trangThai}}</p>
+        <p><strong>Thời gian:</strong> {{quy.ngayBatDau}} đến {{quy.ngayKetThuc}}</p>
+        <p><strong>Tổng số tiền đã đóng góp:</strong> {{tongSoTien}} VND</p>
+        <p><strong>Số lượng căn hộ đã đóng góp:</strong> {{soLuongCanHo}}</p>
+    </div>
+
+    <!-- Bảng dữ liệu -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID Căn hộ</th>
+                    <th>Mô tả</th>
+                    <th>Số tiền</th>
+                    <th>Ngày đóng</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each dongGopList}}
+                <tr>
+                    <td>{{@index}}</td>
+                    <td>{{this.idCanHo.maCanHo}}</td>
+                    <td>{{this.soTienDaDong}} VND</td>
+                    <td>{{this.thoiGianDongTien}}</td>
+                </tr>
+                {{else}}
+                <tr>
+                    <td colspan="4" class="text-center">Không có dữ liệu</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+
+</script>

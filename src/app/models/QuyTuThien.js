@@ -1,15 +1,23 @@
 // models/QuyTuThien.js
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+var slugify = require('slugify')
+const mongoose_delete = require('mongoose-delete');
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const QuyTuThienSchema = new Schema({
+    _id: { type: Number },
     tenQuy: { type: String, required: true },
     mota: { type: String },
     trangThai: { type: String, enum: ['Chua bat dau', 'Đang hoạt động', 'Kết thúc'], default: 'Đang hoạt động' },
     ngayBatDau: { type: Date },
     ngayKetThuc: { type: Date },
-    slug: { type: String, unique: true, required: true },
-}, { timestamps: true });
+    slug: { type: String, unique: true },
+}, {
+    timestamps: true,
+    _id: false
+});
+
 
 // Phương thức tính trạng thái thực tế theo ngày
 QuyTuThienSchema.methods.tinhTrangThai = function () {
@@ -27,4 +35,5 @@ QuyTuThienSchema.pre('save', function (next) {
     next();
 });
 
+QuyTuThienSchema.plugin(AutoIncrement, { inc_field: '_id' });
 module.exports = mongoose.model('QuyTuThien', QuyTuThienSchema);

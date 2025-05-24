@@ -44,10 +44,21 @@
                 <td>{{this.ngayBatDau}} → {{this.ngayKetThuc}}</td>
                 <td><span class="badge bg-info">{{this.trangThai}}</span></td>
                 <td>
-                    <a href="/admin/tuthien/{{this.slug}}" class="btn btn-sm btn-primary">Xem</a>
+                    <a href="/admin/tuthien/{{this._id}}-{{this.slug}}" class="btn btn-sm btn-primary">Xem</a>
+
+                </td>
+            </tr>
+            {{else}}
+            <tr>
+                <td colspan="5">
+                    <div class="alert alert-danger" role="alert">
+                        Không có Quỹ từ thiện nào.
+                    </div>
                 </td>
             </tr>
             {{/each}}
+
+
         </tbody>
     </table>
 </div>
