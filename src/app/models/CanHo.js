@@ -6,9 +6,10 @@ const CanHoSchema = new Schema({
     idCanHo: { type: Number, unique: true, index: true, ref: 'CanHo' },
     loai: { type: String, enum: ['nhà ở', 'penhouse'] },
     idSoHoKhau: { type: Schema.Types.ObjectId, ref: 'SoHoKhau' },
-    soXeMay: { type: Number, min: 0 },
-    soOto: { type: Number, min: 0 },
-    dienTich: { type: Number }
+    soXeMay: { type: Number, min: 0, default: 0 },
+    soOto: { type: Number, min: 0, default: 0 },
+    dienTich: { type: Number , min: 0, required: true },
+    trangThai: { type: String, enum: ['trống', 'không trống'], required: true }
 }, {
     timestamps: true,
 });

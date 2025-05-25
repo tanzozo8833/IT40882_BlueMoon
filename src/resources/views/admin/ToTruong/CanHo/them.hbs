@@ -1,0 +1,18 @@
+<h2>Thêm nhân khẩu mới</h2>
+
+<form method="POST" action="/admin/hokhau/add" class="form-them-nhankhau">
+  <div class="form-row">
+    <label>Số sổ hộ khẩu</label>
+    <input type="text" name="soSoHoKhau" required>
+  </div>
+  <div class="form-row">
+    <label>Họ tên chủ hộ</label>
+    <input type="text" name="hoTenChu" required>
+  </div>
+  <div class="form-row">
+    <label>Thông tin thêm</label>
+    <input type="text" name="thongTinThem">
+  </div>
+  <button type="submit" class="btn btn-submit">Lưu</button>
+  <a href="/admin/hokhau" class="btn btn-cancel">Huỷ</a>
+</form>
