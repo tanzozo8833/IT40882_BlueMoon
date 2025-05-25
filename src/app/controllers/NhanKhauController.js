@@ -10,7 +10,13 @@ class NhanKhauController {
         if (req.query.soHoKhau) filter.idSoHoKhau = Number(req.query.soHoKhau);
 
         NhanKhau.find(filter)
-            .populate('idSoHoKhau')
+            .populate({
+                path: 'idSoHoKhau',
+                model: 'SoHoKhau',
+                localField: 'idSoHoKhau',
+                foreignField: 'idSoHoKhau',
+                justOne: true
+            })
             .then((nhanKhaus) => {
                 res.render('admin/ToTruong/NhanKhau/danhsach', { nhanKhaus });
             })
@@ -40,44 +46,54 @@ class NhanKhauController {
 
     // Xem chi tiết nhân khẩu
     getNhanKhauById(req, res) {
-        const id = req.params.id;
+    const idNhanKhau = req.params.id;
 
-        NhanKhau.findById(id)
-            .populate('idSoHoKhau')
-            .then((nhanKhau) => {
-                if (!nhanKhau) return res.status(404).send('Không tìm thấy nhân khẩu');
-                res.render('admin/ToTruong/NhanKhau/chitiet', { nhanKhau });
-            })
-            .catch((err) => {
-                console.error(err);
-                res.status(500).send('Lỗi truy vấn nhân khẩu');
-            });
-    }
+    NhanKhau.findOne({ idNhanKhau: idNhanKhau })
+        .populate({
+            path: 'idSoHoKhau',
+            model: 'SoHoKhau',
+            localField: 'idSoHoKhau',
+            foreignField: 'idSoHoKhau',
+            justOne: true
+        })
+        .then((nhanKhau) => {
+            if (!nhanKhau) {
+                return res.status(404).send('Không tìm thấy nhân khẩu với idNhanKhau');
+            }
+            res.render('admin/ToTruong/NhanKhau/chitiet', { nhanKhau });
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).send('Lỗi truy vấn nhân khẩu');
+        });
+}
 
     // Cập nhật thông tin nhân khẩu
     updateNhanKhau(req, res) {
-        const id = req.params.id;
-        NhanKhau.findByIdAndUpdate(id, req.body, { new: true })
+        const idNhanKhau = req.params.id;
+
+        NhanKhau.findOneAndUpdate({ idNhanKhau: idNhanKhau }, req.body, { new: true })
             .then((updated) => {
                 if (!updated) return res.status(404).send('Không tìm thấy nhân khẩu');
-                res.redirect('/admin/nhankhau');
+                res.redirect(`/admin/nhankhau/${idNhanKhau}`);
             })
             .catch((err) => {
-                console.error(err);
+                console.error('Lỗi khi cập nhật nhân khẩu:', err);
                 res.status(500).send('Lỗi cập nhật nhân khẩu');
             });
     }
 
     // Xóa nhân khẩu
     deleteNhanKhau(req, res) {
-        const id = req.params.id;
-        NhanKhau.findByIdAndDelete(id)
+        const idNhanKhau = req.params.id;
+
+        NhanKhau.findOneAndDelete({ idNhanKhau: idNhanKhau })
             .then((deleted) => {
                 if (!deleted) return res.status(404).send('Không tìm thấy nhân khẩu');
                 res.redirect('/admin/nhankhau');
             })
             .catch((err) => {
-                console.error(err);
+                console.error('Lỗi khi xóa nhân khẩu:', err);
                 res.status(500).send('Lỗi xóa nhân khẩu');
             });
     }
