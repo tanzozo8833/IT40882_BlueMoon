@@ -2,15 +2,12 @@ const express = require('express');
 const router = express.Router();
 
 const adminController = require('../app/controllers/AdminController');
-const tuthienController = require('../app/controllers/TuThienController');
-const nhankhauController = require('../app/controllers/NhanKhauController');
-const hokhauController = require('../app/controllers/HoKhauController');
-const taikhoanController = require('../app/controllers/TaiKhoanController')
 
 router.get('/', adminController.index);
 //Ke toan
 //Thu Phi
-router.get('/thuphi', adminController.thuphi);
+const thuPhiRouter = require('./thuphi');
+router.use('/thuphi', thuPhiRouter);
 
 //Tu thien
 const tuthienRouter = require('./tuthien');

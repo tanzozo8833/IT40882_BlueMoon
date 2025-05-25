@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const CanHoSchema = new Schema({
-    idCanHo: { type: Number, unique: true, index: true, ref: 'CanHo' }, 
+    idCanHo: { type: Number, unique: true, index: true, ref: 'CanHo' },
     loai: { type: String, enum: ['nhà ở', 'penhouse'] },
     idSoHoKhau: { type: Schema.Types.ObjectId, ref: 'SoHoKhau' },
     soXeMay: { type: Number, min: 0 },
