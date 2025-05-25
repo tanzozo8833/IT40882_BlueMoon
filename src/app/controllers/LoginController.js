@@ -51,6 +51,22 @@ class LoginController {
                 res.status(500).send('Lỗi máy chủ');
             });
     }
+
+    logOut(req, res) {
+    // Xóa session
+    req.session.destroy(err => {
+        if (err) {
+            console.error('❌ Lỗi khi đăng xuất:', err);
+            return res.status(500).send('Không thể đăng xuất!');
+        }
+
+        // Xóa cookie nếu muốn (optional)
+        res.clearCookie('connect.sid'); // Tên cookie mặc định khi dùng express-session
+
+        // Chuyển hướng về trang đăng nhập
+        res.redirect('/login');
+    });
+}
 }
 
 module.exports = new LoginController();
