@@ -1,16 +1,47 @@
 const SoHoKhau = require('../models/SoHoKhau');
+const CanHo = require('../models/CanHo');
 
 class HoKhauController {
     // Hiển thị danh sách hộ khẩu
     listHoKhau(req, res) {
-        SoHoKhau.find()
-            .then(hokhaus => {
-                res.render('hokhau/list', { hokhaus });
-            })
-            .catch(err => {
-                console.error('Lỗi khi lấy danh sách hộ khẩu:', err);
-                res.status(500).send('Lỗi server');
-            });
+        const filter = {};
+
+        if (req.query.hoTenChu) {
+            filter.hoTenChu = new RegExp(req.query.hoTenChu, 'i');
+        }
+
+        if (req.query.idSoHoKhau) {
+            filter.idSoHoKhau = Number(req.query.idSoHoKhau);
+        }
+
+        if (req.query.idCanHo) {
+            const idCanHo = Number(req.query.idCanHo);
+
+            CanHo.find({ idCanHo })
+                .then((canhos) => {
+                    const ids = canhos.map(ch => ch.idSoHoKhau).filter(Boolean); // tránh null
+                    if (ids.length > 0) filter.idSoHoKhau = { $in: ids };
+
+                    return SoHoKhau.find(filter);
+                })
+                .then(hokhaus => {
+                    res.render('hokhau/list', { hokhaus });
+                })
+                .catch(err => {
+                    console.error('Lỗi khi tìm hộ khẩu theo căn hộ:', err);
+                    res.status(500).send('Lỗi server');
+                });
+        } else {
+            // Không lọc theo idCanHo
+            SoHoKhau.find(filter)
+                .then(hokhaus => {
+                    res.render('hokhau/list', { hokhaus });
+                })
+                .catch(err => {
+                    console.error('Lỗi khi lấy danh sách hộ khẩu:', err);
+                    res.status(500).send('Lỗi server');
+                });
+        }
     }
 
     // Điều hướng đến trang thêm mới hộ khẩu

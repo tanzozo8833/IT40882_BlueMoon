@@ -29,4 +29,7 @@ router.use('/hokhau', hokhauRouter);
 const taikhoanRouter = require('./taikhoan');
 router.use('/taikhoan', taikhoanRouter);
 
+//Quan ly can ho
+const canhoRouter = require('./canho');
+router.use('/canho', canhoRouter);
 module.exports = router;

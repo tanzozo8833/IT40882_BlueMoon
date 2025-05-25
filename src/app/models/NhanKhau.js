@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const NhanKhauSchema = new Schema({
     idSoHoKhau: {
-        type: Schema.Types.ObjectId,
+        type: Number,
         ref: 'SoHoKhau',
         required: true,
         index: true

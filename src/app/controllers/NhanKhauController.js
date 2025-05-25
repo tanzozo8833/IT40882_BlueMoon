@@ -7,7 +7,7 @@ class NhanKhauController {
         const filter = {};
         
         if (req.query.hoTen) filter.hoTen = new RegExp(req.query.hoTen, 'i');
-        if (req.query.soHoKhau) filter.idSoHoKhau = req.query.soHoKhau;
+        if (req.query.soHoKhau) filter.idSoHoKhau = Number(req.query.soHoKhau);
 
         NhanKhau.find(filter)
             .populate('idSoHoKhau')
