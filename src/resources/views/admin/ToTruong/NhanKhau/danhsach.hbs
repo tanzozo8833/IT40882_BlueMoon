@@ -1,0 +1,52 @@
+<h2>Danh sách nhân khẩu</h2>
+
+<form method="GET" class="form-filter">
+  <div class="form-group">
+    <label>Họ tên</label>
+    <input type="text" name="hoTen" placeholder="Text field data" value="{{query.hoTen}}">
+  </div>
+  <div class="form-group">
+    <label>ID SHK</label>
+    <input type="text" name="soHoKhau" placeholder="Text field data" value="{{query.soHoKhau}}">
+  </div>
+  <div class="button-group">
+    <button type="submit" class="btn btn-filter">🔍 Lọc</button>
+    <a href="/admin/nhankhau" class="btn btn-reset">Làm mới</a>
+    <a href="/admin/nhankhau/add" class="btn btn-add">+ Thêm mới</a>
+  </div>
+</form>
+
+<table class="table-nhankhau">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>ID Sổ hộ khẩu</th>
+      <th>Họ tên</th>
+      <th>Ngày sinh</th>
+      <th>Nơi sinh</th>
+      <th>Quê quán</th>
+      <th>Dân tộc</th>
+      <th>Nghề nghiệp</th>
+      <th>Số CCCD</th>
+      <th>Ngày cấp</th>
+      <th>Chi tiết</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each nhanKhaus}}
+      <tr>
+        <td>{{this.ID}}</td>
+        <td>{{this.idSoHoKhau.soSoHoKhau}}</td>
+        <td>{{this.hoTen}}</td>
+        <td>{{formatDate this.ngaySinh}}</td>
+        <td>{{this.noiSinh}}</td>
+        <td>{{this.queQuan}}</td>
+        <td>{{this.danToc}}</td>
+        <td>{{this.ngheNghiep}}</td>
+        <td>{{this.soCCCD}}</td>
+        <td>{{formatDate this.ngayCap}}</td>
+        <td><a href="/admin/nhankhau/{{this._id}}" class="btn btn-detail">ℹ️</a></td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>

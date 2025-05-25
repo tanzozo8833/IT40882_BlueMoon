@@ -4,7 +4,7 @@ const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const TaiKhoanSchema = new Schema({
     idSoHoKhau: { type: Number, ref: 'SoHoKhau' },
-    idTaiKhoan: { type: Schema.Types.ObjectId, ref: 'TaiKhoan', index: true, unique: true },
+    idTaiKhoan: { type: Number, ref: 'TaiKhoan', index: true, unique: true },
     email: { type: String, required: true, unique: true, trim: true },
     tenDangNhap: { type: String, required: true, unique: true, trim: true },
     hoTen: { type: String, required: true, trim: true, index: true },
