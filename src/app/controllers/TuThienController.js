@@ -1,5 +1,6 @@
 const QuyTuThien = require('../models/QuyTuThien');
 const TuThienPayment = require('../models/TuThienPayment');
+const CanHo = require('../models/CanHo');
 const { mutipleMongooseToObject, mongooseToObject } = require('../../utils/mongoose');
 
 class TuThienController {
@@ -117,26 +118,46 @@ class TuThienController {
     // [POST] /admin/tuthien/:idslug/ungho
     ungho(req, res, next) {
         const idslug = req.params.idslug;
-        const id = idslug.split('-')[0];
+        const id = idslug.split('-')[0]; // Lấy phần ID gốc trước dấu gạch
+
+        const idCanHo = Number(req.body.idCanHo);
+        if (isNaN(idCanHo)) {
+            return res.status(400).send('ID Căn hộ phải là số');
+        }
 
         QuyTuThien.findById(id)
             .then(quy => {
-                if (!quy) throw new Error("Không tìm thấy quỹ");
+                if (!quy) {
+                    return Promise.reject(new Error('Không tìm thấy Quỹ từ thiện'));
+                }
 
-                const payment = new TuThienPayment({
-                    idCanHo: req.body.idCanHo,
-                    soTienDaDong: req.body.soTienDaDong,
-                    idQuyTuThien: quy._id
-                });
+                // Tìm căn hộ trước
+                return CanHo.findOne({ idCanHo: idCanHo })
+                    .then(canHo => {
+                        if (!canHo) {
+                            return Promise.reject(new Error('Không tìm thấy căn hộ'));
+                        }
 
-                return payment.save();
+                        // Tạo payment nếu có căn hộ
+                        const payment = new TuThienPayment({
+                            idCanHo: idCanHo,
+                            soTienDaDong: Number(req.body.soTienDaDong),
+                            idQuyTuThien: quy._id
+                        });
+
+                        return payment.save();
+                    });
             })
-            .then(() => res.redirect(`/admin/tuthien/${idslug}`))
+            .then(() => {
+                res.redirect(`/admin/tuthien/${idslug}`);
+            })
             .catch(err => {
                 console.error("Lỗi khi lưu ủng hộ:", err);
-                next(err);
+                next(err); // Đẩy lỗi cho middleware xử lý
             });
     }
+
+
 
 
 

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const CanHoSchema = new Schema({
     idCanHo: { type: Number, ref: 'CanHo' },
@@ -10,7 +11,7 @@ const CanHoSchema = new Schema({
     dienTich: { type: Number }
 }, {
     timestamps: true,
-    _id: false
+    _id: false // Không sử dụng trường _id tự động của Mongoose
 });
 
 
