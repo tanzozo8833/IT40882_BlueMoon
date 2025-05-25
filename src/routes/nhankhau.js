@@ -18,6 +18,6 @@ router.get('/:id', nhankhauController.getNhanKhauById);
 router.post('/:id/update', nhankhauController.updateNhanKhau);
 
 // Xóa nhân khẩu
-router.delete('/:id', nhankhauController.deleteNhanKhau);
+router.post('/:id/delete', nhankhauController.deleteNhanKhau);
 
 module.exports = router;

@@ -1,52 +1,82 @@
-<h2>Danh sách nhân khẩu</h2>
+  <h2>Danh sách nhân khẩu</h2>
 
-<form method="GET" class="form-filter">
-  <div class="form-group">
-    <label>Họ tên</label>
-    <input type="text" name="hoTen" placeholder="Text field data" value="{{query.hoTen}}">
-  </div>
-  <div class="form-group">
-    <label>ID SHK</label>
-    <input type="text" name="soHoKhau" placeholder="Text field data" value="{{query.soHoKhau}}">
-  </div>
-  <div class="button-group">
-    <button type="submit" class="btn btn-filter">🔍 Lọc</button>
-    <a href="/admin/nhankhau" class="btn btn-reset">Làm mới</a>
-    <a href="/admin/nhankhau/add" class="btn btn-add">+ Thêm mới</a>
-  </div>
-</form>
+  <form class="form-filter" onsubmit="return false;">
+    <div class="form-group">
+      <label>Họ tên</label>
+      <input type="text" id="filterHoTen" placeholder="Nhập họ tên">
+    </div>
+    <div class="form-group">
+      <label>ID SHK</label>
+      <input type="text" id="filterSoHoKhau" placeholder="Nhập số hộ khẩu">
+    </div>
+    <div class="button-group">
+      <button type="button" class="btn btn-filter" onclick="filterTable()">🔍 Lọc</button>
+      <button type="button" class="btn btn-reset" onclick="resetFilter()">Làm mới</button>
+      <a href="/admin/nhankhau/add" class="btn btn-add">+ Thêm mới</a>
+    </div>
+  </form>
 
-<table class="table-nhankhau">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>ID Sổ hộ khẩu</th>
-      <th>Họ tên</th>
-      <th>Ngày sinh</th>
-      <th>Nơi sinh</th>
-      <th>Quê quán</th>
-      <th>Dân tộc</th>
-      <th>Nghề nghiệp</th>
-      <th>Số CCCD</th>
-      <th>Ngày cấp</th>
-      <th>Chi tiết</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each nhanKhaus}}
+  <table class="table-nhankhau">
+    <thead>
       <tr>
-        <td>{{this.ID}}</td>
-        <td>{{this.idSoHoKhau.soSoHoKhau}}</td>
-        <td>{{this.hoTen}}</td>
-        <td>{{formatDate this.ngaySinh}}</td>
-        <td>{{this.noiSinh}}</td>
-        <td>{{this.queQuan}}</td>
-        <td>{{this.danToc}}</td>
-        <td>{{this.ngheNghiep}}</td>
-        <td>{{this.soCCCD}}</td>
-        <td>{{formatDate this.ngayCap}}</td>
-        <td><a href="/admin/nhankhau/{{this._id}}" class="btn btn-detail">ℹ️</a></td>
+        <th>ID</th>
+        <th>ID Sổ hộ khẩu</th>
+        <th>Họ tên</th>
+        <th>Ngày sinh</th>
+        <th>Nơi sinh</th>
+        <th>Quê quán</th>
+        <th>Dân tộc</th>
+        <th>Nghề nghiệp</th>
+        <th>Số CCCD</th>
+        <th>Ngày cấp</th>
+        <th>Chi tiết</th>
       </tr>
-    {{/each}}
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      {{#each nhanKhaus}}
+        <tr>
+          <td>{{this.idNhanKhau}}</td>
+          <td>{{this.idSoHoKhau.soSoHoKhau}}</td>
+          <td>{{this.hoTen}}</td>
+          <td>{{formatDate this.ngaySinh}}</td>
+          <td>{{this.noiSinh}}</td>
+          <td>{{this.queQuan}}</td>
+          <td>{{this.danToc}}</td>
+          <td>{{this.ngheNghiep}}</td>
+          <td>{{this.soCCCD}}</td>
+          <td>{{formatDate this.ngayCap}}</td>
+          <td><a href="/admin/nhankhau/{{this.idNhanKhau}}" class="btn btn-detail">ℹ️</a></td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+  <script>
+    function filterTable() {
+      const hoTenFilter = document.getElementById('filterHoTen').value.toLowerCase();
+      const soHoKhauFilter = document.getElementById('filterSoHoKhau').value.toLowerCase();
+
+      const rows = document.querySelectorAll('.table-nhankhau tbody tr');
+
+      rows.forEach(row => {
+        const hoTen = row.cells[2].textContent.toLowerCase(); // Họ tên ở cột thứ 3
+        const soHoKhau = row.cells[1].textContent.toLowerCase(); // Sổ hộ khẩu ở cột thứ 2
+
+        const matchHoTen = hoTen.includes(hoTenFilter);
+        const matchSoHoKhau = soHoKhau.includes(soHoKhauFilter);
+
+        if (matchHoTen && matchSoHoKhau) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    function resetFilter() {
+      document.getElementById('filterHoTen').value = '';
+      document.getElementById('filterSoHoKhau').value = '';
+      filterTable(); // Hiện lại tất cả hàng
+    }
+  </script>
+
