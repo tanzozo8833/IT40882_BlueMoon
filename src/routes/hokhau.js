@@ -18,6 +18,6 @@ router.get('/:id', hokhauController.getHoKhauById);
 router.post('/:id/update', hokhauController.updateHoKhau);
 
 // Xóa hộ khẩu
-router.get('/:id/delete', hokhauController.deleteHoKhau);
+router.post('/:id/delete', hokhauController.deleteHoKhau);
 
 module.exports = router;
