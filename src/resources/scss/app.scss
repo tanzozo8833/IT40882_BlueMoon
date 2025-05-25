@@ -1,0 +1,62 @@
+.form-filter, .form-them-nhankhau {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-group, .form-row {
+  flex: 1 1 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.button-group {
+  display: flex;
+  gap: 0.75rem;
+  align-items: end;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  background: #6c63ff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  text-decoration: none;
+  cursor: pointer;
+
+  &.btn-reset {
+    background: #888;
+  }
+
+  &.btn-add {
+    background: #28a745;
+  }
+
+  &.btn-detail {
+    background: #17a2b8;
+  }
+
+  &.btn-back {
+    background: #6c757d;
+  }
+}
+
+.table-nhankhau {
+  width: 100%;
+  border-collapse: collapse;
+
+  th, td {
+    border: 1px solid #ddd;
+    padding: 0.5rem;
+  }
+
+  th {
+    background: #f8f9fa;
+  }
+
+  tr:nth-child(even) {
+    background: #f2f2f2;
+  }
+}

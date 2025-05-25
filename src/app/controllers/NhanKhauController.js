@@ -12,7 +12,7 @@ class NhanKhauController {
         NhanKhau.find(filter)
             .populate('idSoHoKhau')
             .then((nhanKhaus) => {
-                res.render('nhankhau/list', { nhanKhaus });
+                res.render('admin/ToTruong/NhanKhau/danhsach', { nhanKhaus });
             })
             .catch((err) => {
                 console.error(err);
@@ -22,7 +22,7 @@ class NhanKhauController {
 
     // Điều hướng đến trang thêm mới nhân khẩu
     addNhanKhau(req, res) {
-        res.render('nhankhau/add');
+        res.render('admin/ToTruong/NhanKhau/them');
     }
 
     // Tạo mới nhân khẩu
@@ -30,7 +30,7 @@ class NhanKhauController {
         const nhanKhau = new NhanKhau(req.body);
         nhanKhau.save()
             .then(() => {
-                res.redirect('/nhankhau');
+                res.redirect('/admin/nhankhau');
             })
             .catch((err) => {
                 console.error(err);
@@ -46,7 +46,7 @@ class NhanKhauController {
             .populate('idSoHoKhau')
             .then((nhanKhau) => {
                 if (!nhanKhau) return res.status(404).send('Không tìm thấy nhân khẩu');
-                res.render('nhankhau/detail', { nhanKhau });
+                res.render('admin/ToTruong/NhanKhau/chitiet', { nhanKhau });
             })
             .catch((err) => {
                 console.error(err);
@@ -60,7 +60,7 @@ class NhanKhauController {
         NhanKhau.findByIdAndUpdate(id, req.body, { new: true })
             .then((updated) => {
                 if (!updated) return res.status(404).send('Không tìm thấy nhân khẩu');
-                res.redirect('/nhankhau');
+                res.redirect('/admin/nhankhau');
             })
             .catch((err) => {
                 console.error(err);
@@ -74,7 +74,7 @@ class NhanKhauController {
         NhanKhau.findByIdAndDelete(id)
             .then((deleted) => {
                 if (!deleted) return res.status(404).send('Không tìm thấy nhân khẩu');
-                res.redirect('/nhankhau');
+                res.redirect('/admin/nhankhau');
             })
             .catch((err) => {
                 console.error(err);
