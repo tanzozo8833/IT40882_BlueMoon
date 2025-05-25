@@ -1,0 +1,115 @@
+  <h2>Danh sách tài khoản</h2>
+
+  <form class="form-filter" onsubmit="return false;">
+    <div class="form-group">
+      <label>Họ tên</label>
+      <input type="text" id="filterHoTen" placeholder="Nhập họ tên">
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="text" id="filterEmail" placeholder="Nhập email">
+    </div>
+    <div class="button-group">
+      <button type="button" class="btn btn-filter" onclick="filterTable()">🔍 Lọc</button>
+      <button type="button" class="btn btn-reset" onclick="resetFilter()">Làm mới</button>
+      <a href="/admin/taikhoan/add" class="btn btn-add">+ Thêm mới</a>
+    </div>
+  </form>
+
+  <table class="table-nhankhau">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Tên đăng nhập</th>
+        <th>Họ tên</th>
+        <th>Email</th>
+        <th>Vai trò</th>
+        <th>Xóa</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each taikhoans}}
+        <tr>
+          <td>{{this.idTaiKhoan}}</td>
+          <td>{{this.tenDangNhap}}</td>
+          <td>{{this.hoTen}}</td>
+          <td>{{this.email}}</td>
+          <td>
+            <select name="role" data-id="{{this.idTaiKhoan}}">
+              <option value="admin" {{#if (eq this.role 'admin')}}selected{{/if}}>admin</option>
+              <option value="user" {{#if (eq this.role 'user')}}selected{{/if}}>user</option>
+            </select>
+          </td>
+          <td>
+            <form action="/admin/taikhoan/{{this.idTaiKhoan}}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa tài khoản này không?');">
+              <button type="submit" class="btn btn-delete">❌</button>
+            </form>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+  <div id="saveChangesContainer" style="display: none; text-align: right; margin-top: 16px;">
+    <form id="saveChangesForm" action="/admin/taikhoan" method="POST">
+      <input type="hidden" name="updatedRoles" id="updatedRoles">
+      <button type="submit" class="btn btn-save">💾 Lưu thay đổi</button>
+    </form>
+  </div>
+
+  <script>
+    const originalRoles = {};
+
+    document.querySelectorAll('select[name="role"]').forEach(select => {
+      const id = select.dataset.id;
+      originalRoles[id] = select.value;
+
+      select.addEventListener('change', () => {
+        checkForChanges();
+      });
+    });
+
+    function checkForChanges() {
+      let hasChanges = false;
+      const updates = [];
+
+      document.querySelectorAll('select[name="role"]').forEach(select => {
+        const id = select.dataset.id;
+        const currentValue = select.value;
+        const originalValue = originalRoles[id];
+
+        if (currentValue !== originalValue) {
+          hasChanges = true;
+          updates.push({ idTaiKhoan: parseInt(id), role: currentValue });
+        }
+      });
+
+      const container = document.getElementById('saveChangesContainer');
+      container.style.display = hasChanges ? 'block' : 'none';
+
+      const form = document.getElementById('saveChangesForm');
+      form.onsubmit = function (e) {
+        e.preventDefault(); // Ngăn submit mặc định
+        fetch('/admin/taikhoan', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ updates })  // 👈 Trùng với req.body.updates
+        })
+          .then(response => {
+            if (response.ok) {
+              window.location.reload();
+            } else {
+              alert('Lưu thất bại!');
+            }
+          })
+          .catch(err => {
+            console.error(err);
+            alert('Lỗi khi gửi yêu cầu.');
+          });
+      };
+    }
+  </script>
+
+

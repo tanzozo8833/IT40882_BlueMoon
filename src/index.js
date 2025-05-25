@@ -32,6 +32,9 @@ app.engine('hbs', engine({
     runtimeOptions: {
         allowProtoPropertiesByDefault: true,
         allowProtoMethodsByDefault: true
+    },
+    helpers: {
+        eq: (a, b) => a === b
     }
 }));
 app.set('view engine', 'hbs');

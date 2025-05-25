@@ -13,6 +13,6 @@ router.get('/add', taikhoanController.addTaiKhoan);
 router.post('/add', taikhoanController.createTaiKhoan);
 
 // Xóa tài khoản
-router.delete('/:id', taikhoanController.deleteTaiKhoan);
+router.post('/:id', taikhoanController.deleteTaiKhoan);
 
 module.exports = router;

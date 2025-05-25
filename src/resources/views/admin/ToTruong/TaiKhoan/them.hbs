@@ -1,0 +1,33 @@
+<h2>Thêm nhân khẩu mới</h2>
+
+<form method="POST" action="/admin/taikhoan/add" class="form-them-nhankhau">
+  <div class="form-row">
+    <label>Họ tên</label>
+    <input type="text" name="hoTen" required>
+  </div>
+  <div class="form-row">
+    <label>Email</label>
+    <input type="text" name="email" required>
+  </div>
+  <div class="form-row">
+    <label>Tên đăng nhập</label>
+    <input type="text" name="tenDangNhap" required>
+  </div>
+  <div class="form-row">
+    <label>Mật khẩu</label>
+    <input type="text" name="password" required>
+  </div>
+  <div class="form-row">
+    <label>Số sổ hộ khẩu</label>
+    <input type="text" name="soSoHoKhau" required>
+  </div>
+  <div class="form-row">
+    <label>Vai trò</label>
+    <select name="role" required>
+      <option value="admin">Admin</option>
+      <option value="user">User</option>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-submit">Lưu</button>
+  <a href="/admin/taikhoan" class="btn btn-cancel">Huỷ</a>
+</form>
