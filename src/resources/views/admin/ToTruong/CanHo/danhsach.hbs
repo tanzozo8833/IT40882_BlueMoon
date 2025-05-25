@@ -1,69 +1,180 @@
-  <h2>Danh sách hộ khẩu</h2>
+  <h2>Danh sách căn hộ</h2>
 
   <form class="form-filter" onsubmit="return false;">
-    <div class="form-group">
-      <label>Họ tên chủ hộ</label>
-      <input type="text" id="filterHoTen" placeholder="Nhập họ tên">
-    </div>
     <div class="form-group">
       <label>ID Căn hộ</label>
       <input type="text" id="filterCanHo" placeholder="Nhập số căn hộ">
     </div>
+
     <div class="form-group">
-      <label>Số sổ hộ khẩu</label>
-      <input type="text" id="filterSoHoKhau" placeholder="Nhập số sổ hộ khẩu">
+      <label>Loại căn hộ</label>
+      <select id="filterLoaiCanHo">
+        <option value="">-- Tất cả --</option>
+        <option value="nhà ở">Nhà ở</option>
+        <option value="penhouse">Penhouse</option>
+      </select>
     </div>
+
+    <div class="form-group">
+      <label>Trạng thái</label>
+      <select id="filterTrangThai">
+        <option value="">-- Tất cả --</option>
+        <option value="trống">Trống</option>
+        <option value="không trống">Không trống</option>
+      </select>
+    </div>
+
     <div class="button-group">
       <button type="button" class="btn btn-filter" onclick="filterTable()">🔍 Lọc</button>
       <button type="button" class="btn btn-reset" onclick="resetFilter()">Làm mới</button>
-      <a href="/admin/hokhau/add" class="btn btn-add">+ Thêm mới</a>
     </div>
   </form>
 
   <table class="table-nhankhau">
     <thead>
       <tr>
-        <th>ID Sổ hộ khẩu</th>
         <th>ID Căn hộ</th>
-        <th>Số Sổ hộ khẩu</th>
-        <th>Họ tên chủ hộ</th>
-        <th>Thông tin thêm</th>
-        <th>Xem chi tiết</th>
+        <th>Loại Căn hộ</th>
+        <th>Diện tích</th>
+        <th>Trạng thái</th>
+        <th>Chỉnh sửa</th>
       </tr>
     </thead>
     <tbody>
-      {{#each hokhaus}}
+      {{#each canhos}}
         <tr>
-          <td>{{this.idSoHoKhau}}</td>
           <td>{{this.idCanHo}}</td>
-          <td>{{this.soSoHoKhau}}</td>
-          <td>{{this.hoTenChu}}</td>
-          <td>{{this.thongTinThem}}</td>
-          <td><a href="/admin/hokhau/{{this.idSoHoKhau}}" class="btn btn-detail">ℹ️</a></td>
+          <td>{{this.loai}}</td>
+          <td>{{this.dienTich}}</td>
+          <td>{{this.trangThai}}</td>
+          <td><button class="btn btn-edit" onclick="openOverlay({{this.idCanHo}})">✏️</button></td>
         </tr>
       {{/each}}
     </tbody>
   </table>
 
+  <!-- Overlay -->
+  <div id="overlay" class="overlay" style="display: none;">
+    <div class="overlay-content">
+      <h3>Chỉnh sửa Căn hộ</h3>
+      <form id="editForm">
+        <input type="hidden" id="editIdCanHo">
+        <label>Loại căn hộ:</label>
+        <select id="editLoai">
+          <option value="nhà ở">Nhà ở</option>
+          <option value="penhouse">Penhouse</option>
+        </select>
+
+        <label>Diện tích:</label>
+        <input type="number" id="editDienTich" min="0">
+
+        <label>Trạng thái:</label>
+        <select id="editTrangThai">
+          <option value="trống">Trống</option>
+          <option value="không trống">Không trống</option>
+        </select>
+
+        <label>Số xe máy:</label>
+        <input type="number" id="editSoXeMay" min="0">
+
+        <label>Số ô tô:</label>
+        <input type="number" id="editSoOto" min="0">
+
+        <div class="overlay-buttons">
+          <button type="button" onclick="saveChanges()">💾 Lưu</button>
+          <button type="button" onclick="closeOverlay()">❌ Đóng</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <style>
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .overlay-content {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      width: 400px;
+    }
+    .overlay-content input, .overlay-content select {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  </style>
+
   <script>
+    function openOverlay(idCanHo) {
+      fetch(`/admin/canho/${idCanHo}`)
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('editIdCanHo').value = data.idCanHo;
+          document.getElementById('editLoai').value = data.loai;
+          document.getElementById('editDienTich').value = data.dienTich;
+          document.getElementById('editTrangThai').value = data.trangThai;
+          document.getElementById('editSoXeMay').value = data.soXeMay;
+          document.getElementById('editSoOto').value = data.soOto;
+          document.getElementById('overlay').style.display = 'flex';
+        })
+        .catch(err => alert("Không thể tải dữ liệu căn hộ."));
+    }
+
+    function closeOverlay() {
+      document.getElementById('overlay').style.display = 'none';
+    }
+
+    function saveChanges() {
+      const id = document.getElementById('editIdCanHo').value;
+      const body = {
+        loai: document.getElementById('editLoai').value,
+        dienTich: document.getElementById('editDienTich').value,
+        trangThai: document.getElementById('editTrangThai').value,
+        soXeMay: document.getElementById('editSoXeMay').value,
+        soOto: document.getElementById('editSoOto').value
+      };
+
+      fetch(`/admin/canho/${id}/update`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      })
+      .then(response => {
+        if (response.ok) return response.json();
+        else throw new Error("Lỗi khi cập nhật");
+      })
+      .then(data => {
+        alert(data.message || 'Cập nhật thành công!');
+        location.reload();
+      })
+      .catch(err => alert(err.message));
+    }
+
     function filterTable() {
-      const hoTenFilter = document.getElementById('filterHoTen').value.toLowerCase();
-      const canHoFilter = document.getElementById('filterCanHo').value.toLowerCase();
-      const soHoKhauFilter = document.getElementById('filterSoHoKhau').value.toLowerCase();
+      const idFilter = document.getElementById('filterCanHo').value.toLowerCase();
+      const loaiFilter = document.getElementById('filterLoaiCanHo').value.toLowerCase();
+      const trangThaiFilter = document.getElementById('filterTrangThai').value.toLowerCase();
 
       const rows = document.querySelectorAll('.table-nhankhau tbody tr');
 
       rows.forEach(row => {
-        const idSoHoKhau = row.cells[0].textContent.toLowerCase(); // Cột 0
-        const idCanHo = row.cells[1].textContent.toLowerCase();    // Cột 1
-        const soSoHoKhau = row.cells[2].textContent.toLowerCase(); // Cột 2
-        const hoTenChu = row.cells[3].textContent.toLowerCase();   // Cột 3
+        const id = row.cells[0].textContent.toLowerCase();
+        const loai = row.cells[1].textContent.toLowerCase();
+        const trangThai = row.cells[3].textContent.toLowerCase();
 
-        const matchHoTen = hoTenChu.includes(hoTenFilter);
-        const matchCanHo = idCanHo.includes(canHoFilter);
-        const matchSoHoKhau = soSoHoKhau.includes(soHoKhauFilter);
+        const matchId = id.includes(idFilter);
+        const matchLoai = !loaiFilter || loai === loaiFilter;
+        const matchTrangThai = !trangThaiFilter || trangThai === trangThaiFilter;
 
-        if (matchHoTen && matchCanHo && matchSoHoKhau) {
+        if (matchId && matchLoai && matchTrangThai) {
           row.style.display = '';
         } else {
           row.style.display = 'none';
@@ -72,10 +183,10 @@
     }
 
     function resetFilter() {
-      document.getElementById('filterHoTen').value = '';
       document.getElementById('filterCanHo').value = '';
-      document.getElementById('filterSoHoKhau').value = '';
-      filterTable(); // Hiện lại tất cả hàng
+      document.getElementById('filterLoaiCanHo').value = '';
+      document.getElementById('filterTrangThai').value = '';
+      filterTable();
     }
   </script>
 
