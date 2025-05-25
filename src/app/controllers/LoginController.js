@@ -53,20 +53,54 @@ class LoginController {
     }
 
     logOut(req, res) {
-    // Xóa session
-    req.session.destroy(err => {
-        if (err) {
-            console.error('❌ Lỗi khi đăng xuất:', err);
-            return res.status(500).send('Không thể đăng xuất!');
+        // Xóa session
+        req.session.destroy(err => {
+            if (err) {
+                console.error('❌ Lỗi khi đăng xuất:', err);
+                return res.status(500).send('Không thể đăng xuất!');
+            }
+
+            // Xóa cookie nếu muốn (optional)
+            res.clearCookie('connect.sid'); // Tên cookie mặc định khi dùng express-session
+
+            // Chuyển hướng về trang đăng nhập
+            res.redirect('/login');
+        });
+    }
+
+    // [GET] /myInfo
+    viewMyInfo(req, res) {
+        if (!req.session.taiKhoan) return res.redirect('/login');
+
+        TaiKhoan.findById(req.session.taiKhoan._id)
+            .then(taiKhoan => {
+                if (!taiKhoan) return res.status(404).send('Không tìm thấy tài khoản');
+                res.render('myInfo', { taiKhoan });
+            })
+            .catch(err => {
+                console.error('Lỗi khi lấy thông tin tài khoản:', err);
+                res.status(500).send('Lỗi server');
+            });
+    }
+
+    // [POST] /myInfo (đổi mật khẩu)
+    postMyInfo(req, res) {
+        const userId = req.session.taiKhoan._id;
+        const { newPassword } = req.body;
+
+        if (!newPassword || newPassword.length < 3) {
+            return res.status(400).send('Mật khẩu không hợp lệ');
         }
 
-        // Xóa cookie nếu muốn (optional)
-        res.clearCookie('connect.sid'); // Tên cookie mặc định khi dùng express-session
-
-        // Chuyển hướng về trang đăng nhập
-        res.redirect('/login');
-    });
-}
+        TaiKhoan.findByIdAndUpdate(userId, { password: newPassword }, { new: true })
+            .then(() => {
+                res.redirect('/myInfo');
+            })
+            .catch(err => {
+                console.error('Lỗi khi cập nhật mật khẩu:', err);
+                res.status(500).send('Không thể cập nhật mật khẩu');
+            });
+    }
 }
 
 module.exports = new LoginController();

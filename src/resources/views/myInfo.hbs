@@ -1,0 +1,49 @@
+<h2>Thông tin tài khoản</h2>
+
+<div class="info-box">
+  <p><strong>Họ tên:</strong> {{taiKhoan.hoTen}}</p>
+  <p><strong>Email:</strong> {{taiKhoan.email}}</p>
+  <p><strong>Tên đăng nhập:</strong> {{taiKhoan.tenDangNhap}}</p>
+  <p><strong>Vai trò:</strong> {{taiKhoan.role}}</p>
+
+  <form method="POST" action="/myInfo" id="changePasswordForm" style="margin-top: 20px;">
+    <div id="passwordContainer" style="display: none;">
+      <label for="newPassword">Nhập mật khẩu mới:</label>
+      <input type="password" name="newPassword" required minlength="3" />
+      <button type="submit" class="btn btn-save">💾 Lưu</button>
+    </div>
+  </form>
+
+  <button onclick="togglePasswordForm()" class="btn btn-edit">🔐 Đổi mật khẩu</button>
+</div>
+
+<script>
+  function togglePasswordForm() {
+    const container = document.getElementById('passwordContainer');
+    container.style.display = container.style.display === 'none' ? 'block' : 'none';
+  }
+</script>
+
+<style>
+  .info-box {
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 400px;
+    background-color: #f9f9f9;
+  }
+
+  .btn-edit, .btn-save {
+    margin-top: 10px;
+    padding: 5px 10px;
+    border: none;
+    background: #007bff;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  .btn-save {
+    background: #28a745;
+  }
+</style>
