@@ -6,7 +6,6 @@ const NhanKhauSchema = new Schema({
     ID: {
         type: Number,
         unique: true,
-        required: true,
         index: true,
         ref: 'NhanKhau'
     },
