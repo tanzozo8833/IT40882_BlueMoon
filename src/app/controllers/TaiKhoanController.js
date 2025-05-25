@@ -1,26 +1,21 @@
+const TaiKhoan = require('../models/TaiKhoan');
+
 class TaiKhoanController {
     // Hiển thị danh sách tài khoản
     listTaiKhoan(req, res) {
-    const { hoTen } = req.query;
-    const filter = {};
-
-    if (hoTen) {
-        filter.hoTen = new RegExp(hoTen, 'i');
+        TaiKhoan.find({})
+            .then(taikhoans => {
+                res.render('admin/ToTruong/TaiKhoan/danhsach', { taikhoans });
+            })
+            .catch(err => {
+                console.error('Lỗi khi lấy danh sách tài khoản:', err);
+                res.status(500).send('Lỗi server');
+            });
     }
-
-    TaiKhoan.find(filter)
-        .then(taikhoans => {
-            res.render('taikhoan/list', { taikhoans });
-        })
-        .catch(err => {
-            console.error('Lỗi khi lấy danh sách tài khoản:', err);
-            res.status(500).send('Lỗi server');
-        });
-}
 
     // Điều hướng đến trang thêm mới tài khoản
     addTaiKhoan(req, res) {
-        res.render('taikhoan/add');
+        res.render('admin/ToTruong/TaiKhoan/them');
     }
 
     // Tạo mới tài khoản
@@ -37,7 +32,7 @@ class TaiKhoanController {
         });
 
         newTaiKhoan.save()
-            .then(() => res.redirect('/taikhoan'))
+            .then(() => res.redirect('/admin/taikhoan'))
             .catch(err => {
                 console.error('Lỗi khi tạo tài khoản:', err);
                 res.status(400).send('Không thể tạo tài khoản. Có thể email hoặc tên đăng nhập đã tồn tại.');
@@ -46,30 +41,31 @@ class TaiKhoanController {
 
     // Cập nhật thông tin tài khoản
     updateTaiKhoan(req, res) {
-        const id = req.params.id;
-        const { email, tenDangNhap, hoTen, password, role, idSoHoKhau } = req.body;
-
-        TaiKhoan.findByIdAndUpdate(id, {
-            email,
-            tenDangNhap,
-            hoTen,
-            password,
-            role,
-            idSoHoKhau
-        }, { new: true })
-            .then(() => res.redirect('/taikhoan'))
+        const updates = req.body.updates;
+        if (!Array.isArray(updates)) {
+            return res.status(400).send('Dữ liệu không hợp lệ');
+        }
+        const updatePromises = updates.map(item => {
+            return TaiKhoan.findOneAndUpdate(
+            { idTaiKhoan: item.idTaiKhoan },
+            { role: item.role },
+            { new: true }
+            );
+        });
+        Promise.all(updatePromises)
+            .then(() => res.redirect('/admin/taikhoan'))
             .catch(err => {
-                console.error('Lỗi khi cập nhật tài khoản:', err);
-                res.status(400).send('Không thể cập nhật tài khoản');
+            console.error('Lỗi khi cập nhật vai trò tài khoản:', err);
+            res.status(500).send('Lỗi khi cập nhật vai trò tài khoản');
             });
     }
 
     // Xóa tài khoản
     deleteTaiKhoan(req, res) {
-        const id = req.params.id;
+        const idTaiKhoan = req.params.id;
 
-        TaiKhoan.findByIdAndDelete(id)
-            .then(() => res.redirect('/taikhoan'))
+        TaiKhoan.findOneAndDelete({ idTaiKhoan: idTaiKhoan })
+            .then(() => res.redirect('/admin/taikhoan'))
             .catch(err => {
                 console.error('Lỗi khi xóa tài khoản:', err);
                 res.status(500).send('Không thể xóa tài khoản');
