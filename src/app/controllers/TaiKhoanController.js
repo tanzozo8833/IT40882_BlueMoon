@@ -1,15 +1,22 @@
 class TaiKhoanController {
     // Hiển thị danh sách tài khoản
     listTaiKhoan(req, res) {
-        TaiKhoan.find()
-            .then(taikhoans => {
-                res.render('taikhoan/list', { taikhoans });
-            })
-            .catch(err => {
-                console.error('Lỗi khi lấy danh sách tài khoản:', err);
-                res.status(500).send('Lỗi server');
-            });
+    const { hoTen } = req.query;
+    const filter = {};
+
+    if (hoTen) {
+        filter.hoTen = new RegExp(hoTen, 'i');
     }
+
+    TaiKhoan.find(filter)
+        .then(taikhoans => {
+            res.render('taikhoan/list', { taikhoans });
+        })
+        .catch(err => {
+            console.error('Lỗi khi lấy danh sách tài khoản:', err);
+            res.status(500).send('Lỗi server');
+        });
+}
 
     // Điều hướng đến trang thêm mới tài khoản
     addTaiKhoan(req, res) {
