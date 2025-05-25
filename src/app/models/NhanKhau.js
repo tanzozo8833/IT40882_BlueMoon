@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const NhanKhauSchema = new Schema({
-    ID: {
+    idNhanKhau: {
         type: Number,
         unique: true,
         index: true,
@@ -38,6 +38,6 @@ const NhanKhauSchema = new Schema({
     timestamps: true
 });
 
-NhanKhauSchema.plugin(AutoIncrement, { inc_field: 'ID' });
+NhanKhauSchema.plugin(AutoIncrement, { inc_field: 'idNhanKhau' });
 
 module.exports = mongoose.model('NhanKhau', NhanKhauSchema);

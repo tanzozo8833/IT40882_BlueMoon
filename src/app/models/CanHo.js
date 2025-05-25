@@ -11,7 +11,6 @@ const CanHoSchema = new Schema({
     dienTich: { type: Number }
 }, {
     timestamps: true,
-    _id: false // Không sử dụng trường _id tự động của Mongoose
 });
 
 CanHoSchema.plugin(AutoIncrement, { inc_field: 'idCanHo' });
