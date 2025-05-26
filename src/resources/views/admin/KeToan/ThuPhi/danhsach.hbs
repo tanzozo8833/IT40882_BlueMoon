@@ -1,1 +1,38 @@
-<h2>Thu Phi</h2>
+<div class="container mt-4">
+    <h3 class="mb-4">Danh sách các loại phí</h3>
+
+    <table class="table table-bordered mt-3">
+        <thead class="table-primary">
+            <tr>
+                <th>Loại phí</th>
+                <th>Tháng</th>
+                <th>Năm</th>
+                <th>Tổng số tiền</th>
+                <th>Số tiền đã thu</th> <!-- Thêm cột này -->
+                <th>Số căn hộ đã đóng</th>
+                <th>Chi tiết</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each danhSach}}
+            <tr>
+                <td>{{this.loaiPhi}}</td>
+                <td>{{this.thang}}</td>
+                <td>{{this.nam}}</td>
+                <td>{{this.tongSoTien}}</td>
+                <td>{{this.tongSoTienDaThu}}</td> <!-- Hiển thị số tiền đã thu -->
+                <td>{{this.soCanHo}}</td>
+                <td>
+                    <a href="/admin/thuphi/{{this.loaiPhi}}/{{this.thang}}/{{this.nam}}"
+                        class="btn btn-sm btn-primary">Xem chi tiết</a>
+                </td>
+            </tr>
+            {{else}}
+            <tr>
+                <td colspan="7" class="text-center">Không có dữ liệu.</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+</div>

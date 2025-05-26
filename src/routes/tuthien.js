@@ -5,6 +5,8 @@ const tuthienController = require('../app/controllers/TuThienController');
 
 // Danh sách đóng góp
 router.get('/', tuthienController.show);
+router.get('/:idslug/chinh-sua', tuthienController.edit);
+router.post('/:idslug/chinh-sua', tuthienController.update);
 
 // Thêm mới
 router.get('/them', tuthienController.create);

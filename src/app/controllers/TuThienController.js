@@ -5,11 +5,29 @@ const { mutipleMongooseToObject, mongooseToObject } = require('../../utils/mongo
 
 class TuThienController {
     show(req, res, next) {
-        QuyTuThien.find({})
+        const { idQuy, startDate, endDate } = req.query;
+
+        // Tạo điều kiện lọc
+        const filter = {};
+        if (idQuy) {
+            filter.idQuyTuThien = idQuy;
+        }
+
+        if (startDate || endDate) {
+            filter.ngayBatDau = {};
+            if (startDate) {
+                filter.ngayBatDau.$gte = new Date(startDate);
+            }
+            if (endDate) {
+                filter.ngayBatDau.$lte = new Date(endDate);
+            }
+        }
+
+        QuyTuThien.find(filter)
             .then(danhSach => {
                 danhSach = mutipleMongooseToObject(danhSach);
-
                 const now = new Date();
+
                 const danhSachTuThien = danhSach.map((item) => {
                     let trangThai;
                     if (item.ngayBatDau && now < item.ngayBatDau) trangThai = 'Chưa bắt đầu';
@@ -25,11 +43,15 @@ class TuThienController {
                 res.render('admin/KeToan/TuThien/danhsach', {
                     layout: 'adminLayout',
                     title: 'Danh sách từ thiện',
-                    danhSachTuThien
+                    danhSachTuThien,
+                    idQuy,
+                    startDate,
+                    endDate
                 });
             })
-            .catch(error => next(error));
+            .catch(next);
     }
+
 
     // [GET] /admin/tuthien/them
     create(req, res, next) {
@@ -49,18 +71,20 @@ class TuThienController {
 
     // [GET] /admin/tuthien/:idslug
     detail(req, res, next) {
-        const idslug = req.params.idslug; // ví dụ: '642a39b1d8e5f65a5c123abc-qua-tu-thien-ung-ho-tre-em'
-
-        // Tách id từ idSlug
+        const idslug = req.params.idslug;
         const id = idslug.split('-')[0];
+        const idCanHoQuery = req.query.idCanHo ? Number(req.query.idCanHo) : null;
 
-        QuyTuThien.findById(id)
+        QuyTuThien.findOne({ idQuyTuThien: id })
             .then(quy => {
+                if (!quy) {
+                    return res.status(404).send('Quỹ từ thiện không tồn tại');
+                }
 
                 const trangThai = quy.tinhTrangThai();
 
                 TuThienPayment.aggregate([
-                    { $match: { idQuyTuThien: quy._id } },
+                    { $match: { idQuyTuThien: quy.idQuyTuThien } },
                     {
                         $group: {
                             _id: null,
@@ -80,9 +104,21 @@ class TuThienController {
                         const tongSoTien = result[0]?.tongSoTien || 0;
                         const soLuongCanHo = result[0]?.soLuongCanHo || 0;
 
-                        TuThienPayment.find({ idQuyTuThien: quy._id })
-                            .populate('idCanHo')
-                            .then(dongGopList => {
+                        // Tìm đóng góp, có thể lọc theo idCanHo nếu có
+                        const paymentFilter = { idQuyTuThien: quy.idQuyTuThien };
+                        if (idCanHoQuery) paymentFilter.idCanHo = idCanHoQuery;
+
+                        TuThienPayment.find(paymentFilter)
+                            .then(async dongGopList => {
+                                const idCanHoList = dongGopList.map(d => d.idCanHo);
+                                const canHoDocs = await CanHo.find({ idCanHo: { $in: idCanHoList } });
+                                const canHoMap = Object.fromEntries(canHoDocs.map(ch => [ch.idCanHo, ch]));
+
+                                dongGopList = dongGopList.map(dg => ({
+                                    ...dg.toObject(),
+                                    canHo: canHoMap[dg.idCanHo] || null
+                                }));
+
                                 res.render('admin/KeToan/TuThien/chitiet', {
                                     layout: 'adminLayout',
                                     title: 'Chi tiết quỹ từ thiện',
@@ -90,7 +126,8 @@ class TuThienController {
                                     trangThai,
                                     dongGopList,
                                     tongSoTien,
-                                    soLuongCanHo
+                                    soLuongCanHo,
+                                    idCanHo: idCanHoQuery || '' // Truyền ngược về view để hiển thị giá trị nhập
                                 });
                             })
                             .catch(next);
@@ -99,12 +136,14 @@ class TuThienController {
             })
             .catch(next);
     }
-    // [GET] /admin/tuthien/:idslug/ungho
+
+
+    // [GET] /admin/tuthien/:idQuyTuThienslug/ungho
     formungho(req, res, next) {
-        const idslug = req.params.idslug; // ví dụ: '642a39b1d8e5f65a5c123abc-qua-tu-thien-ung-ho-tre-em'
+        const idslug = req.params.idslug;
         // Tách id từ idSlug
         const id = idslug.split('-')[0];
-        QuyTuThien.findById(id)
+        QuyTuThien.findOne({ idQuyTuThien: Number(id) })
             .then(quy => {
                 res.render('admin/KeToan/TuThien/ungho', {
                     layout: 'adminLayout',
@@ -117,32 +156,41 @@ class TuThienController {
 
     // [POST] /admin/tuthien/:idslug/ungho
     ungho(req, res, next) {
-        const idslug = req.params.idslug;
-        const id = idslug.split('-')[0]; // Lấy phần ID gốc trước dấu gạch
+        console.log(req.params);
+        const idslug = req.params.idslug;  // Đặt tên params là "idslug" thôi nhé!
+        const id = Number(idslug.split('-')[0]); // Lấy phần ID số trước dấu '-'
+
+        // Kiểm tra id có hợp lệ không
+        if (isNaN(id)) {
+            return res.status(400).send('ID Quỹ phải là số');
+        }
 
         const idCanHo = Number(req.body.idCanHo);
         if (isNaN(idCanHo)) {
             return res.status(400).send('ID Căn hộ phải là số');
         }
 
-        QuyTuThien.findById(id)
+        const soTienDaDong = Number(req.body.soTienDaDong);
+        if (isNaN(soTienDaDong) || soTienDaDong <= 0) {
+            return res.status(400).send('Số tiền ủng hộ không hợp lệ');
+        }
+
+        QuyTuThien.findOne({ idQuyTuThien: id })
             .then(quy => {
                 if (!quy) {
-                    return Promise.reject(new Error('Không tìm thấy Quỹ từ thiện'));
+                    throw new Error('Không tìm thấy Quỹ từ thiện');
                 }
 
-                // Tìm căn hộ trước
                 return CanHo.findOne({ idCanHo: idCanHo })
                     .then(canHo => {
                         if (!canHo) {
-                            return Promise.reject(new Error('Không tìm thấy căn hộ'));
+                            throw new Error('Không tìm thấy căn hộ');
                         }
 
-                        // Tạo payment nếu có căn hộ
                         const payment = new TuThienPayment({
                             idCanHo: idCanHo,
-                            soTienDaDong: Number(req.body.soTienDaDong),
-                            idQuyTuThien: quy._id
+                            soTienDaDong: soTienDaDong,
+                            idQuyTuThien: quy.idQuyTuThien
                         });
 
                         return payment.save();
@@ -153,12 +201,53 @@ class TuThienController {
             })
             .catch(err => {
                 console.error("Lỗi khi lưu ủng hộ:", err);
-                next(err); // Đẩy lỗi cho middleware xử lý
+                next(err);
             });
     }
 
+    // [GET] /admin/tuthien/:idslug/chinh-sua
+    edit(req, res, next) {
+        const idslug = req.params.idslug;
+        const id = idslug.split('-')[0];
 
+        QuyTuThien.findOne({ idQuyTuThien: Number(id) })
+            .then(quy => {
+                if (!quy) {
+                    return res.status(404).send('Không tìm thấy quỹ từ thiện để chỉnh sửa');
+                }
 
+                res.render('admin/KeToan/TuThien/chinhsua', {
+                    layout: 'adminLayout',
+                    title: 'Chỉnh sửa quỹ từ thiện',
+                    quy: mongooseToObject(quy)
+                });
+            })
+            .catch(next);
+    }
+
+    // [POST] /admin/tuthien/:idslug/chinh-sua
+    update(req, res, next) {
+        const idslug = req.params.idslug;
+        const id = idslug.split('-')[0];
+
+        // Lấy dữ liệu từ form gửi lên (req.body)
+        const updateData = {
+            tenQuy: req.body.tenQuy,
+            mota: req.body.mota,
+            ngayBatDau: req.body.ngayBatDau,
+            ngayKetThuc: req.body.ngayKetThuc,
+            // Thêm các trường khác bạn muốn chỉnh sửa
+        };
+
+        QuyTuThien.findOneAndUpdate({ idQuyTuThien: Number(id) }, updateData, { new: true })
+            .then(quy => {
+                if (!quy) {
+                    return res.status(404).send('Không tìm thấy quỹ từ thiện để cập nhật');
+                }
+                res.redirect(`/admin/tuthien`);
+            })
+            .catch(next);
+    }
 
 
 }

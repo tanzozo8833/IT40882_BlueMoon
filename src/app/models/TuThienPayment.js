@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const TuThienPaymentSchema = new Schema({
-    _idTuThienPayment: { type: Number },
+    idTuThienPayment: { type: Number, ref: 'TuThienPayment', index: true, unique: true },
     idQuyTuThien: { type: Number, ref: 'QuyTuThien', required: true },  // Tham chiếu đúng _id kiểu Number
     idCanHo: { type: Number, ref: 'CanHo', required: true },
     soTienDaDong: { type: Number, required: true },
@@ -13,6 +13,6 @@ const TuThienPaymentSchema = new Schema({
     timestamps: true,
 });
 
-TuThienPaymentSchema.plugin(AutoIncrement, { inc_field: '_idTuThienPayment' });
+TuThienPaymentSchema.plugin(AutoIncrement, { inc_field: 'idTuThienPayment' });
 
 module.exports = mongoose.model('TuThienPayment', TuThienPaymentSchema);

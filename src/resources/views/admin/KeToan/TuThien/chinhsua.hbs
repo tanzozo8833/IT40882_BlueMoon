@@ -1,0 +1,25 @@
+<div class="container mt-4">
+    <h3>Chỉnh sửa Quỹ từ thiện</h3>
+    <form method="POST" action="">
+        <div class="mb-3">
+            <label for="tenQuy" class="form-label">Tên Quỹ</label>
+            <input type="text" class="form-control" id="tenQuy" name="tenQuy" value="{{quy.tenQuy}}" required>
+        </div>
+        <div class="mb-3">
+            <label for="mota" class="form-label">Mô tả</label>
+            <textarea class="form-control" id="mota" name="mota" rows="3">{{quy.mota}}</textarea>
+        </div>
+        <div class="mb-3">
+            <label for="ngayBatDau" class="form-label">Ngày bắt đầu</label>
+            <input type="date" class="form-control" id="ngayBatDau" name="ngayBatDau"
+                value="{{formatDateForInput quy.ngayBatDau}}" required>
+        </div>
+        <div class="mb-3">
+            <label for="ngayKetThuc" class="form-label">Ngày kết thúc</label>
+            <input type="date" class="form-control" id="ngayKetThuc" name="ngayKetThuc"
+                value="{{formatDateForInput quy.ngayKetThuc}}">
+        </div>
+        <button type="submit" class="btn btn-success">Lưu thay đổi</button>
+        <a href="/admin/tuthien/{{quy.idQuyTuThien}}-{{quy.slug}}" class="btn btn-secondary ms-2">Hủy</a>
+    </form>
+</div>

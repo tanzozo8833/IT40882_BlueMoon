@@ -1,0 +1,36 @@
+<div class="container mt-4">
+    <h3 class="mb-4">Chi tiết phí {{loaiPhi}} - Tháng {{thang}}/{{nam}}</h3>
+
+    <table class="table table-bordered mt-3">
+        <thead class="table-primary">
+            <tr>
+                <th>ID Căn hộ</th>
+                <th>Tên Căn hộ</th>
+                <th>Số tiền</th>
+                <th>Trạng thái</th>
+                <th>Mô tả</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each danhSachPhi}}
+            <tr>
+                <td>{{this.idCanHo}}</td>
+                <td>{{this.canHo.tenCanHo}}</td>
+                <td>{{this.soTien}}</td>
+                <td>
+                    <span class="badge {{#if (eq this.trangThai 'da_dong')}}bg-success{{else}}bg-warning{{/if}}">
+                        {{this.trangThai}}
+                    </span>
+                </td>
+                <td>{{this.moTa}}</td>
+            </tr>
+            {{else}}
+            <tr>
+                <td colspan="5" class="text-center">Không có dữ liệu đóng phí.</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <a href="/admin/thuphi" class="btn btn-secondary mt-3">← Quay lại danh sách</a>
+</div>

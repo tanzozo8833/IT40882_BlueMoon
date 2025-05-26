@@ -6,7 +6,7 @@ const mongoose_delete = require('mongoose-delete');
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const QuyTuThienSchema = new Schema({
-    _id: { type: Number },
+    idQuyTuThien: { type: Number },
     tenQuy: { type: String, required: true },
     mota: { type: String },
     trangThai: { type: String, enum: ['Chua bat dau', 'Đang hoạt động', 'Kết thúc'], default: 'Đang hoạt động' },
@@ -14,8 +14,7 @@ const QuyTuThienSchema = new Schema({
     ngayKetThuc: { type: Date },
     slug: { type: String, unique: true },
 }, {
-    timestamps: true,
-    _id: false
+    timestamps: true
 });
 
 
@@ -35,5 +34,5 @@ QuyTuThienSchema.pre('save', function (next) {
     next();
 });
 
-QuyTuThienSchema.plugin(AutoIncrement, { inc_field: '_id' });
+QuyTuThienSchema.plugin(AutoIncrement, { inc_field: 'idQuyTuThien' });
 module.exports = mongoose.model('QuyTuThien', QuyTuThienSchema);
