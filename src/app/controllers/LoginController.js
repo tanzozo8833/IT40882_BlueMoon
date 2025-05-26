@@ -43,7 +43,7 @@ class LoginController {
                 if (taiKhoan.role === 'admin') {
                     res.redirect('/admin');
                 } else if (taiKhoan.role === 'user') {
-                    res.redirect('/user');
+                    res.redirect('/user/' + req.session.taiKhoan.email);
                 }
             })
             .catch(err => {

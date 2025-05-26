@@ -1,0 +1,45 @@
+<div class="mt-4">
+    <div>
+      <a href="/user/home">Tro ve trang chu</a>
+    </div>
+    
+    <table class="table">
+        <thead>
+            <tr>
+            <th scope="col">STT</th>
+            <th scope="col">ID so ho khau</th>
+            <th scope="col">ho ten</th>
+            <th scope="col">quan he voi chu ho</th>
+            <th scope="col">ngay sinh</th>
+            <th scope="col">que quan</th>
+            <th scope="col">nghe nghiep</th>
+            <th scope="col">chi tiet</th>
+            <th scope="col" colspan="2"></th>
+            </tr>
+        </thead>
+        <tbody>
+        {{#each NhanKhau}}
+          {{!-- {{#if this.idSoHoKhau}}     <!-- Chỉ hiển thị nếu course đã bị soft delete --> --}}
+          <tr>
+              <th scope="row"></th>
+              <td>{{this.idSoHoKhau}}</td>
+              <td>{{this.hoTen}}</td>
+              <td>{{this.quanHeVoiChuHo}}</td>
+              <td>{{this.ngaySinh}}</td>
+              <td>{{this.queQuan}}</td>
+              <td>{{this.ngheNghiep}}</td>
+              <td>
+                <a href="./{{this._id}}/chitiet" class="btn btn-link" >Xem </a>
+              </td>
+          </tr>
+        {{else}}
+          <tr>
+            <td colspan="5" class="text-center">
+              Thùng rác trống.
+            </td>
+          </tr>
+        {{/each}}
+
+        </tbody>
+    </table>
+</div>

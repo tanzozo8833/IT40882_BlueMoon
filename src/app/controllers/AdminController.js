@@ -14,7 +14,6 @@ class AdminController {
             layout: 'adminLayout',
         });
     }
-
 }
 
 module.exports = new AdminController();

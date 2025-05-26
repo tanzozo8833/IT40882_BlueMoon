@@ -3,8 +3,17 @@ const router = express.Router();
 
 const userController = require('../app/controllers/UserController');
 
-// [GET] /
-router.get('/', userController.index);
+router.get('/:id/chitiet', userController.chitiet);
 
+// Hiển thị form edit
+router.get('/:id/edit', userController.edit);
+
+// Xử lý lưu thay đổi (POST)
+router.post('/:id/edit', userController.updateNhanKhau);
+
+// Xóa nhân khẩu
+router.post('/:id/xoa', userController.deleteNhanKhau);
+router.get('/listNhanKhau', userController.listNhanKhau);
+router.get('/:email', userController.index);
 
 module.exports = router;

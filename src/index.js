@@ -11,6 +11,16 @@ const { engine } = require('express-handlebars');
 const app = express();
 const port = 3000;
 
+const exphbs  = require('express-handlebars');
+
+const hbs = exphbs.create({
+  helpers: {
+    eq: function (a, b) {
+      return a === b; // Or use '==' if you want type coercion
+    }
+  }
+});
+
 // Middleware cơ bản
 app.use(morgan('combined'));
 app.use(methodOverride('_method'));
