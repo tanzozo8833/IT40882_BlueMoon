@@ -7,6 +7,7 @@ const path = require('path');
 const morgan = require('morgan');
 const methodOverride = require('method-override');
 const { engine } = require('express-handlebars');
+require('./utils/handlebars-helpers');
 
 const app = express();
 const port = 3000;
@@ -38,6 +39,13 @@ app.engine('hbs', engine({
     layoutsDir: path.join(__dirname, 'resources', 'views', 'layouts'),
     partialsDir: path.join(__dirname, 'resources', 'views', 'partials'),
     defaultLayout: 'main',
+    runtimeOptions: {
+        allowProtoPropertiesByDefault: true,
+        allowProtoMethodsByDefault: true
+    },
+    helpers: {
+        eq: (a, b) => a === b
+    }
 }));
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'resources', 'views'));

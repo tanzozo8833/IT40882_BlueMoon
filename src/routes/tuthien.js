@@ -12,5 +12,7 @@ router.post('/', tuthienController.store);
 
 // Xem chi tiết
 router.get('/:idslug', tuthienController.detail);
-router.get('/idslug/dongtientuthien', tuthienController.dongtientuthien);
+router.get('/:idslug/ungho', tuthienController.formungho);
+//Ủng hộ
+router.post('/:idslug', tuthienController.ungho);
 module.exports = router;

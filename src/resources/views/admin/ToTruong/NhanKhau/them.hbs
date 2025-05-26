@@ -1,0 +1,42 @@
+<h2>Thêm nhân khẩu mới</h2>
+
+<form method="POST" action="/admin/nhankhau/add" class="form-them-nhankhau">
+  <div class="form-row">
+    <label>Họ tên</label>
+    <input type="text" name="hoTen" required>
+  </div>
+  <div class="form-row">
+    <label>Ngày sinh</label>
+    <input type="date" name="ngaySinh" required>
+  </div>
+  <div class="form-row">
+    <label>Nơi sinh</label>
+    <input type="text" name="noiSinh">
+  </div>
+  <div class="form-row">
+    <label>Quê quán</label>
+    <input type="text" name="queQuan">
+  </div>
+  <div class="form-row">
+    <label>Dân tộc</label>
+    <input type="text" name="danToc">
+  </div>
+  <div class="form-row">
+    <label>Nghề nghiệp</label>
+    <input type="text" name="ngheNghiep">
+  </div>
+  <div class="form-row">
+    <label>Số CCCD</label>
+    <input type="text" name="soCCCD">
+  </div>
+  <div class="form-row">
+    <label>Ngày cấp</label>
+    <input type="date" name="ngayCap">
+  </div>
+  <div class="form-row">
+    <label>ID Sổ hộ khẩu</label>
+    <input type="number" name="idSoHoKhau" required>
+  </div>
+  <button type="submit" class="btn btn-submit">Lưu</button>
+  <a href="/admin/nhankhau" class="btn btn-cancel">Huỷ</a>
+</form>
