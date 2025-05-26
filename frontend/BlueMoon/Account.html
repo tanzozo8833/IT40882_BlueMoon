@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Thông tin tài khoản</title>
+  <link rel="stylesheet" href="../common/Button.css"> 
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="../common/Input.css">
+  <link rel="stylesheet" href="../common/Button.css">
+  <link rel="stylesheet" href="../common/ComboBox.css">
+  <style>
+    .custom-button {
+        position: absolute;
+        top: 25px; /* Khoảng cách từ trên xuống */
+        right: 60px; /* Khoảng cách từ phải sang */
+        padding: 12px; /* Điều chỉnh khoảng cách bên trong */
+    }
+    .width-100 {
+        width: 100%;
+    }
+  </style>
+</head>
+<body class="bg-light">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Khu vực Sidebar -->
+      <div class="col-md-2" id="sidebar-container"></div>  
+      <!-- Nội dung chính -->
+      <div class="col-md-10">
+        <image src="../rss/284bb907-ed5d-41d4-882c-eabc37e00bab.png" alt="Logo" class="img-fluid mx-auto d-block my-3"></image>
+        <div class="d-flex justify-content-end mb-3">
+          <button class="btn btn-icon custom-button" >
+            <i class="bi bi-bell fs-1"></i>
+          </button>
+        <table class="table table-borderless">
+          <tbody>
+            <tr>
+              <td>
+                <h1 id="Wellcome" class="Wellcome">Wellcome</h1>
+                </td>
+            </tr>
+            <tr>    
+                <td><div id="avatar" class="Avatar">Avatar</div></td>
+            </tr>
+        <tr><td>
+        <table class="table table-borderless">
+            <tbody>
+                <tr>
+                    <td>Họ tên</td>
+                    <td>Biệt danh</td>
+                    <td>Giới tính</td>
+                    <td>Ngày sinh</td>
+                </tr>
+                <tr>
+                    <td id="Name"></td>
+                    <td id="Nickname"></td>
+                    <td id="Gender"></td>
+                    <td id="Birthday"></td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td>Số điện thoại</td>
+                    <td>Địa chỉ</td>
+                    <td>Dân tộc</td>
+                </tr>
+                <tr>
+                    <td id="Email"></td>
+                    <td id="Phone"></td>
+                    <td id="Address"></td>
+                    <td id="Ethnicity"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="text-end"><button class="btn btn-primary" id="EditButton">Chỉnh sửa thông tin</button></td>
+                    <td><button class="btn btn-primary" id="ChangePasswordButton">Đổi mật khẩu</button></td>
+                </tr>
+            </tbody>
+            </table>
+            </td></tr>
+            </tbody>
+        </table>
+      </div>
+  <script>
+    function loadSection(url, containerId) {
+      fetch(url)
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById(containerId).innerHTML = data;
+          
+          // Thực thi script bên trong file HTML tải vào
+          const scripts = document.getElementById(containerId).querySelectorAll("script");
+          scripts.forEach(script => {
+            const newScript = document.createElement("script");
+            newScript.textContent = script.textContent;
+            document.body.appendChild(newScript);
+          });
+        });
+    }
+
+    // Tải các thành phần của Account
+    loadSection("../common/Account/Sidebar.html", "sidebar-container");
+
+    const user = {
+        avatar: "https://cdn.builder.io/api/v1/image/assets/TEMP/28c12a65e22d1818976375bffb56964a37fe1cba",
+        name: "Trịnh Cúi Tuần",
+        nickname: "Tuấn Cùi",
+        gender: "Nam",
+        birthday: "1990-01-01",
+        email: "TrinhCuiTuan69@gmail.com",
+        phone: "0123456789",
+        address: "123 Đường ABC, Quận 1, TP.HCM",
+        ethnicity: "Kinh"
+    }
+    document.getElementById("Wellcome").innerText = `Wellcome, ${user.nickname}`;
+    document.getElementById("avatar").innerHTML = `
+    <table class="table table-borderless">
+        <tbody>
+            <tr>
+                <td width=130px><img src="${user.avatar}" alt="Avatar" class="img-fluid rounded-circle" style="width: 100px; height: 100px;"></td>
+                <td>
+                    <h5>${user.name}</h5>
+                    <p>${user.email}</p>
+                </td>
+            </tr>
+    `;
+    document.getElementById("Name").innerHTML = `
+        <input type="text" class="input-field width-100" value="${user.name}">
+    `;
+    document.getElementById("Nickname").innerHTML = `
+        <input type="text" class="input-field width-100" value="${user.nickname}">
+    `;
+    document.getElementById("Gender").innerHTML = `
+        <div class="dropdown" id="genderdropdown">
+            <div class="dropdown-toggle" onclick="toggleDropdown()">
+                <span id="dropdown-value-gender">${user.gender}</span>
+            </div>
+            <div class="dropdown-menu">
+                <div class="dropdown-item" onclick="selectOption('Nam')">Nam</div>
+                <div class="dropdown-item" onclick="selectOption('Nữ')">Nữ</div>
+            </div>
+        </div>
+    `;
+    document.getElementById("Birthday").innerHTML = `
+        <input type="date" class="input-field width-100" value="${user.birthday}">
+    `;
+    document.getElementById("Email").innerHTML = `
+        <input type="email" class="input-field width-100" value="${user.email}">
+    `;
+    document.getElementById("Phone").innerHTML = `
+        <input type="tel" class="input-field width-100" value="${user.phone}">
+    `;
+    document.getElementById("Address").innerHTML = `
+        <input type="text" class="input-field width-100" value="${user.address}">
+    `;
+    document.getElementById("Ethnicity").innerHTML = `
+        <input type="text" class="input-field width-100" value="${user.ethnicity}">
+    `;
+
+    function toggleDropdown() {
+        document.getElementById('genderdropdown').classList.toggle("open");
+    }
+    function selectOption(value) {
+        document.getElementById('dropdown-value-gender').textContent = value;   
+        document.getElementById('genderdropdown').classList.remove("open");
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+</body>
+</html>

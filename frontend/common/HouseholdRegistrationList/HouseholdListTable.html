@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Danh sách sổ hộ khẩu</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    .table-container {
+      max-width: 100%;
+      overflow-x: auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+    th {
+      background: #f8f9fa;
+      font-weight: bold;
+    }
+    .btn-details {
+      background-color: #007bff;
+      color: white;
+      padding: 5px 10px;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-light p-4">
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>ID SHK</th>
+          <th>ID Căn hộ</th>
+          <th>Số sổ hộ khẩu</th>
+          <th>Họ tên chủ hộ</th>
+          <th>Thông tin thêm</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="household-list">
+        <!-- Dữ liệu sẽ được tải vào đây bằng JavaScript -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    
+    const households = [
+      { id: "HK001", apartmentId: "CH001", registrationNumber: "123456789", ownerName: "Nguyễn Văn A", additionalInfo: "Không có" },
+      { id: "HK002", apartmentId: "CH002", registrationNumber: "987654321", ownerName: "Trần Thị B", additionalInfo: "Có con nhỏ" },
+      { id: "HK003", apartmentId: "CH003", registrationNumber: "567890123", ownerName: "Phạm Văn C", additionalInfo: "Người cao tuổi" },
+      { id: "HK004", apartmentId: "CH004", registrationNumber: "456789012", ownerName: "Lê Thị D", additionalInfo: "Gia đình trẻ" },
+    ];
+
+    const householdList = document.getElementById("household-list");
+
+    households.forEach(household => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${household.id}</td>
+        <td>${household.apartmentId}</td>
+        <td>${household.registrationNumber}</td>
+        <td>${household.ownerName}</td>
+        <td>${household.additionalInfo}</td>
+        <td class="text-center">
+          <button class="btn-details" onclick="viewDetails('${household.id}')">
+            <i class="fa fa-info-circle"></i>
+          </button>
+        </td>
+      `;
+      householdList.appendChild(row);
+    });
+
+    function viewDetails(id) {
+      console.log(`Xem chi tiết cho hộ khẩu ID: ${id}`);
+      alert(`Xem chi tiết hộ khẩu ID ${id}`);
+    }
+  </script>
+
+</body>
+</html>

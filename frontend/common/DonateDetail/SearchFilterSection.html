@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../common/Button.css">
+  <link rel="stylesheet" href="../common/Input.css">
+  <link rel="stylesheet" href="../common/ComboBox.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    .filter-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .filter-group {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+    }
+    @media (max-width: 640px) {
+      .filter-container, .filter-group {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body class="bg-light p-4">
+
+  <div class="filter-container">
+    <div class="input-container">
+      <label class="input-label">ID Căn hộ</label>
+      <input type="text" placeholder="Nhập ID Căn hộ" class="input-field">
+    </div>
+
+    <div class="filter-group">
+      <button class="btn btn-primary">Làm mới</button>
+      <button class="btn btn-primary">
+        <i class="fa fa-filter"></i> Lọc
+      </button>
+    </div>
+  </div>
+</body>
+</html>

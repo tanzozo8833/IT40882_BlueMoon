@@ -1,0 +1,28 @@
+.input-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-label {
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.input-field {
+  padding: 8px 12px;
+  width: 180px;
+  height: 50px;
+  font-size: 14px;
+  color: #636872;
+  background-color: white;
+  border-radius: 6px;
+  border: 1px solid #D1D5DB;
+}
+
+@media (max-width: 640px) {
+  .input-field {
+    width: 100%;
+  }
+}

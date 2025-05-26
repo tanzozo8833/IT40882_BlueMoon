@@ -1,0 +1,98 @@
+<!-- Hiển thị thông tin về số lượng dân cư và căn hộ -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .circle-container {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      font-size: 25px;
+      font-weight: bold;
+      color: white;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #FAA644; /* Màu xanh đậm */
+    }
+    .apartments-circle {
+      background-color: #44C5E1; /* Màu xanh nhạt */
+      color: black;
+    }
+    /* Viền vòng ngoài */
+    .outer-ring {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .outer-ring circle {
+      fill: none;
+      stroke-width: 2; /* Độ dày nhỏ */
+      stroke-linecap: round;
+      transform: rotate(-90deg);
+      transform-origin: center;
+    }
+  </style>
+</head>
+<body class="bg-light p-4">
+
+  <div class="container bg-white p-4 rounded shadow">
+    <div class="row">
+      <!-- Dân cư -->
+      <div class="col-md-6 text-dark d-flex flex-column align-items-center">
+        <h2>Dân cư</h2>
+        <div class="circle-container residents-circle">
+          <pre id="residents-count"></pre>
+          <svg class="outer-ring" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" stroke-dasharray="282.6" stroke-dashoffset="141.3" stroke = "#FFD700"></circle>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Căn hộ -->
+      <div class="col-md-6 text-dark d-flex flex-column align-items-center">
+        <h2>Căn hộ</h2>
+        <div class="circle-container apartments-circle">
+          <pre id="apartments-count"></pre>
+          <svg class="outer-ring" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" stroke-dasharray="282.6" stroke-dashoffset="226" stroke = "#8de5f9"></circle>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Dữ liệu tùy chỉnh
+    const maxResidents = 1000;
+    const maxApartments = 300;
+    const residentsData = 500;
+    const apartmentsData = 120;
+
+    document.getElementById("residents-count").textContent = residentsData + "\nngười";
+    document.getElementById("apartments-count").textContent = apartmentsData + " / " + maxApartments + "\ncăn hộ";
+
+    // Cập nhật vòng ngoài theo tỷ lệ phần trăm
+    function updateProgress(circle, value, max) {
+      const percentage = value / max;
+      const offset = 282.6 * (1 - percentage); // Tính toán dựa trên bán kính
+      circle.style.strokeDashoffset = offset;
+    }
+
+    const residentsCircle = document.querySelector(".residents-circle svg circle");
+    const apartmentsCircle = document.querySelector(".apartments-circle svg circle");
+
+    updateProgress(residentsCircle, residentsData, maxResidents);
+    updateProgress(apartmentsCircle, apartmentsData, maxApartments);
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

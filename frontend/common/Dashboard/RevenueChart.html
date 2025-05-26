@@ -1,0 +1,83 @@
+<!-- Hiển thị biểu đồ doanh thu theo tháng -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .chart-bar {
+      width: 15px;
+      display: inline-block;
+      margin: 0 8px;
+    }
+    .regular-bar {
+      background-color: #4F46E5; /* Màu xanh đậm */
+    }
+    .voluntary-bar {
+      background-color: #D1D5DB; /* Màu xám nhạt */
+    }
+    .month-label {
+      text-align: center;
+      font-size: 12px;
+      color: #6c757d;
+    }
+  </style>
+</head>
+<body class="bg-light p-4">
+  <!-- Biểu đồ doanh thu -->
+  <div class="container bg-white p-4 rounded shadow">
+    <h2 class="text-sm fw-bold text-dark">Doanh thu năm 2024</h2>
+    <div class="d-flex align-items-end gap-3" id="chart-container">
+      <!-- Các cột biểu đồ sẽ được thêm vào bằng JavaScript -->
+    </div>
+
+    <!-- Số tháng bên dưới biểu đồ -->
+    <div class="d-flex justify-content-between" id="month-labels">
+      <!-- Số tháng sẽ được thêm vào bằng JavaScript -->
+    </div>
+
+    <!-- Chú thích -->
+    <div class="d-flex justify-content-between">
+      <div class="d-flex align-items-center">
+        <span class="chart-bar regular-bar" style="height: 10px;"></span>
+        <span class="ms-2 text-dark">Khoản thu định kỳ</span>
+      </div>
+      <div class="d-flex align-items-center">
+        <span class="chart-bar voluntary-bar" style="height: 10px;"></span>
+        <span class="ms-2 text-dark">Khoản đóng góp tự nguyện</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Dữ liệu doanh thu cho 12 tháng
+    const revenueData = [
+      { regular: 80, voluntary: 45 }, { regular: 90, voluntary: 50 }, { regular: 70, voluntary: 90 },
+      { regular: 85, voluntary: 60 }, { regular: 60, voluntary: 80 }, { regular: 95, voluntary: 55 },
+      { regular: 100, voluntary: 70 }, { regular: 110, voluntary: 50 }, { regular: 75, voluntary: 65 },
+      { regular: 85, voluntary: 40 }, { regular: 95, voluntary: 75 }, { regular: 105, voluntary: 60 }
+    ];
+    
+    // Tạo biểu đồ từ dữ liệu
+    const chartContainer = document.getElementById("chart-container");
+    const monthLabelsContainer = document.getElementById("month-labels");
+    
+    revenueData.forEach((data, index) => {
+      const chartItem = `
+        <div class="d-flex flex-column align-items-center mx-2">
+          <div class="chart-bar regular-bar" style="height: ${data.regular/2}px;"></div>
+          <div class="chart-bar voluntary-bar" style="height: ${data.voluntary/2}px;"></div>
+          <span class="month-label mt-2">${index + 1}</span>
+        </div>
+      `;
+      chartContainer.innerHTML += chartItem;
+    });
+
+    const monthRevenue = revenueData.map(data => data.regular + data.voluntary);
+    window.parent.postMessage(monthRevenue, "*");
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

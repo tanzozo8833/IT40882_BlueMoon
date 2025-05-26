@@ -1,0 +1,100 @@
+<!--Hiển thị danh sách hộ khẩu-->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    .table-container {
+      max-width: 100%;
+      overflow-x: auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+    th {
+      background: #f8f9fa;
+      font-weight: bold;
+    }
+    .btn-details {
+      background-color: #007bff;
+      color: white;
+      padding: 5px 10px;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-light p-4">
+  <div class="table-container p-3">
+    <table>
+      <thead>
+        <tr>
+          <th>ID quỹ</th>
+          <th>Tên quỹ</th>
+          <th>Loại phí</th>
+          <th>Mô tả</th>
+          <th>Trạng thái</th>
+          <th>Ngày bắt đầu</th>
+          <th>Ngày kết thúc</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="donate-list">
+        <!-- Dữ liệu sẽ được tải vào đây bằng JavaScript -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    const records = [
+      { id: "PHI001", fundName: "Quỹ tình thương tháng 1", feeType: "Tự nguyện", description: "Tiêu thụ điện tháng 04/2025", status: "Kết thúc", startDate: "2025-01-01", endDate: "2025-01-30" },
+      { id: "PHI002", fundName: "Quỹ tình thương tháng 2", feeType: "Bắt buộc", description: "Sử dụng nước sạch", status: "Kết thúc", startDate: "2025-02-01", endDate: "2025-02-30" },
+      { id: "PHI003", fundName: "Quỹ tình thương tháng 3", feeType: "Tự nguyện", description: "Phí gửi 2 xe máy", status: "Kết thúc", startDate: "2025-03-01", endDate: "2025-03-30" },
+      { id: "PHI004", fundName: "Quỹ tình thương tháng 4", feeType: "Tự nguyện", description: "Gửi ô tô dưới tầng hầm", status: "Kết thúc", startDate: "2025-04-01", endDate: "2025-04-30" },
+      { id: "PHI005", fundName: "Quỹ tình thương tháng 5", feeType: "Tự nguyện", description: "Điện dụng tháng 03/2025", status: "Đang tiến hành", startDate: "2025-05-01", endDate: "2025-05-31" }
+    ];
+
+    const donateList = document.getElementById("donate-list");
+
+    records.forEach(record => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${record.id}</td>
+        <td>${record.fundName}</td>
+        <td>${record.feeType}</td>
+        <td>${record.description}</td>
+        <td>${record.status}</td>
+        <td>${record.startDate}</td>
+        <td>${record.endDate}</td>
+        <td>
+          <button class="btn-details" onclick="viewDetails('${record.id}')">
+            <i class="fa fa-info-circle"></i>
+          </button>
+        </td>
+      `;
+      donateList.appendChild(row);
+    });
+
+    function viewDetails(id) {
+      console.log(`Xem chi tiết cho ID: ${id}`);
+      alert(`Xem chi tiết dân cư có ID ${id}`);
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

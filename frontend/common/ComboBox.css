@@ -1,0 +1,56 @@
+/* Container chính của dropdown */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+/* Nút dropdown */
+.dropdown-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: white;
+  border: 1px solid #d1d5db;
+  cursor: pointer;
+  border-radius: 6px;
+  min-height: 20px;
+  min-width: 180px;
+}
+
+/* Mũi tên chỉ xuống */
+.dropdown-toggle img {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+}
+
+/* Menu dropdown */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  display: none;
+  z-index: 10;
+}
+
+/* Hiển thị khi mở */
+.dropdown.open .dropdown-menu {
+  display: block;
+}
+
+/* Các lựa chọn bên trong dropdown */
+.dropdown-item {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background: #f3f4f6;
+}

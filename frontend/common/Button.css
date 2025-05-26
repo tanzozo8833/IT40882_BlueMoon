@@ -1,0 +1,49 @@
+/* Định dạng chung cho nút */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  border: none;
+}
+
+/* Nút chính (primary) */
+.btn-primary {
+  background-color: #6366F1;
+  color: white;
+}
+
+.btn-primary:hover {
+  opacity: 0.8;
+}
+
+/* Nút phụ (secondary) */
+.btn-secondary {
+  background-color: #E2E8F0;
+  color: black;
+}
+
+.btn-secondary:hover {
+  background-color: #cbd5e1;
+}
+
+/* Nút Icon */
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+}
+
+.btn-icon:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}

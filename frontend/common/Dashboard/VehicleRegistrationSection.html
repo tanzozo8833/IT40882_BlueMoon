@@ -1,0 +1,116 @@
+<!--Hiển thị tỷ lệ phương tiện gửi xe -->
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .vehicle-container {
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      z-index: 10;
+    }
+    .vehicle-type {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      font-weight: 500;
+    }
+    .dot {
+      border-radius: 50%;
+      height: 9px;
+      width: 9px;
+    }
+    .bg-indigo-500 { background-color: #6366F1; } /* Ô tô */
+    .bg-indigo-400 { background-color: #818CF8; } /* Xe máy */
+    .bg-indigo-200 { background-color: #C7D2FE; } /* Xe đạp */
+    .chart-container {
+      position: relative;
+      width: 400px;
+      height: 150px;
+      margin: auto;
+    }
+    .circle {
+      fill: none;
+      stroke-width: 20;
+      transform: rotate(-90deg);
+      transform-origin: center;
+      cx: 75;
+      cy: 75;
+      r: 50;
+    }
+  </style>
+</head>
+<body class="bg-light p-4">
+
+  <div class="vehicle-container bg-white p-4 rounded shadow">
+    <h2 class="text-sm">Đăng ký gửi xe</h2>
+    <p class="mt-2 text-sm">12/2024</p>
+
+    <!-- Biểu đồ hình tròn SVG -->
+    <div class="chart-container">
+      <svg width="280" height="150" viewBox="0 0 150 200" id="pieChart">
+        
+      </svg>
+    </div>
+
+    <!-- Danh mục phương tiện -->
+    <div class="d-flex justify-between gap-4 text-xs text-dark">
+      <div class="vehicle-type" id="car">
+      </div>
+
+      <div class="vehicle-type" id="motorcycle">
+      </div>
+
+      <div class="vehicle-type" id="bicycle">
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const perimeter = 314; // Chu vi của vòng tròn (2 * π * r) với r = 50
+    const car = (perimeter * 0.4); // 40% cho ô tô
+    const motorcycle = (perimeter * 0.32); // 32% cho xe máy
+    const bicycle = perimeter - (car + motorcycle); // 28% cho xe đạp
+    
+    // Vẽ biểu đồ hình tròn
+    const svg = document.getElementById('pieChart');
+    svg.innerHTML = `
+	<circle class="circle" stroke="#6366F1" stroke-dasharray="${car} ${perimeter}" stroke-dashoffset="0"/>
+    <circle class="circle" stroke="#818CF8" stroke-dasharray="${motorcycle} ${perimeter}" stroke-dashoffset="${-car}"/>
+    <circle class="circle" stroke="#C7D2FE" stroke-dasharray="${bicycle} ${perimeter}" stroke-dashoffset="${-car - motorcycle}"/>
+    `;
+
+    // Cập nhật danh mục phương tiện
+    document.getElementById('car').innerHTML = `
+      <div class="d-flex align-items-center gap-2">
+        <span class="dot bg-indigo-500"></span>
+        <span>Ô tô</span>
+      </div>
+      <span>${(car / perimeter * 100).toFixed(1)}%</span>
+    `;
+
+    document.getElementById('motorcycle').innerHTML = `
+      <div class="d-flex align-items-center gap-2">
+        <span class="dot bg-indigo-400"></span>
+        <span>Xe máy</span>
+      </div>
+        <span>${(motorcycle / perimeter * 100).toFixed(1)}%</span>
+    `;
+
+    document.getElementById('bicycle').innerHTML = `
+      <div class="d-flex align-items-center gap-2">
+        <span class="dot bg-indigo-200"></span>
+        <span>Xe đạp</span>
+      </div>
+        <span>${(bicycle / perimeter * 100).toFixed(1)}%</span>
+    `;
+  </script>
+</body>
+</html>
