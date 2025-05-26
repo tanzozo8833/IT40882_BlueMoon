@@ -11,7 +11,7 @@ mongoose.connect('mongodb://localhost:27017/BlueMoon', {
 (async () => {
     try {
         // Tìm một số sổ hộ khẩu để liên kết với tài khoản
-        const hoKhauList = await SoHoKhau.find().limit(2);
+        const hoKhauList = await SoHoKhau.find().limit(5);
 
         if (hoKhauList.length === 0) {
             console.log('⚠️ Chưa có sổ hộ khẩu nào trong DB. Vui lòng seed SoHoKhau trước.');
@@ -22,26 +22,42 @@ mongoose.connect('mongodb://localhost:27017/BlueMoon', {
         const taiKhoans = [
             {
                 idSoHoKhau: hoKhauList[0].idSoHoKhau,
-                email: 'admin@example.com',
-                tenDangNhap: 'admin01',
-                hoTen: 'Quản Trị Viên',
-                password: 'admin123', // Trong thực tế nên hash mật khẩu
-                role: 'admin'
-            },
-            {
-                idSoHoKhau: hoKhauList[0].idSoHoKhau,
                 email: 'user1@example.com',
                 tenDangNhap: 'user01',
-                hoTen: 'Nguyễn Văn User',
-                password: 'user123',
+                hoTen: 'Nguyễn Văn K',
+                password: 'user123456',
                 role: 'user'
             },
             {
                 idSoHoKhau: hoKhauList[1].idSoHoKhau,
                 email: 'user2@example.com',
                 tenDangNhap: 'user02',
-                hoTen: 'Trần Thị User',
-                password: 'user456',
+                hoTen: 'Trần Thị P',
+                password: 'user123456',
+                role: 'user'
+            },
+            {
+                idSoHoKhau: hoKhauList[2].idSoHoKhau,
+                email: 'user3@example.com',
+                tenDangNhap: 'user03',
+                hoTen: 'Phạm Văn L',
+                password: 'user123456',
+                role: 'user'
+            },
+            {
+                idSoHoKhau: hoKhauList[3].idSoHoKhau,
+                email: 'user4@example.com',
+                tenDangNhap: 'user04',
+                hoTen: 'Nguyễn Văn N',
+                password: 'user123456',
+                role: 'user'
+            },
+            {
+                idSoHoKhau: hoKhauList[4].idSoHoKhau,
+                email: 'user5@example.com',
+                tenDangNhap: 'user05',
+                hoTen: 'Đặng Đình R',
+                password: 'user123456',
                 role: 'user'
             }
         ];

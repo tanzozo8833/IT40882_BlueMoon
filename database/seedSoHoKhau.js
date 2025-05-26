@@ -14,11 +14,12 @@ mongoose.connect('mongodb://localhost:27017/BlueMoon');
         }
 
         const danhSach = [
-            { soSoHoKhau: 'HK001', hoTenChu: 'Nguyễn Văn A', thongTinThem: 'Tổ dân phố 3, phường X' },
-            { soSoHoKhau: 'HK002', hoTenChu: 'Trần Thị B', thongTinThem: 'Tổ dân phố 5, phường Y' },
-            { soSoHoKhau: 'HK003', hoTenChu: 'Lê Văn C', thongTinThem: 'Khu tập thể Z' }
+            { soSoHoKhau: 'HK001', hoTenChu: 'Nguyễn Văn K', thongTinThem: 'Tổ dân phố 3, phường X' },
+            { soSoHoKhau: 'HK002', hoTenChu: 'Trần Thị P', thongTinThem: 'Tổ dân phố 5, phường Y' },
+            { soSoHoKhau: 'HK003', hoTenChu: 'Phạm Văn L', thongTinThem: 'Khu tập thể Z' },
+            { soSoHoKhau: 'HK004', hoTenChu: 'Nguyễn Văn N', thongTinThem: 'Vinhome, Ocean Park' },
+            { soSoHoKhau: 'HK005', hoTenChu: 'Đặng Đình R', thongTinThem: 'Ba Na Hill, Duong len tien canh' }
         ];
-
         for (const item of danhSach) {
             const shk = new SoHoKhau(item);
             await shk.save(); // save sẽ trigger plugin AutoIncrement

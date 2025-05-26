@@ -18,7 +18,7 @@ mongoose.connect('mongodb://localhost:27017/BlueMoon', {
         }
 
         // Lấy tối đa 3 sổ hộ khẩu có sẵn
-        const soHoKhaus = await SoHoKhau.find().limit(3);
+        const soHoKhaus = await SoHoKhau.find().limit(15);
 
         if (soHoKhaus.length === 0) {
             console.log('⚠️  Không có sổ hộ khẩu nào để gán cho căn hộ.');
@@ -41,7 +41,7 @@ mongoose.connect('mongodb://localhost:27017/BlueMoon', {
                 soXeMay: 4,
                 soOto: 2,
                 dienTich: 120,
-                trangThai: 'trống',
+                trangThai: 'không trống',
             },
             {
                 loai: 'nhà ở',
@@ -50,7 +50,63 @@ mongoose.connect('mongodb://localhost:27017/BlueMoon', {
                 soOto: 0,
                 dienTich: 60,
                 trangThai: 'không trống',
-            }
+            },
+            {
+                loai: 'nhà ở',
+                idSoHoKhau: soHoKhaus[3]._id,
+                soXeMay: 2,
+                soOto: 0,
+                dienTich: 65,
+                trangThai: 'không trống',
+            },
+            {
+                loai: 'penhouse',
+                idSoHoKhau: soHoKhaus[4]._id,
+                soXeMay: 1,
+                soOto: 1,
+                dienTich: 160,
+                trangThai: 'không trống',
+            },
+            {
+                loai: 'nhà ở',
+                idSoHoKhau: null,
+                soXeMay: 0,
+                soOto: 0,
+                dienTich: 80,
+                trangThai: 'trống',
+            },
+            {
+                loai: 'penhouse',
+                idSoHoKhau: null,
+                soXeMay: 0,
+                soOto: 0,
+                dienTich: 185,
+                trangThai: 'trống',
+            },
+            {
+                loai: 'nhà ở',
+                idSoHoKhau: null,
+                soXeMay: 0,
+                soOto: 0,
+                dienTich: 55,
+                trangThai: 'trống',
+            },
+            {
+                loai: 'nhà ở',
+                idSoHoKhau: null,
+                soXeMay: 0,
+                soOto: 0,
+                dienTich: 70,
+                trangThai: 'trống',
+            },
+            {
+                loai: 'penhouse',
+                idSoHoKhau: null,
+                soXeMay: 0,
+                soOto: 0,
+                dienTich: 200,
+                trangThai: 'trống',
+            },
         ];
 
         for (const item of canHoData) {
