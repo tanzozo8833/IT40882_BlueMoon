@@ -8,7 +8,7 @@ class HoKhauController {
         .then(async (hokhaus) => {
             // Với mỗi hộ khẩu, tìm căn hộ có idSoHoKhau trỏ đến nó
             const hokhausWithCanHo = await Promise.all(hokhaus.map(async (hokhau) => {
-                const canHo = await CanHo.findOne({ idSoHoKhau: hokhau._id });
+                const canHo = await CanHo.findOne({ idSoHoKhau: hokhau.idSoHoKhau });
                 return {
                     ...hokhau.toObject(), // convert từ mongoose document về plain object
                     idCanHo: canHo ? canHo.idCanHo : null

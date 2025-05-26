@@ -29,7 +29,7 @@ mongoose.connect('mongodb://localhost:27017/BlueMoon', {
         const canHoData = [
             {
                 loai: 'nhà ở',
-                idSoHoKhau: soHoKhaus[0]._id,
+                idSoHoKhau: soHoKhaus[0].idSoHoKhau,
                 soXeMay: 2,
                 soOto: 1,
                 dienTich: 75,
@@ -37,7 +37,7 @@ mongoose.connect('mongodb://localhost:27017/BlueMoon', {
             },
             {
                 loai: 'penhouse',
-                idSoHoKhau: soHoKhaus[1]._id,
+                idSoHoKhau: soHoKhaus[1].idSoHoKhau,
                 soXeMay: 4,
                 soOto: 2,
                 dienTich: 120,
@@ -45,7 +45,7 @@ mongoose.connect('mongodb://localhost:27017/BlueMoon', {
             },
             {
                 loai: 'nhà ở',
-                idSoHoKhau: soHoKhaus[2]._id,
+                idSoHoKhau: soHoKhaus[2].idSoHoKhau,
                 soXeMay: 1,
                 soOto: 0,
                 dienTich: 60,
@@ -53,7 +53,7 @@ mongoose.connect('mongodb://localhost:27017/BlueMoon', {
             },
             {
                 loai: 'nhà ở',
-                idSoHoKhau: soHoKhaus[3]._id,
+                idSoHoKhau: soHoKhaus[3].idSoHoKhau,
                 soXeMay: 2,
                 soOto: 0,
                 dienTich: 65,
@@ -61,7 +61,7 @@ mongoose.connect('mongodb://localhost:27017/BlueMoon', {
             },
             {
                 loai: 'penhouse',
-                idSoHoKhau: soHoKhaus[4]._id,
+                idSoHoKhau: soHoKhaus[4].idSoHoKhau,
                 soXeMay: 1,
                 soOto: 1,
                 dienTich: 160,

@@ -54,7 +54,7 @@ mongoose.connect('mongodb://localhost:27017/BlueMoon', {
             soTien = ch.soXeMay * 70000;
             break;
           case 'oto':
-            soTien = ch.soOto * 120000;
+            soTien = ch.soOto * 1200000;
             break;
           case 'dien':
             soTien = randInt(300000, 800000);
@@ -63,13 +63,13 @@ mongoose.connect('mongodb://localhost:27017/BlueMoon', {
             soTien = randInt(100000, 300000);
             break;
           case 'Phi quan ly':
-            soTien = randInt(100000, 200000);
+            soTien = ch.dienTich * 7000;
             break;
           case 'Phi dich vu nha o':
-            soTien = randInt(250000, 400000);
+            soTien = ch.dienTich * 5000;
             break;
           case 'Phi dich vu cao cap':
-            soTien = randInt(400000, 700000);
+            soTien = ch.dienTich * 10000;
             break;
           default:
             soTien = 0;

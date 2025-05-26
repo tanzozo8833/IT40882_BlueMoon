@@ -44,7 +44,7 @@ mongoose.connect('mongodb://localhost:27017/BlueMoon', {
           ) + MIN_AMOUNT;
 
           payments.push({
-            idQuyTuThien: q._id,      // số tự tăng (_id là Number)
+            idQuyTuThien: q.idQuyTuThien,      // số tự tăng (_id là Number)
             idCanHo: ch.idCanHo,
             soTienDaDong: amount,
             thoiGianDongTien: new Date(),
@@ -54,12 +54,12 @@ mongoose.connect('mongodb://localhost:27017/BlueMoon', {
       }
     }
 
-    if (!payments.length) {
-      console.log('⚠️ Không có khoản đóng nào được tạo (do ngẫu nhiên).');
-    } else {
-      await TuThienPayment.insertMany(payments);
-      console.log(`✅ Seed thành công: đã tạo ${payments.length} khoản đóng.`);
+    for (const item of payments) {
+        const shk = new TuThienPayment(item);
+        await shk.save(); // save sẽ trigger plugin AutoIncrement
     }
+    console.log(`✅ Seed thành công: đã tạo ${payments.length} khoản đóng.`);
+
   } catch (err) {
     console.error('❌ Lỗi khi seed TuThienPayment:', err);
   } finally {

@@ -4,7 +4,7 @@ const SoHoKhau = require('../models/SoHoKhau');
 class CanHoController {
     // Hiển thị danh sách căn hộ
     listCanHo(req, res) {
-        CanHo.find().populate('idSoHoKhau')
+        CanHo.find()
             .then(canhos => {
                 res.render('admin/ToTruong/CanHo/danhsach', { canhos });
             })

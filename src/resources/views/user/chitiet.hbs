@@ -39,7 +39,7 @@
     </div>
     <div class="col-md-4">
         <label for="ngaySinh" class="form-label">Ngày sinh</label>
-        <input type="date" class="form-control" id="ngaySinh" name="ngaySinh" value="{{NhanKhau.ngaySinh}}" readonly>
+        <input type="date" class="form-control" id="ngaySinh" name="ngaySinh" value="{{formatDate NhanKhau.ngaySinh 'YYYY-MM-DD'}}" readonly>
     </div>
     <div class="col-md-4">
         <label for="noiSinh" class="form-label">Nơi sinh</label>
@@ -64,7 +64,7 @@
     </div>
     <div class="col-md-4">
         <label for="ngayCap" class="form-label">Ngày cấp</label>
-        <input type="date" class="form-control" id="ngayCap" name="ngayCap" value="{{NhanKhau.ngayCap}}" readonly>
+        <input type="date" class="form-control" id="ngayCap" name="ngayCap" value="{{formatDate NhanKhau.ngayCap 'YYYY-MM-DD'}}" readonly>
     </div>
     <div class="col-md-4">
         <label for="noiCap" class="form-label">Nơi cấp</label>
