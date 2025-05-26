@@ -3,8 +3,6 @@ const TaiKhoan = require('../src/app/models/TaiKhoan'); // Đảm bảo đườn
 
 // Kết nối MongoDB
 mongoose.connect('mongodb://localhost:27017/BlueMoon', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
 });
 
 (async () => {

@@ -2,8 +2,6 @@ const mongoose = require('mongoose');
 const QuyTuThien = require('../src/app/models/QuyTuThien');
 
 mongoose.connect('mongodb://localhost:27017/BlueMoon', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
 });
 
 (async () => {
@@ -55,9 +53,9 @@ mongoose.connect('mongodb://localhost:27017/BlueMoon', {
 
     // Đính kèm trạng thái mặc định sẽ tự tính trong model
     for (const item of quys) {
-        const shk = new QuyTuThien(item);
-        await shk.save(); // save sẽ trigger plugin AutoIncrement
-    }    
+      const shk = new QuyTuThien(item);
+      await shk.save(); // save sẽ trigger plugin AutoIncrement
+    }
     console.log(`✅ Seed quỹ từ thiện thành công: tạo ${quys.length} quỹ!`);
   } catch (err) {
     console.error('❌ Lỗi khi seed quỹ từ thiện:', err);
