@@ -4,8 +4,6 @@ const SoHoKhau = require('../src/app/models/SoHoKhau');
 
 // Kết nối MongoDB
 mongoose.connect('mongodb://localhost:27017/BlueMoon', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
 });
 
 (async () => {

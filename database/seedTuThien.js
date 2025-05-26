@@ -1,11 +1,9 @@
 const mongoose = require('mongoose');
 const TuThienPayment = require('../src/app/models/TuThienPayment');
-const QuyTuThien      = require('../src/app/models/QuyTuThien');
-const CanHo           = require('../src/app/models/CanHo');
+const QuyTuThien = require('../src/app/models/QuyTuThien');
+const CanHo = require('../src/app/models/CanHo');
 
 mongoose.connect('mongodb://localhost:27017/BlueMoon', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
 });
 
 (async () => {
@@ -55,8 +53,8 @@ mongoose.connect('mongodb://localhost:27017/BlueMoon', {
     }
 
     for (const item of payments) {
-        const shk = new TuThienPayment(item);
-        await shk.save(); // save sẽ trigger plugin AutoIncrement
+      const shk = new TuThienPayment(item);
+      await shk.save(); // save sẽ trigger plugin AutoIncrement
     }
     console.log(`✅ Seed thành công: đã tạo ${payments.length} khoản đóng.`);
 
