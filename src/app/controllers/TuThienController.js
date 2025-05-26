@@ -205,9 +205,49 @@ class TuThienController {
             });
     }
 
+    // [GET] /admin/tuthien/:idslug/chinh-sua
+    edit(req, res, next) {
+        const idslug = req.params.idslug;
+        const id = idslug.split('-')[0];
 
+        QuyTuThien.findOne({ idQuyTuThien: Number(id) })
+            .then(quy => {
+                if (!quy) {
+                    return res.status(404).send('Không tìm thấy quỹ từ thiện để chỉnh sửa');
+                }
 
+                res.render('admin/KeToan/TuThien/chinhsua', {
+                    layout: 'adminLayout',
+                    title: 'Chỉnh sửa quỹ từ thiện',
+                    quy: mongooseToObject(quy)
+                });
+            })
+            .catch(next);
+    }
 
+    // [POST] /admin/tuthien/:idslug/chinh-sua
+    update(req, res, next) {
+        const idslug = req.params.idslug;
+        const id = idslug.split('-')[0];
+
+        // Lấy dữ liệu từ form gửi lên (req.body)
+        const updateData = {
+            tenQuy: req.body.tenQuy,
+            mota: req.body.mota,
+            ngayBatDau: req.body.ngayBatDau,
+            ngayKetThuc: req.body.ngayKetThuc,
+            // Thêm các trường khác bạn muốn chỉnh sửa
+        };
+
+        QuyTuThien.findOneAndUpdate({ idQuyTuThien: Number(id) }, updateData, { new: true })
+            .then(quy => {
+                if (!quy) {
+                    return res.status(404).send('Không tìm thấy quỹ từ thiện để cập nhật');
+                }
+                res.redirect(`/admin/tuthien`);
+            })
+            .catch(next);
+    }
 
 
 }

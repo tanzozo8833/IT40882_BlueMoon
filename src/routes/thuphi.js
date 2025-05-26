@@ -6,5 +6,5 @@ const { model } = require('mongoose');
 
 // Danh sách thu phí
 router.get('/', thuphiController.show);
-
+router.get('/:loaiPhi/:thang/:nam', thuphiController.chiTiet);
 module.exports = router;
