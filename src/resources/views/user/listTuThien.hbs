@@ -1,0 +1,73 @@
+<div class="container mt-5">
+  <div>
+    <a href="/user/home">Trở về trang chủ</a>
+  </div>
+
+  <div class="row mb-3 mt-3">
+    <div class="col-md-4">
+      <input type="text" id="searchQuy" class="form-control" placeholder="Tìm theo tên quỹ từ thiện...">
+    </div>
+    <div class="col-md-4">
+      <button id="btnSearchTuThien" class="btn btn-primary">Tìm kiếm</button>
+      <button id="btnRefreshTuThien" class="btn btn-secondary ml-2">Refresh</button>
+    </div>
+  </div>
+
+  <h2 class="text-center mb-4">Các khoản từ thiện</h2>
+
+  {{#if tuthien.length}}
+    <table class="table table-bordered" id="tuthienTable">
+      <thead>
+        <tr>
+          <th>Tên Quỹ</th>
+          <th>Số tiền</th>
+          <th>Thời gian đóng</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each tuthien}}
+        <tr>
+          <td>{{this.tenQuy}}</td>
+          <td>{{this.soTienDaDong}} VND</td>
+          <td>{{this.thoiGianDongTien}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{else}}
+    <p>Không có khoản phí nào đã đóng.</p>
+  {{/if}}
+</div>
+
+<script>
+  function removeVietnameseTones(str) {
+    return str.normalize('NFD')
+              .replace(/[\u0300-\u036f]/g, '')
+              .replace(/đ/g, 'd')
+              .replace(/Đ/g, 'D');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const btnSearch = document.getElementById('btnSearchTuThien');
+    const btnRefresh = document.getElementById('btnRefreshTuThien');
+    const searchInput = document.getElementById('searchQuy');
+    const rows = document.querySelectorAll('#tuthienTable tbody tr');
+
+    btnSearch.addEventListener('click', () => {
+      const keyword = removeVietnameseTones(searchInput.value.trim().toLowerCase());
+
+      rows.forEach(row => {
+        const tenQuy = removeVietnameseTones(row.children[0].textContent.trim().toLowerCase());
+        const match = tenQuy.includes(keyword);
+        row.style.display = match ? '' : 'none';
+      });
+    });
+
+    btnRefresh.addEventListener('click', () => {
+      searchInput.value = '';
+      rows.forEach(row => {
+        row.style.display = '';
+      });
+    });
+  });
+</script>

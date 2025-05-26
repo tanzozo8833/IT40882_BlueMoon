@@ -1,0 +1,97 @@
+<div class="container mt-5">
+  <div>
+    <a href="/user/home">Trở về trang chủ</a>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-3">
+      <input type="text" id="searchLoaiPhi" class="form-control" placeholder="Tìm theo loại phí...">
+    </div>
+    <div class="col-md-2">
+      <input type="text" id="searchThang" class="form-control" placeholder="Tìm theo tháng...">
+    </div>
+    <div class="col-md-2">
+      <input type="text" id="searchNam" class="form-control" placeholder="Tìm theo năm...">
+    </div>
+    <div class="col-md-2">
+      <button id="btnSearchPhi" class="btn btn-primary">Tìm kiếm</button>
+    </div>
+    <div class="col-md-2">
+      <button id="btnRefreshPhi" class="btn btn-secondary">Làm mới</button>
+    </div>
+  </div>
+
+  <h2 class="text-center mb-4">Các khoản phí đã đóng</h2>
+
+  {{#if phi.length}}
+  <table class="table table-bordered" id="phiTable">
+    <thead>
+      <tr>
+        <th>Loại phí</th>
+        <th>Số tiền</th>
+        <th>Trạng thái</th>
+        <th>Tháng</th>
+        <th>Năm</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each phi}}
+      <tr>
+        <td>{{this.loaiPhi}}</td>
+        <td>{{this.soTien}} VND</td>
+        <td>{{this.trangThai}}</td>
+        <td>{{this.thang}}</td>
+        <td>{{this.nam}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{else}}
+    <p>Không có khoản phí nào đã đóng.</p>
+  {{/if}}
+</div>
+
+<script>
+  // Hàm loại bỏ dấu tiếng Việt
+  function removeVietnameseTones(str) {
+    return str.normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "")
+              .replace(/đ/g, "d").replace(/Đ/g, "D");
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const btnSearch = document.getElementById('btnSearchPhi');
+    const btnRefresh = document.getElementById('btnRefreshPhi');
+    const searchLoaiPhiInput = document.getElementById('searchLoaiPhi');
+    const searchThangInput = document.getElementById('searchThang');
+    const searchNamInput = document.getElementById('searchNam');
+    const rows = document.querySelectorAll('#phiTable tbody tr');
+
+    // Sự kiện tìm kiếm
+    btnSearch.addEventListener('click', () => {
+      const searchLoaiPhi = removeVietnameseTones(searchLoaiPhiInput.value.trim().toLowerCase());
+      const searchThang = searchThangInput.value.trim();
+      const searchNam = searchNamInput.value.trim();
+
+      rows.forEach(row => {
+        const loaiPhi = removeVietnameseTones(row.children[0].textContent.trim().toLowerCase());
+        const thang = row.children[3].textContent.trim();
+        const nam = row.children[4].textContent.trim();
+
+        const matchLoaiPhi = loaiPhi.includes(searchLoaiPhi);
+        const matchThang = !searchThang || thang === searchThang;
+        const matchNam = !searchNam || nam === searchNam;
+
+        row.style.display = (matchLoaiPhi && matchThang && matchNam) ? '' : 'none';
+      });
+    });
+
+    // Sự kiện làm mới
+    btnRefresh.addEventListener('click', () => {
+      searchLoaiPhiInput.value = '';
+      searchThangInput.value = '';
+      searchNamInput.value = '';
+      rows.forEach(row => row.style.display = '');
+    });
+  });
+</script>

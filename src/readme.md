@@ -1,3 +1,3 @@
 ** Thu tu chay file database/seed
 
-seedAdmin -> seedSoHoKhau -> seedTaiKhoan -> seedNhanKhau -> seedCanHo -> seedQuyTuThien -> seedTuThienPayment -> seedPhi 
+seedAdmin -> seedSoHoKhau -> seedTaiKhoan -> seedNhanKhau -> seedCanHo -> seedQuyTuThien -> seedTuThien -> seedPhi 

@@ -1,6 +1,11 @@
 const TaikhoanUser = require('../models/TaiKhoan.js');
 const { mongooseToObject, mutipleMongooseToObject } = require('../../utils/mongoose.js');
-const NhanKhau = require('../models/NhanKhau.js')
+const NhanKhau = require('../models/NhanKhau.js');
+const Phi = require('../models/Phi.js');
+const SoHoKhau = require('../models/SoHoKhau.js');
+const CanHo = require('../models/CanHo.js');
+const TuThienPayment = require('../models/TuThienPayment.js');
+const Quy = require('../models/QuyTuThien.js');
 class UserController {
     // [GET] /user/:email
     index(req, res) {
@@ -75,9 +80,54 @@ class UserController {
       next(err);
     }
   }
-  phiChuaDong(req, res, next){
-    res.send("hello")
+  async phiDaDong(req, res, next){
+    const user = await TaikhoanUser.findOne({ email: req.session.taiKhoan.email }).lean();
+    const canho = await CanHo.findOne({ idSoHoKhau: user.idSoHoKhau }).lean();
+    const phis = await Phi.find({idCanHo: canho.idCanHo, trangThai: 'da_dong'}).lean();
+    res.render('user/listPhiDaDong.hbs', {
+        title: 'Danh sách phí đã đóng',
+        phi: mutipleMongooseToObject(phis),
+    });
   }
+  async phiChuaDong(req, res, next){
+    const user = await TaikhoanUser.findOne({ email: req.session.taiKhoan.email }).lean();
+    const canho = await CanHo.findOne({ idSoHoKhau: user.idSoHoKhau }).lean();
+    const phis = await Phi.find({idCanHo: canho.idCanHo, trangThai: 'chua_dong'}).lean();
+    res.render('user/listPhiChuaDong.hbs', {
+        title: 'Danh sách phí chua đóng',
+        phi: mutipleMongooseToObject(phis),
+    });
+  }
+  async tuthien(req, res, next) {
+  try {
+    const user = await TaikhoanUser.findOne({ email: req.session.taiKhoan.email }).lean();
+    const canho = await CanHo.findOne({ idSoHoKhau: user.idSoHoKhau }).lean();
+
+    const tuthien = await TuThienPayment.find({ idCanHo: canho.idCanHo}).lean();
+
+    // Lấy tất cả idQuyTuThien từ các khoản chưa đóng
+    const idQuyList = tuthien.map(t => t.idQuyTuThien);
+
+    // Tìm tất cả quỹ có liên quan
+    const quys = await Quy.find({ idQuyTuThien: { $in: idQuyList } }).lean();
+
+    // Gộp thông tin tên quỹ vào từng khoản từ thiện
+    const mergedList = tuthien.map(tien => {
+      const quy = quys.find(q => q.idQuyTuThien === tien.idQuyTuThien);
+      return {
+        ...tien,
+        tenQuy: quy ? quy.tenQuy : 'Không rõ'
+      };
+    });
+
+    res.render('user/listTuThien', {
+      title: 'Danh sách các khoản từ thiện chưa đóng',
+      tuthien: mutipleMongooseToObject(mergedList)
+    });
+  } catch (err) {
+    next(err);
+  }
+}
 }
 
 module.exports = new UserController();

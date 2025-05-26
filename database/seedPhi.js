@@ -10,11 +10,11 @@ mongoose.connect('mongodb://localhost:27017/BlueMoon', {
 
 (async () => {
   try {
-    const existing = await Phi.countDocuments();
-    if (existing > 0) {
-      console.log(`⚠️ Đã có ${existing} bản ghi phí. Bỏ qua seed.`);
-      return mongoose.connection.close();
-    }
+    // const existing = await Phi.countDocuments();
+    // if (existing > 0) {
+    //   console.log(`⚠️ Đã có ${existing} bản ghi phí. Bỏ qua seed.`);
+    //   return mongoose.connection.close();
+    // }
 
     const now = new Date();
     const thang = now.getMonth() + 1;

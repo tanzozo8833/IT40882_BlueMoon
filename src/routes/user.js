@@ -6,6 +6,10 @@ const UserController = require('../app/controllers/UserController');
 
 
 
+router.get('/tuThien', userController.tuthien);
+
+router.get('/listPhiDaDong', UserController.phiDaDong);
+
 router.get('/listPhiChuaDong', UserController.phiChuaDong);
 
 router.get('/:id/chitiet', userController.chitiet);
