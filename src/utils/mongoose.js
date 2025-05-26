@@ -1,5 +1,5 @@
 module.exports = {
-  multipleMongooseToObject: function (docs = []) {
+  mutipleMongooseToObject: function (docs = []) {
     return docs.map(doc =>
       // nếu là Mongoose Document thì gọi toObject(), ngược lại giữ nguyên
       typeof doc.toObject === 'function' ? doc.toObject() : doc

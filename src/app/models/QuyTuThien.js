@@ -27,7 +27,7 @@ QuyTuThienSchema.methods.tinhTrangThai = function () {
     return 'Đang hoạt động';
 };
 
-// Tự động tạo slug từ tenQuy trước khi lưu
+//Tự động tạo slug từ tenQuy trước khi lưu
 QuyTuThienSchema.pre('save', function (next) {
     if (this.isModified('tenQuy') || this.isNew) {
         this.slug = slugify(this.tenQuy, { lower: true, strict: true });

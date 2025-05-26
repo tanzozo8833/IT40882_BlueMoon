@@ -2,6 +2,11 @@ const express = require('express');
 const router = express.Router();
 
 const userController = require('../app/controllers/UserController');
+const UserController = require('../app/controllers/UserController');
+
+
+
+router.get('/listPhiChuaDong', UserController.phiChuaDong);
 
 router.get('/:id/chitiet', userController.chitiet);
 

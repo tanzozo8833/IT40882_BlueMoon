@@ -1,5 +1,5 @@
 const TaikhoanUser = require('../models/TaiKhoan.js');
-const { mongooseToObject, multipleMongooseToObject } = require('../../utils/mongoose.js');
+const { mongooseToObject, mutipleMongooseToObject } = require('../../utils/mongoose.js');
 const NhanKhau = require('../models/NhanKhau.js')
 class UserController {
     // [GET] /user/:email
@@ -16,12 +16,12 @@ class UserController {
         return res.status(404).send('User not found');
       }
 
-      const dsNhanKhau = await NhanKhau.find({ idSoHoKhau: user.idSoHoKhau });
+      const dsNhanKhau = await NhanKhau.find({ idSoHoKhau: user.idSoHoKhau }).lean();
 
       res.render('user/listNhanKhau.hbs', {
         layout: 'userLayout',
         title: 'Danh sách nhân khẩu',
-        NhanKhau: multipleMongooseToObject(dsNhanKhau),
+        NhanKhau: mutipleMongooseToObject(dsNhanKhau),
         TaiKhoanUser: mongooseToObject(user),
       });
     } catch (err) {
@@ -30,7 +30,7 @@ class UserController {
   }
   //get user/:id/chitiet
   chitiet(req, res, next){
-    NhanKhau.findById(req.params.id)
+    NhanKhau.findOne({_id: req.params.id})
       .then(NhanKhau => res.render('user/chitiet.hbs', {
         NhanKhau: mongooseToObject(NhanKhau)
       }))
@@ -38,7 +38,7 @@ class UserController {
   }
   //get editform
   edit(req, res, next){
-    NhanKhau.findById(req.params.id)
+    NhanKhau.findOne({_id: req.params.id})
       .then(NhanKhau => res.render('user/editForm.hbs', {
         NhanKhau: mongooseToObject(NhanKhau)
       }))
@@ -61,7 +61,7 @@ class UserController {
         ngayCap: req.body.ngayCap,
         noiCap: req.body.noiCap,
       };
-      await NhanKhau.findByIdAndUpdate(req.params.id, updates);
+      await NhanKhau.findOneAndUpdate({_id: req.params.id}, updates);
       res.redirect('/user/listNhanKhau');
     } catch (err) {
       next(err);
@@ -69,11 +69,14 @@ class UserController {
   }
   async deleteNhanKhau(req, res, next) {
     try {
-      await NhanKhau.findByIdAndDelete(req.params.id);
+      await NhanKhau.findOneAndDelete({_id: req.params.id});
       res.redirect('/user/listNhanKhau');
     } catch (err) {
       next(err);
     }
+  }
+  phiChuaDong(req, res, next){
+    res.send("hello")
   }
 }
 
