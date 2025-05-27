@@ -1,74 +1,109 @@
-<h2>Chi tiết nhân khẩu</h2>
+<h2 class="text-center display-6 fw-bold text-dark mb-5">Chi tiết nhân khẩu</h2>
 
 <form id="nhanKhauForm" action="/admin/nhankhau/{{nhanKhau.idNhanKhau}}/update" method="POST">
-  <div class="detail-box">
-    <p><strong>ID:</strong> <span id="view-idNhanKhau">{{nhanKhau.idNhanKhau}}</span></p>
-
-    <p><strong>Họ tên:</strong>
-      <span class="view-mode">{{nhanKhau.hoTen}}</span>
-      <input class="edit-mode" type="text" name="hoTen" value="{{nhanKhau.hoTen}}" style="display:none;">
-    </p>
-
-    <p><strong>Ngày sinh:</strong>
-      <span class="view-mode">{{formatDate nhanKhau.ngaySinh}}</span>
-      <input class="edit-mode" type="date" name="ngaySinh" value="{{formatDate nhanKhau.ngaySinh 'YYYY-MM-DD'}}" style="display:none;">
-    </p>
-
-    <p><strong>Nơi sinh:</strong>
-      <span class="view-mode">{{nhanKhau.noiSinh}}</span>
-      <input class="edit-mode" type="text" name="noiSinh" value="{{nhanKhau.noiSinh}}" style="display:none;">
-    </p>
-
-    <p><strong>Quê quán:</strong>
-      <span class="view-mode">{{nhanKhau.queQuan}}</span>
-      <input class="edit-mode" type="text" name="queQuan" value="{{nhanKhau.queQuan}}" style="display:none;">
-    </p>
-
-    <p><strong>Dân tộc:</strong>
-      <span class="view-mode">{{nhanKhau.danToc}}</span>
-      <input class="edit-mode" type="text" name="danToc" value="{{nhanKhau.danToc}}" style="display:none;">
-    </p>
-
-    <p><strong>Nghề nghiệp:</strong>
-      <span class="view-mode">{{nhanKhau.ngheNghiep}}</span>
-      <input class="edit-mode" type="text" name="ngheNghiep" value="{{nhanKhau.ngheNghiep}}" style="display:none;">
-    </p>
-
-    <p><strong>Số CCCD:</strong>
-      <span class="view-mode">{{nhanKhau.soCCCD}}</span>
-      <input class="edit-mode" type="text" name="soCCCD" value="{{nhanKhau.soCCCD}}" style="display:none;">
-    </p>
-
-    <p><strong>Ngày cấp:</strong>
-      <span class="view-mode">{{formatDate nhanKhau.ngayCap}}</span>
-      <input class="edit-mode" type="date" name="ngayCap" value="{{formatDate nhanKhau.ngayCap 'YYYY-MM-DD'}}" style="display:none;">
-    </p>
-
-    <p><strong>Sổ hộ khẩu:</strong>
-      <span>{{nhanKhau.idSoHoKhau.soSoHoKhau}}</span>
-    </p>
+  <div class="row g-3 mb-4">
+    <div class="col-md-3">
+      <label>ID NHÂN KHẨU</label>
+      <input class="form-control" name="idNhanKhau" value="{{nhanKhau.idNhanKhau}}" readonly>
+    </div>
+    <div class="col-md-3">
+      <label>ID SỔ HỘ KHẨU</label>
+      <input class="form-control" name="idSoHoKhau" value="{{nhanKhau.idSoHoKhau.idSoHoKhau}}" readonly>
+    </div>
+    <div class="col-md-3">
+      <label>QUAN HỆ CHỦ HỘ</label>
+      <input class="form-control" name="quanHeVoiChuHo" value="{{nhanKhau.quanHeVoiChuHo}}" readonly>
+    </div>
+    <div class="col-md-3">
+      <label>TRẠNG THÁI</label>
+      <select class="form-select" name="trangThai" disabled>
+        <option {{#ifCond nhanKhau.trangThai '===' 'Thường trú'}}selected{{/ifCond}}>Thường trú</option>
+        <option {{#ifCond nhanKhau.trangThai '===' 'Tạm trú'}}selected{{/ifCond}}>Tạm trú</option>
+        <option {{#ifCond nhanKhau.trangThai '===' 'Tạm vắng'}}selected{{/ifCond}}>Tạm vắng</option>
+      </select>
+    </div>
   </div>
 
-  <div class="button-group">
-    <a href="/admin/nhankhau" class="btn btn-back">Quay lại</a>
-    <button type="button" id="editBtn" class="btn btn-edit">✏️ Chỉnh sửa</button>
-    <button type="submit" id="saveBtn" class="btn btn-save" style="display:none;">💾 Lưu</button>
+  <div class="row g-3 mb-4">
+    <div class="col-md-3">
+      <label>HỌ TÊN</label>
+      <input class="form-control" name="hoTen" value="{{nhanKhau.hoTen}}" readonly>
+    </div>
+    <div class="col-md-3">
+      <label>NƠI SINH</label>
+      <input class="form-control" name="noiSinh" value="{{nhanKhau.noiSinh}}" readonly>
+    </div>
+    <div class="col-md-3">
+      <label>QUÊ QUÁN</label>
+      <input class="form-control" name="queQuan" value="{{nhanKhau.queQuan}}" readonly>
+    </div>
+    <div class="col-md-3">
+      <label>NGÀY SINH</label>
+      <input type="date" class="form-control" name="ngaySinh" value="{{formatDate nhanKhau.ngaySinh 'YYYY-MM-DD'}}" readonly>
+    </div>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-md-3">
+      <label>DÂN TỘC</label>
+      <input class="form-control" name="danToc" value="{{nhanKhau.danToc}}" readonly>
+    </div>
+    <div class="col-md-3">
+      <label>NGHỀ NGHIỆP</label>
+      <input class="form-control" name="ngheNghiep" value="{{nhanKhau.ngheNghiep}}" readonly>
+    </div>
+    <div class="col-md-3">
+      <label>NƠI LÀM VIỆC</label>
+      <input class="form-control" name="noiLamViec" value="{{nhanKhau.noiLamViec}}" readonly>
+    </div>
+    <div class="col-md-3">
+      <label>THÔNG TIN THÊM</label>
+      <input class="form-control" name="thongTinKhac" value="{{nhanKhau.thongTinKhac}}" readonly>
+    </div>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-md-4">
+      <label>SỐ CCCD</label>
+      <input class="form-control" name="soCCCD" value="{{nhanKhau.soCCCD}}" readonly>
+    </div>
+    <div class="col-md-4">
+      <label>NGÀY CẤP</label>
+      <input type="date" class="form-control" name="ngayCap" value="{{formatDate nhanKhau.ngayCap 'YYYY-MM-DD'}}" readonly>
+    </div>
+    <div class="col-md-4">
+      <label>NƠI CẤP</label>
+      <input class="form-control" name="noiCap" value="{{nhanKhau.noiCap}}" readonly>
+    </div>
+  </div>
+
+  <div class="text-center mt-4">
+    <button type="button" id="editBtn" class="btn btn-warning text-dark px-4">Chỉnh sửa</button>
+    <button type="submit" id="saveBtn" class="btn btn-primary fw-bold px-4 d-none">Xác nhận thay đổi</button>
   </div>
 </form>
-
-<form id="deleteForm" action="/admin/nhankhau/{{nhanKhau.idNhanKhau}}/delete" method="POST" style="display: inline;">
-  <button type="submit" id="deleteBtn" class="btn btn-delete" onclick="return confirm('Bạn có chắc chắn muốn xóa nhân khẩu này không?')">🗑️ Xóa</button>
+<form action="/admin/nhankhau/{{nhanKhau.idNhanKhau}}/delete" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa nhân khẩu này không?')" style="text-align:center; margin-top: 1rem;">
+  <button type="submit" class="btn btn-danger fw-bold px-4">Xóa nhân khẩu</button>
 </form>
 
 <script>
-  document.getElementById('editBtn').addEventListener('click', function () {
-    // Ẩn phần xem
-    document.querySelectorAll('.view-mode').forEach(el => el.style.display = 'none');
-    // Hiện phần chỉnh sửa
-    document.querySelectorAll('.edit-mode').forEach(el => el.style.display = 'inline');
-    // Ẩn nút "Chỉnh sửa" và "Xóa", hiện nút "Lưu"
-    document.getElementById('editBtn').style.display = 'none';
-    document.getElementById('deleteBtn').style.display = 'none';
-    document.getElementById('saveBtn').style.display = 'inline';
+  const inputs = document.querySelectorAll('#nhanKhauForm input, #nhanKhauForm select');
+  const editBtn = document.getElementById('editBtn');
+  const saveBtn = document.getElementById('saveBtn');
+
+  editBtn.addEventListener('click', () => {
+    toggleForm(true);
   });
+
+  function toggleForm(enable) {
+    inputs.forEach(input => {
+      if (input.tagName === "SELECT") {
+        input.disabled = !enable;
+      } else {
+        input.readOnly = !enable;
+      }
+    });
+    editBtn.classList.toggle('d-none', enable);
+    saveBtn.classList.toggle('d-none', !enable);
+  }
 </script>

@@ -10,15 +10,12 @@ class NhanKhauController {
         if (req.query.soHoKhau) filter.idSoHoKhau = Number(req.query.soHoKhau);
 
         NhanKhau.find(filter)
-            .populate({
-                path: 'idSoHoKhau',
-                model: 'SoHoKhau',
-                localField: 'idSoHoKhau',
-                foreignField: 'idSoHoKhau',
-                justOne: true
-            })
             .then((nhanKhaus) => {
-                res.render('admin/ToTruong/NhanKhau/danhsach', { nhanKhaus });
+                res.render('admin/ToTruong/NhanKhau/danhsach', {
+                    nhanKhaus: nhanKhaus,
+                    title: 'Danh sách nhân khẩu',
+                    layout: 'adminLayout',
+                 });
             })
             .catch((err) => {
                 console.error(err);
@@ -28,7 +25,10 @@ class NhanKhauController {
 
     // Điều hướng đến trang thêm mới nhân khẩu
     addNhanKhau(req, res) {
-        res.render('admin/ToTruong/NhanKhau/them');
+        res.render('admin/ToTruong/NhanKhau/them', {
+            title: 'Thêm nhân khẩu',
+            layout: 'adminLayout'
+        });
     }
 
     // Tạo mới nhân khẩu
@@ -60,7 +60,11 @@ class NhanKhauController {
             if (!nhanKhau) {
                 return res.status(404).send('Không tìm thấy nhân khẩu với idNhanKhau');
             }
-            res.render('admin/ToTruong/NhanKhau/chitiet', { nhanKhau });
+            res.render('admin/ToTruong/NhanKhau/chitiet', {
+                nhanKhau: nhanKhau,
+                title: 'Chi tiết nhân khẩu',
+                layout: 'adminLayout'
+             });
         })
         .catch((err) => {
             console.error(err);
@@ -71,7 +75,6 @@ class NhanKhauController {
     // Cập nhật thông tin nhân khẩu
     updateNhanKhau(req, res) {
         const idNhanKhau = req.params.id;
-
         NhanKhau.findOneAndUpdate({ idNhanKhau: idNhanKhau }, req.body, { new: true })
             .then((updated) => {
                 if (!updated) return res.status(404).send('Không tìm thấy nhân khẩu');

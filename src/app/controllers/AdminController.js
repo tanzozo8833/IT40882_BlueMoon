@@ -1,6 +1,6 @@
 class AdminController {
     // [GET] /
-    index(req, res) {
+    index(req, res, next) {
         res.render('admin/home', {
             title: 'home',
             layout: 'adminLayout',

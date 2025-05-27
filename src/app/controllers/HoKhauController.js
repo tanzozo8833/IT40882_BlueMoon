@@ -15,7 +15,11 @@ class HoKhauController {
                 };
             }));
 
-            res.render('admin/ToTruong/HoKhau/danhsach', { hokhaus: hokhausWithCanHo });
+            res.render('admin/ToTruong/HoKhau/danhsach', {
+                hokhaus: hokhausWithCanHo,
+                title: 'Danh sách hộ khẩu',
+                layout: 'adminLayout'
+            });
         })
         .catch(err => {
             console.error('Lỗi khi lấy danh sách hộ khẩu:', err);
@@ -25,7 +29,10 @@ class HoKhauController {
 
     // Điều hướng đến trang thêm mới hộ khẩu
     addHoKhau(req, res) {
-        res.render('admin/ToTruong/HoKhau/them');
+        res.render('admin/ToTruong/HoKhau/them', {
+            title: 'Thêm hộ khẩu',
+            layout: 'adminLayout'
+        });
     }
 
     // Tạo mới hộ khẩu
@@ -49,7 +56,11 @@ class HoKhauController {
         SoHoKhau.findOne({ idSoHoKhau })
             .then(hokhau => {
                 if (!hokhau) return res.status(404).send('Không tìm thấy hộ khẩu');
-                res.render('admin/ToTruong/HoKhau/chitiet', { hokhau });
+                res.render('admin/ToTruong/HoKhau/chitiet', {
+                    hokhau,
+                    title: 'Chi tiết hộ khẩu',
+                    layout: 'adminLayout'
+                });
             })
             .catch(err => {
                 console.error('Lỗi khi tìm hộ khẩu:', err);

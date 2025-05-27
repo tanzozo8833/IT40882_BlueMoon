@@ -29,6 +29,51 @@
   </div>
 
   <script>
+    function filter(){
+      const fundID = document.querySelector('.input-container input[type="text"]').value;
+      const month = document.getElementById('dropdown-value-Month').textContent;
+      const year = document.getElementById('dropdown-value-Year').textContent;
+
+      donateList.innerHTML = '';
+      records.forEach(record => {
+        let match = true;
+
+        if (fundID && !record.fundID.includes(fundID)) {
+          match = false;
+        }
+        let startMonth = new Date(record.startDate).getMonth() + 1;
+        let endMonth = new Date(record.endDate).getMonth() + 1;
+        let monthNumber = month.match(/\d+/);
+        if (month && (monthNumber != startMonth && monthNumber != endMonth) && month !== 'Chọn tháng') {
+          match = false;
+        }
+        let startYear = new Date(record.startDate).getFullYear();
+        let endYear = new Date(record.endDate).getFullYear();
+        let paymentYear = new Date(record.paymentDate).getFullYear();
+        if (year && (year != startYear && year != endYear && year != paymentYear)) {
+          match = false;
+        }
+
+        if (match) {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${record.id}</td>
+            <td>${record.fundName}</td>
+            <td>${record.feeType}</td>
+            <td>${record.description}</td>
+            <td>${record.status}</td>
+            <td>${record.startDate}</td>
+            <td>${record.endDate}</td>
+            <td>
+              <button class="btn-details" onclick="viewDetails('${record.id}')">
+                <i class="fa fa-info-circle"></i>
+              </button>
+            </td>
+          `;
+          donateList.appendChild(row);
+        }
+      });
+    }
     function loadSection(url, containerId) {
       fetch(url)
         .then(response => response.text())
