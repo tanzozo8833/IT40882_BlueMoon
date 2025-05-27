@@ -13,17 +13,16 @@
     <link rel="stylesheet" href="/css/app.css">
 </head>
 
-<body>
-    <div class="app">
-        <header>
-            {{> adminHeader }}
-        </header>
-        <div class="container">
-            {{{body}}}
+<body class="bg-light">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2" id="sidebar-container">
+                {{> adminHeader }}
+            </div>
+            <main class="col-md-10 p-3">
+                {{{body}}}
+            </main>
         </div>
-        <footer>
-            {{> adminFooter }}
-        </footer>
     </div>
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>

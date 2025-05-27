@@ -2,6 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,6 +15,7 @@
       align-items: start;
       z-index: 10;
     }
+
     .vehicle-type {
       display: flex;
       flex-direction: column;
@@ -21,20 +23,35 @@
       text-align: center;
       font-weight: 500;
     }
+
     .dot {
       border-radius: 50%;
       height: 9px;
       width: 9px;
     }
-    .bg-indigo-500 { background-color: #6366F1; } /* Ô tô */
-    .bg-indigo-400 { background-color: #818CF8; } /* Xe máy */
-    .bg-indigo-200 { background-color: #C7D2FE; } /* Xe đạp */
+
+    .bg-indigo-500 {
+      background-color: #6366F1;
+    }
+
+    /* Ô tô */
+    .bg-indigo-400 {
+      background-color: #818CF8;
+    }
+
+    /* Xe máy */
+    .bg-indigo-200 {
+      background-color: #C7D2FE;
+    }
+
+    /* Xe đạp */
     .chart-container {
       position: relative;
       width: 400px;
       height: 150px;
       margin: auto;
     }
+
     .circle {
       fill: none;
       stroke-width: 20;
@@ -46,6 +63,7 @@
     }
   </style>
 </head>
+
 <body class="bg-light p-4">
 
   <div class="vehicle-container bg-white p-4 rounded shadow">
@@ -55,7 +73,7 @@
     <!-- Biểu đồ hình tròn SVG -->
     <div class="chart-container">
       <svg width="280" height="150" viewBox="0 0 150 200" id="pieChart">
-        
+
       </svg>
     </div>
 
@@ -78,7 +96,7 @@
     const car = (perimeter * 0.4); // 40% cho ô tô
     const motorcycle = (perimeter * 0.32); // 32% cho xe máy
     const bicycle = perimeter - (car + motorcycle); // 28% cho xe đạp
-    
+
     // Vẽ biểu đồ hình tròn
     const svg = document.getElementById('pieChart');
     svg.innerHTML = `
@@ -113,4 +131,5 @@
     `;
   </script>
 </body>
+
 </html>
