@@ -1,0 +1,103 @@
+<!--Hiển thị danh sách hộ khẩu-->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    .table-container {
+      max-width: 100%;
+      overflow-x: auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+    th {
+      background: #f8f9fa;
+      font-weight: bold;
+    }
+    .btn-details {
+      background-color: #007bff;
+      color: white;
+      padding: 5px 10px;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-light p-4">
+  <div id="DonateDetail"></div>
+  <div class="table-container p-3">
+    <table>
+      <thead>
+        <tr>
+          <th>ID Căn hộ</th>
+          <th>Họ và Tên</th>
+          <th>Quỹ</th>
+          <th>Nội dung</th>
+          <th>Số tiền</th>
+          <th>Ngày đóng</th>
+        </tr>
+      </thead>
+      <tbody id="donate-list">
+        <!-- Dữ liệu sẽ được tải vào đây bằng JavaScript -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    const records = [
+      { id: "CH001", fullName: "Nguyễn Văn A",  fundName: "Quỹ tình thương tháng 1", content: "Tiêu thụ điện tháng 04/2025", amount: "2.000.000 VND", paymentDate: "2025-01-10" },
+      { id: "CH001", fullName: "Trần Thị B",  fundName: "Quỹ tình thương tháng 2", content: "Sử dụng nước sạch", amount: "2.000.000 VND", paymentDate: "2025-01-11" },
+      { id: "CH001", fullName: "Phạm Văn C",  fundName: "Quỹ tình thương tháng 3", content: "Phí gửi 2 xe máy", amount: "2.000.000 VND", paymentDate: "2025-01-12" },
+      { id: "CH001", fullName: "Lê Thị D",  fundName: "Quỹ tình thương tháng 4", content: "Gửi ô tô dưới tầng hầm", amount: "2.000.000 VND", paymentDate: "2025-01-13" },
+      { id: "CH001", fullName: "Hoàng Minh E",  fundName: "Quỹ tình thương tháng 5", content: "Điện dùng tháng 03/2025", amount: "2.000.000 VND", paymentDate: "2025-01-14" }
+    ];
+
+    const donateList = document.getElementById("donate-list");
+    let totalAmount = 0;
+
+    records.forEach(record => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${record.id}</td>
+        <td>${record.fullName}</td>
+        <td>${record.fundName}</td>
+        <td>${record.content}</td>
+        <td>${record.amount}</td>
+        <td>${record.paymentDate}</td>
+      `;
+      totalAmount += parseFloat(record.amount.replace(/\./g, "").replace(/[^0-9.-]+/g, ""));
+      donateList.appendChild(row);
+    });
+    const params = new URLSearchParams(window.location.search);
+    const funName = params.get("FunName");
+    const formattedAmount = totalAmount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace('₫', 'VNĐ');
+    const status = params.get("Status");
+    const DonateDetail = document.getElementById("DonateDetail");
+    DonateDetail.innerHTML = `
+      <span style="margin-right: 20px;"><b>Tổng đóng góp: ${formattedAmount}</b></span>
+    `;
+
+    function viewDetails(id) {
+      console.log(`Xem chi tiết cho ID: ${id}`);
+      alert(`Xem chi tiết dân cư có ID ${id}`);
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!--Sidebar-->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Thiết lập màu trắng cho mũi tên */
+    .arrow-icon {
+      filter: invert(1);
+      transition: transform 0.3s ease;
+    }
+    /* Xoay mũi tên khi mở menu */
+    .collapsed .arrow-icon {
+      transform: rotate(180deg);
+    }
+  </style>
+</head>
+<body class="bg-light">
+
+  <!-- Sidebar -->
+  <nav class="d-flex flex-column bg-dark text-white p-3" style="width: 250px; height: 100vh;">
+    
+    <!-- Profile -->
+    <div class="text-center mb-4" id="profile-container">
+    </div>
+
+    <!-- Sidebar Menu -->
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link text-white py-2" href="/BlueMoon/DashBoard.html">Danh sách nhân khẩu</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link text-white py-2" href="/BlueMoon/AccountManagement.html">Khoản phí phải đóng</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link bg-primary rounded text-white py-2" href="/BlueMoon/Account.html">Khoản phí đã đóng</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link bg-primary rounded text-white py-2" href="/BlueMoon/Account.html">Khoản phí đã đóng</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link bg-primary rounded text-white py-2" href="/BlueMoon/Account.html">Từ thiện</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link bg-primary rounded text-white py-2" href="/BlueMoon/Account.html">Tài khoản</a>
+      </li>
+    </ul>
+
+    <!-- Logout Button -->
+    <button class="btn btn-outline-light mt-5 w-100">Đăng xuất</button>
+
+  </nav>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const avatarPath = "https://cdn.builder.io/api/v1/image/assets/TEMP/28c12a65e22d1818976375bffb56964a37fe1cba";
+    const role = "Người dùng";
+    const name = "Tuấn Cùi";
+    const profileContainer = document.getElementById("profile-container");
+    profileContainer.innerHTML = `
+      <img src="${avatarPath}" class="rounded-circle img-fluid" alt="Admin profile" width="60">
+      <p class="mt-2 text-secondary">${role}</p>
+      <p class="h5">${name}</p>
+    `;
+  </script>
+</body>
+</html>

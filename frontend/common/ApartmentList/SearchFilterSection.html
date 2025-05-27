@@ -41,9 +41,8 @@
           <span id="dropdown-value-ApartmentType">Chọn loại căn hộ</span>
         </div>
         <div class="dropdown-menu">
-          <div class="dropdown-item" onclick="selectOption('Căn hộ 1 phòng')">Căn hộ 1 phòng</div>
-          <div class="dropdown-item" onclick="selectOption('Căn hộ 2 phòng')">Căn hộ 2 phòng</div>
-          <div class="dropdown-item" onclick="selectOption('Căn hộ 3 phòng')">Căn hộ 3 phòng</div>
+          <div class="dropdown-item" onclick="selectOption('Nhà ở')">Nhà ở</div>
+          <div class="dropdown-item" onclick="selectOption('Penthouse')">Penthouse</div>
         </div>
       </div>
     </div>
@@ -59,6 +58,7 @@
       });
       document.getElementById('dropdown-value-ApartmentType').textContent = 'Chọn loại căn hộ';
       document.getElementById('dropdownApartmentType').classList.remove('open');
+      filter();
     }
 
     function toggleDropdown() {

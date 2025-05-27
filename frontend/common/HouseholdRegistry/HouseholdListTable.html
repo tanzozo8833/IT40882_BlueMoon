@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    .table-container {
+      max-width: 100%;
+      overflow-x: auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+    th {
+      background: #f8f9fa;
+      font-weight: bold;
+    }
+    .btn-details {
+      background-color: #007bff;
+      color: white;
+      padding: 5px 10px;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-light p-4">
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Họ và Tên</th>
+          <th>Ngày Sinh</th>
+          <th>Nơi sinh</th>
+          <th>Quê quán</th>
+          <th>Dân tộc</th>
+          <th>Nghề nghiệp</th>
+          <th>Số CCCD</th>
+          <th>Ngày cấp</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="household-list">
+        <!-- Dữ liệu sẽ được tải vào đây bằng JavaScript -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    const records = [
+      { id: "SHK001", fullName: "Nguyễn Văn A", birthDate: "1985-03-15", birthPlace: "Hà Nội", hometown: "Nam Định", ethnicity: "Kinh", occupation: "Kỹ sư", citizenID: "012345678901", issueDate: "2020-05-10" },
+      { id: "SHK002", fullName: "Trần Thị B", birthDate: "1992-07-21", birthPlace: "TP.HCM", hometown: "Bến Tre", ethnicity: "Kinh", occupation: "Giáo viên", citizenID: "012345678902", issueDate: "2019-08-20" },
+      { id: "SHK003", fullName: "Nguyễn Văn C", birthDate: "1970-01-30", birthPlace: "Nam Định", hometown: "Nam Định", ethnicity: "Kinh", occupation: "Nông dân", citizenID: "012345678903", issueDate: "2018-03-12" },
+      { id: "SHK004", fullName: "Nguyễn Thị D", birthDate: "2000-12-01", birthPlace: "Hà Nội", hometown: "Nam Định", ethnicity: "Kinh", occupation: "Sinh viên", citizenID: "012345678904", issueDate: "2021-01-05" },
+      { id: "SHK005", fullName: "Nguyễn Văn E", birthDate: "1960-10-10", birthPlace: "Nam Định", hometown: "Nam Định", ethnicity: "Kinh", occupation: "Hưu trí", citizenID: "012345678905", issueDate: "2010-10-10" }
+    ];
+    const householdList = document.getElementById("household-list");
+    records.forEach(record => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${record.id}</td>
+        <td>${record.fullName}</td>
+        <td>${record.birthDate}</td>
+        <td>${record.birthPlace}</td>
+        <td>${record.hometown}</td>
+        <td>${record.ethnicity}</td>
+        <td>${record.occupation}</td>
+        <td>${record.citizenID}</td>
+        <td>${record.issueDate}</td>
+        <td class="text-center"><button class="btn-details" onclick="viewDetails('${record.id}')">
+          <i class="fa fa-info-circle"></i>
+          </button>
+        </td>
+      `;
+      householdList.appendChild(row);
+    });
+
+    function viewDetails(id) {
+      console.log(`Xem chi tiết cho hộ khẩu ID: ${id}`);
+      alert(`Xem chi tiết hộ khẩu ID ${id}`);
+    }
+  </script>
+
+</body>
+</html>
