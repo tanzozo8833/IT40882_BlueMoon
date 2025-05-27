@@ -103,7 +103,7 @@
         avatar: "https://cdn.builder.io/api/v1/image/assets/TEMP/28c12a65e22d1818976375bffb56964a37fe1cba",
         name: "Trịnh Cúi Tuần",
         nickname: "Tuấn Cùi",
-        role: "Admin",
+        role: localStorage.getItem("role"),
         gender: "Nam",
         birthday: "1990-01-01",
         email: "TrinhCuiTuan69@gmail.com",
@@ -166,7 +166,7 @@
     }
 
     // Tải các thành phần của Account
-    if (user.role == "Admin")
+    if (user.role == "admin")
         loadSection("../common/Account/SidebarAdmin.html", "sidebar-container");
     else
         loadSection("../common/Account/SidebarUser.html", "sidebar-container");

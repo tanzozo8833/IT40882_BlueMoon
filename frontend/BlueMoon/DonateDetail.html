@@ -41,6 +41,7 @@
   </div>
 
   <script>
+    const role = localStorage.getItem("role");
     function openAddDonateDialog() {
       loadSection("DonateDetail_Add.html", "add-donate");
       const dialog = document.getElementById("add-donate");
@@ -63,7 +64,11 @@
     }
 
     // Tải các phần vào Donate Detail
-    loadSection("../common/DonateDetail/Sidebar.html", "sidebar-container");
+    if (role === "Admin") {
+      loadSection("../common/DonateDetail/SidebarAdmin.html", "sidebar-container");
+    } else {
+      loadSection("../common/DonateDetail/SidebarUser.html", "sidebar-container");
+    }
     loadSection("../common/DonateDetail/SearchFilterSection.html", "SearchFilterSection");
     loadSection("../common/DonateDetail/DonateListTable.html", "DonateListTable");
   </script>
