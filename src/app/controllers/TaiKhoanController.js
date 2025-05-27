@@ -5,7 +5,11 @@ class TaiKhoanController {
     listTaiKhoan(req, res) {
         TaiKhoan.find({})
             .then(taikhoans => {
-                res.render('admin/ToTruong/TaiKhoan/danhsach', { taikhoans });
+                res.render('admin/ToTruong/TaiKhoan/danhsach', {
+                    taikhoans: taikhoans,
+                    title: 'Danh sách tài khoản',
+                    layout: 'adminLayout'
+                });
             })
             .catch(err => {
                 console.error('Lỗi khi lấy danh sách tài khoản:', err);
@@ -15,7 +19,10 @@ class TaiKhoanController {
 
     // Điều hướng đến trang thêm mới tài khoản
     addTaiKhoan(req, res) {
-        res.render('admin/ToTruong/TaiKhoan/them');
+        res.render('admin/ToTruong/TaiKhoan/them', {
+            title: 'Thêm tài khoản',
+            layout: 'adminLayout'
+        });
     }
 
     // Tạo mới tài khoản

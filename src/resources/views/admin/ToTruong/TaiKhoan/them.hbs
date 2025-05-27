@@ -1,33 +1,122 @@
-<h2>Thêm nhân khẩu mới</h2>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Thêm tài khoản người dùng</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+    }
 
-<form method="POST" action="/admin/taikhoan/add" class="form-them-nhankhau">
-  <div class="form-row">
-    <label>Họ tên</label>
-    <input type="text" name="hoTen" required>
+    .form-wrapper {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .form-container {
+      width: 1120px;
+      height: 700px;
+      background-color: #fff;
+      border-radius: 12px;
+      padding: 40px 100px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .form-title {
+      font-size: 1.75rem;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+
+    .form-control, .form-select {
+      width: 100%;
+    }
+
+    .form-content {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .form-actions {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .btn-primary {
+      padding: 10px 40px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-wrapper">
+    <div class="form-container">
+      <div>
+        <h2 class="form-title">Thêm tài khoản người dùng</h2>
+        <form id="account-form" class="form-content" method="POST" action="/admin/taikhoan/add">
+          <div class="form-group">
+            <label for="tenDangNhap" class="form-label">Tên đăng nhập</label>
+            <input type="text" class="form-control" id="tenDangNhap" name="tenDangNhap" required />
+          </div>
+
+          <div class="form-group">
+            <label for="hoTen" class="form-label">Họ và tên</label>
+            <input type="text" class="form-control" id="hoTen" name="hoTen" required />
+          </div>
+
+          <div class="form-group">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" required />
+          </div>
+
+          <div class="form-group">
+            <label for="password" class="form-label">Mật khẩu</label>
+            <input type="password" class="form-control" id="password" name="password" required />
+          </div>
+
+          <div class="form-group">
+            <label for="soSoHoKhau" class="form-label">Số sổ hộ khẩu</label>
+            <input type="text" class="form-control" id="soSoHoKhau" name="soSoHoKhau" required />
+          </div>
+
+          <div class="form-group">
+            <label for="role" class="form-label">Vai trò</label>
+            <select class="form-select" id="role" name="role" required>
+              <option value="user">User</option>
+              <option value="accountant">Accountant</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Lưu</button>
+        <a href="/admin/taikhoan" class="btn btn-secondary ms-3">Huỷ</a>
+      </div>
+      </form>
+    </div>
   </div>
-  <div class="form-row">
-    <label>Email</label>
-    <input type="text" name="email" required>
-  </div>
-  <div class="form-row">
-    <label>Tên đăng nhập</label>
-    <input type="text" name="tenDangNhap" required>
-  </div>
-  <div class="form-row">
-    <label>Mật khẩu</label>
-    <input type="text" name="password" required>
-  </div>
-  <div class="form-row">
-    <label>Số sổ hộ khẩu</label>
-    <input type="text" name="soSoHoKhau" required>
-  </div>
-  <div class="form-row">
-    <label>Vai trò</label>
-    <select name="role" required>
-      <option value="admin">Admin</option>
-      <option value="user">User</option>
-    </select>
-  </div>
-  <button type="submit" class="btn btn-submit">Lưu</button>
-  <a href="/admin/taikhoan" class="btn btn-cancel">Huỷ</a>
-</form>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -6,7 +6,7 @@ class CanHoController {
     listCanHo(req, res) {
         CanHo.find()
             .then(canhos => {
-                res.render('admin/ToTruong/CanHo/danhsach', { canhos });
+                res.render('admin/ToTruong/CanHo/danhsach', { canhos: canhos, title: 'Danh sách căn hộ', layout: 'adminLayout' });
             })
             .catch(err => {
                 console.error('Lỗi khi lấy danh sách căn hộ:', err);
