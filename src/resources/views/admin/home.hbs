@@ -1,69 +1,4 @@
-<<<<<<< HEAD
-<!--Tổng quan về doanh thu của chung cư tháng hiện tại và so với tháng trước đó.-->
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light p-4">
 
-  <!-- Doanh thu -->
-  <section class="container bg-white p-4 rounded shadow">
-    <h2 class="mt text-sm fw-bold text-dark" id="revenue-title">Doanh thu</h2>
-    <p class="mt-2 text-xs" id="revenue-description">
-    </p>
-
-    <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/2f98b9f9451baaf5a92793bcc9a50c0556551f90"
-         alt="Biểu đồ doanh thu"
-         class="img-fluid mt-3">
-
-    <!-- Khu vực Biểu đồ doanh thu -->
-    <div id="revenue-chart-container"></div>
-
-    <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/02ba35d70c728050c50e8071b93a7795f0d0474c"
-         alt="Biểu đồ doanh thu"
-         class="img-fluid mt-3">
-  </section>
-
-  <script>
-    fetch('../common/Dashboard/RevenueChart.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('revenue-chart-container').innerHTML = data;
-
-        // Thực thi script sau khi tải nội dung
-        const scriptTag = document.createElement("script");
-        scriptTag.textContent = data.match(/<script>([\s\S]*?)<\/script>/)[1];
-        document.body.appendChild(scriptTag);
-  });
-
-  // Cập nhật tiêu đề và mô tả dựa trên dữ liệu
-  window.addEventListener("message", (event) => {
-    if (Array.isArray(event.data) && event.data.length > 1) {
-      const lastMonthRevenue = event.data[event.data.length - 1];  // Doanh thu tháng cuối cùng
-      const previousMonthRevenue = event.data[event.data.length - 2];  // Doanh thu tháng trước đó
-
-      // Tính phần trăm tăng giảm
-      const percentageChange = (((lastMonthRevenue - previousMonthRevenue) / previousMonthRevenue) * 100).toFixed(1);
-      const spanClass = percentageChange >= 0 ? "text-success" : "text-danger";
-      // Hiển thị doanh thu tháng cuối
-      document.getElementById("revenue-title").innerHTML = "Doanh thu: " + lastMonthRevenue.toLocaleString() + " VNĐ";
-
-      // Hiển thị phần trăm thay đổi
-      document.getElementById("revenue-description").innerHTML = `
-        <span class="fw-semibold ${spanClass}">${percentageChange}%</span>
-        <span class="text-muted"> so với tháng trước</span>
-      `
-    }
-  });
-  </script>
-  
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
-=======
 <style>
     body {
         background: #f8f9fa;
@@ -247,4 +182,3 @@
         </div>
     </div>
 </div>
->>>>>>> e21ca335fba7e0e874210c7a97958d0184a28258
