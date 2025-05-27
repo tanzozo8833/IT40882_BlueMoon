@@ -1,9 +1,7 @@
 <div class="container mt-5">
-  <div>
-    <a href="/user/home">Trở về trang chủ</a>
-  </div>
+  <h1 class="text-center mb-4">Các khoản từ thiện</h1>
 
-  <div class="row mb-3 mt-3">
+  <div class="row mb-3 mt-3" style="margin-top: 500px;">
     <div class="col-md-4">
       <input type="text" id="searchQuy" class="form-control" placeholder="Tìm theo tên quỹ từ thiện...">
     </div>
@@ -13,13 +11,15 @@
     </div>
   </div>
 
-  <h2 class="text-center mb-4">Các khoản từ thiện</h2>
+  
 
   {{#if tuthien.length}}
-    <table class="table table-bordered" id="tuthienTable">
+    <table class="table table-bordered my-custom-table" id="tuthienTable" style="margin-top: 50px;">
       <thead>
         <tr>
+          <th>ID quỹ</th>
           <th>Tên Quỹ</th>
+          <th>Mô tả</th>
           <th>Số tiền</th>
           <th>Thời gian đóng</th>
         </tr>
@@ -27,9 +27,11 @@
       <tbody>
         {{#each tuthien}}
         <tr>
+          <td>{{this.idQuyTuThien}}</td>
           <td>{{this.tenQuy}}</td>
+          <td>{{this.mota}}</td>
           <td>{{this.soTienDaDong}} VND</td>
-          <td>{{this.thoiGianDongTien}}</td>
+          <td>{{formatDate this.thoiGianDongTien 'YYYY-MM-DD'}}</td>
         </tr>
         {{/each}}
       </tbody>
@@ -53,11 +55,15 @@
     const searchInput = document.getElementById('searchQuy');
     const rows = document.querySelectorAll('#tuthienTable tbody tr');
 
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') btnSearch.click();
+    });
+
     btnSearch.addEventListener('click', () => {
       const keyword = removeVietnameseTones(searchInput.value.trim().toLowerCase());
 
       rows.forEach(row => {
-        const tenQuy = removeVietnameseTones(row.children[0].textContent.trim().toLowerCase());
+        const tenQuy = removeVietnameseTones(row.children[1].textContent.trim().toLowerCase()); // sửa lại đúng cột tên
         const match = tenQuy.includes(keyword);
         row.style.display = match ? '' : 'none';
       });

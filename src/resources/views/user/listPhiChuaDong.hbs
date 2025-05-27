@@ -1,28 +1,57 @@
 <div class="container mt-5">
   <h2 class="text-center mb-4">Các khoản phí chưa đóng</h2>
-    <div>
-    <a href="/user/home">Trở về trang chủ</a>
-  </div>
   <div class="row mb-3">
     <div class="col-md-3">
-      <input type="text" id="searchLoaiPhi" class="form-control" placeholder="Tìm theo loại phí...">
+      <label for="searchLoaiPhi">Chọn loại phí</label>
+      <select id="searchLoaiPhi" class="form-select">
+        <option value="">Chọn loại phí</option>
+        <option value="Phí quản lý">dien</option>
+        <option value="Phí quản lý">nuoc</option>
+        <option value="Phí quản lý">xemay</option>
+        <option value="Phí quản lý">oto</option>
+        <option value="Phí quản lý">Phi dich vu nha o</option>
+        <option value="Phí quản lý">Phi dich vu cao cap</option>
+        <option value="Phí quản lý">Phí quản lý</option>
+        <!-- Thêm các loại phí khác nếu cần -->
+      </select>
     </div>
+
     <div class="col-md-2">
-      <input type="text" id="searchThang" class="form-control" placeholder="Tìm theo tháng...">
+      <label for="searchThang">Chọn tháng</label>
+      <select id="searchThang" class="form-select">
+        <option value="">Chọn tháng</option>
+        {{#each (range 1 12)}}
+          <option value="{{this}}">{{this}}</option>
+        {{/each}}
+      </select>
     </div>
+
     <div class="col-md-2">
-      <input type="text" id="searchNam" class="form-control" placeholder="Tìm theo năm...">
+      <label for="searchNam">Chọn năm</label>
+      <select id="searchNam" class="form-select">
+        <option value="">Chọn năm</option>
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
+        <option value="2025">2025</option>
+        <!-- Thêm các năm nếu cần -->
+      </select>
     </div>
-    <div class="col-md-2">
-      <button id="btnSearchPhiChuaDong" class="btn btn-primary">Tìm kiếm</button>
+    <div class="col-md-2 d-flex">
+      <button id="btnSearchPhiChuaDong"
+              class="btn btn-primary w-100 mt-auto">
+        Tìm kiếm
+      </button>
     </div>
-    <div class="col-md-2">
-      <button id="btnRefreshPhiChuaDong" class="btn btn-secondary">Làm mới</button>
+    <div class="col-md-2 d-flex">
+      <button id="btnRefreshPhiChuaDong"
+              class="btn btn-secondary w-100 mt-auto">
+        Làm mới
+      </button>
     </div>
   </div>
 
   {{#if phi.length}}
-  <table class="table table-bordered" id="phiChuaDongTable">
+  <table class="table table-bordered my-custom-table" id="phiChuaDongTable">
     <thead>
       <tr>
         <th>Loại phí</th>

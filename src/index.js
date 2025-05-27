@@ -22,6 +22,7 @@ const hbs = exphbs.create({
   }
 });
 
+
 // Middleware cơ bản
 app.use(morgan('combined'));
 app.use(methodOverride('_method'));

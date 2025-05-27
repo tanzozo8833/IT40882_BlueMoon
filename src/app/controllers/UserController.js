@@ -37,6 +37,7 @@ class UserController {
   chitiet(req, res, next){
     NhanKhau.findOne({_id: req.params.id})
       .then(NhanKhau => res.render('user/chitiet.hbs', {
+        layout: 'userLayout',
         NhanKhau: mongooseToObject(NhanKhau)
       }))
       .catch(next);
@@ -45,6 +46,7 @@ class UserController {
   edit(req, res, next){
     NhanKhau.findOne({_id: req.params.id})
       .then(NhanKhau => res.render('user/editForm.hbs', {
+        layout: 'userLayout',
         NhanKhau: mongooseToObject(NhanKhau)
       }))
       .catch(next);
@@ -85,6 +87,7 @@ class UserController {
     const canho = await CanHo.findOne({ idSoHoKhau: user.idSoHoKhau }).lean();
     const phis = await Phi.find({idCanHo: canho.idCanHo, trangThai: 'da_dong'}).lean();
     res.render('user/listPhiDaDong.hbs', {
+        layout: 'userLayout',
         title: 'Danh sách phí đã đóng',
         phi: mutipleMongooseToObject(phis),
     });
@@ -94,6 +97,7 @@ class UserController {
     const canho = await CanHo.findOne({ idSoHoKhau: user.idSoHoKhau }).lean();
     const phis = await Phi.find({idCanHo: canho.idCanHo, trangThai: 'chua_dong'}).lean();
     res.render('user/listPhiChuaDong.hbs', {
+        layout: 'userLayout',
         title: 'Danh sách phí chua đóng',
         phi: mutipleMongooseToObject(phis),
     });
@@ -116,11 +120,13 @@ class UserController {
       const quy = quys.find(q => q.idQuyTuThien === tien.idQuyTuThien);
       return {
         ...tien,
-        tenQuy: quy ? quy.tenQuy : 'Không rõ'
+        tenQuy: quy ? quy.tenQuy : 'Không rõ',
+        mota: quy ? quy.mota: 'Không có mô tả'
       };
     });
 
     res.render('user/listTuThien', {
+      layout: 'userLayout',
       title: 'Danh sách các khoản từ thiện chưa đóng',
       tuthien: mutipleMongooseToObject(mergedList)
     });

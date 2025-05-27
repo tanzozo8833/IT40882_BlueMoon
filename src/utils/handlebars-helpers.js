@@ -38,3 +38,10 @@ Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
         default: return options.inverse(this);
     }
 });
+Handlebars.registerHelper('range', function(start, end) {
+  const arr = [];
+  for (let i = start; i <= end; i++) {
+    arr.push(i);
+  }
+  return arr;
+});

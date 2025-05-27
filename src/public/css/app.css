@@ -1,3 +1,52 @@
+@charset "UTF-8";
+.back-link-wrapper {
+  margin: 20px 0;
+}
 
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  background-color: #f0f8ff;
+  border: 1px solid #0080ff;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: #0080ff;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.back-link__icon {
+  margin-right: 6px;
+  font-size: 16px;
+  line-height: 1;
+}
+.back-link__text {
+  line-height: 1;
+}
+.back-link:hover {
+  background-color: #0080ff;
+  color: #fff;
+}
+.back-link:hover .back-link__icon {
+  color: #fff;
+}
+
+.custom-margin-top {
+  margin-top: 50px;
+}
+
+.my-custom-table {
+  border-radius: 10px;
+  border: 3px solid #9e9e9e;
+  border-bottom: 1px solid #7b7474;
+  overflow: hidden; /* Để bo góc đúng cách khi có border-radius */
+  border-collapse: separate; /* hoặc collapse tùy ý */
+  border-spacing: 0;
+  /* Nếu muốn bo góc cho các cell của bảng */
+}
+.my-custom-table th, .my-custom-table td {
+  border: inherit; /* Giữ nguyên border của bảng cha */
+}
 
 /*# sourceMappingURL=app.css.map */

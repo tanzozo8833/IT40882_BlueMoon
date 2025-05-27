@@ -1,30 +1,57 @@
 <div class="container mt-5">
-  <div>
-    <a href="/user/home">Trở về trang chủ</a>
-  </div>
-
+  <h2 class="text-center mb-4">Các khoản phí đã đóng</h2>
   <div class="row mb-3">
     <div class="col-md-3">
-      <input type="text" id="searchLoaiPhi" class="form-control" placeholder="Tìm theo loại phí...">
+      <label for="searchLoaiPhi">Chọn loại phí</label>
+      <select id="searchLoaiPhi" class="form-select">
+        <option value="">Chọn loại phí</option>
+        <option value="Phí quản lý">dien</option>
+        <option value="Phí quản lý">nuoc</option>
+        <option value="Phí quản lý">xemay</option>
+        <option value="Phí quản lý">oto</option>
+        <option value="Phí quản lý">Phi dich vu nha o</option>
+        <option value="Phí quản lý">Phi dich vu cao cap</option>
+        <option value="Phí quản lý">Phí quản lý</option>
+        <!-- Thêm các loại phí khác nếu cần -->
+      </select>
     </div>
     <div class="col-md-2">
-      <input type="text" id="searchThang" class="form-control" placeholder="Tìm theo tháng...">
+      <label for="searchThang">Chọn tháng</label>
+      <select id="searchThang" class="form-select">
+        <option value="">Chọn tháng</option>
+        {{#each (range 1 12)}}
+          <option value="{{this}}">{{this}}</option>
+        {{/each}}
+      </select>
     </div>
+
     <div class="col-md-2">
-      <input type="text" id="searchNam" class="form-control" placeholder="Tìm theo năm...">
+      <label for="searchNam">Chọn năm</label>
+      <select id="searchNam" class="form-select">
+        <option value="">Chọn năm</option>
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
+        <option value="2025">2025</option>
+        <!-- Thêm các năm nếu cần -->
+      </select>
     </div>
-    <div class="col-md-2">
-      <button id="btnSearchPhi" class="btn btn-primary">Tìm kiếm</button>
+    <div class="col-md-2 d-flex">
+      <button id="btnSearchPhi"
+              class="btn btn-primary w-100 mt-auto">
+        Tìm kiếm
+      </button>
     </div>
-    <div class="col-md-2">
-      <button id="btnRefreshPhi" class="btn btn-secondary">Làm mới</button>
+    <div class="col-md-2 d-flex">
+      <button id="btnRefreshPhi"
+              class="btn btn-secondary w-100 mt-auto">
+        Làm mới
+      </button>
     </div>
   </div>
 
-  <h2 class="text-center mb-4">Các khoản phí đã đóng</h2>
 
   {{#if phi.length}}
-  <table class="table table-bordered" id="phiTable">
+  <table class="table table-bordered my-custom-table" id="phiTable">
     <thead>
       <tr>
         <th>Loại phí</th>
@@ -56,42 +83,53 @@
   function removeVietnameseTones(str) {
     return str.normalize("NFD")
               .replace(/[\u0300-\u036f]/g, "")
-              .replace(/đ/g, "d").replace(/Đ/g, "D");
+              .replace(/đ/g, "d")
+              .replace(/Đ/g, "D");
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    const btnSearch = document.getElementById('btnSearchPhi');
-    const btnRefresh = document.getElementById('btnRefreshPhi');
-    const searchLoaiPhiInput = document.getElementById('searchLoaiPhi');
-    const searchThangInput = document.getElementById('searchThang');
-    const searchNamInput = document.getElementById('searchNam');
-    const rows = document.querySelectorAll('#phiTable tbody tr');
+    const btnSearch   = document.getElementById('btnSearchPhi');
+    const btnRefresh  = document.getElementById('btnRefreshPhi');
+    const selLoaiPhi  = document.getElementById('searchLoaiPhi');
+    const selThang    = document.getElementById('searchThang');
+    const selNam      = document.getElementById('searchNam');
+    const rows        = document.querySelectorAll('#phiTable tbody tr');
 
-    // Sự kiện tìm kiếm
     btnSearch.addEventListener('click', () => {
-      const searchLoaiPhi = removeVietnameseTones(searchLoaiPhiInput.value.trim().toLowerCase());
-      const searchThang = searchThangInput.value.trim();
-      const searchNam = searchNamInput.value.trim();
+      // Lấy text của option được chọn
+      const rawLoaiPhi = selLoaiPhi.options[selLoaiPhi.selectedIndex].text.trim();
+      // Nếu chọn "Chọn loại phí" (text = "Chọn loại phí"), chúng ta coi như không lọc theo loại
+      const searchLoaiPhi = rawLoaiPhi === "Chọn loại phí"
+        ? ""
+        : removeVietnameseTones(rawLoaiPhi.toLowerCase());
+
+      const searchThang = selThang.value; // giá trị của option tháng, nếu để trống => show all
+      const searchNam   = selNam.value;
 
       rows.forEach(row => {
-        const loaiPhi = removeVietnameseTones(row.children[0].textContent.trim().toLowerCase());
-        const thang = row.children[3].textContent.trim();
-        const nam = row.children[4].textContent.trim();
+        // Text của cell Loại phí (cột 0)
+        const loaiPhiCell = removeVietnameseTones(
+          row.children[0].textContent.trim().toLowerCase()
+        );
 
-        const matchLoaiPhi = loaiPhi.includes(searchLoaiPhi);
-        const matchThang = !searchThang || thang === searchThang;
-        const matchNam = !searchNam || nam === searchNam;
+        // Cell tháng (cột 3), năm (cột 4)
+        const thangCell = row.children[3].textContent.trim();
+        const namCell   = row.children[4].textContent.trim();
 
-        row.style.display = (matchLoaiPhi && matchThang && matchNam) ? '' : 'none';
+        // Kiểm tra điều kiện
+        const matchLoaiPhi = !searchLoaiPhi || loaiPhiCell === searchLoaiPhi;
+        const matchThang   = !searchThang   || thangCell === searchThang;
+        const matchNam     = !searchNam     || namCell === searchNam;
+
+        row.style.display = (matchLoaiPhi && matchThang && matchNam) ? "" : "none";
       });
     });
 
-    // Sự kiện làm mới
     btnRefresh.addEventListener('click', () => {
-      searchLoaiPhiInput.value = '';
-      searchThangInput.value = '';
-      searchNamInput.value = '';
-      rows.forEach(row => row.style.display = '');
+      selLoaiPhi.selectedIndex = 0;
+      selThang.selectedIndex   = 0;
+      selNam.selectedIndex     = 0;
+      rows.forEach(row => row.style.display = "");
     });
   });
 </script>
