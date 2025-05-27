@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    .table-container {
+      max-width: 100%;
+      overflow-x: auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+    th {
+      background: #f8f9fa;
+      font-weight: bold;
+    }
+    .btn-details {
+      background-color: #007bff;
+      color: white;
+      padding: 5px 10px;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-light p-4">
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>ID phí</th>
+          <th>ID căn hộ</th>
+          <th>Loại phí</th>
+          <th>Số tiền</th>
+          <th>Mô tả</th>
+          <th>Trạng thái</th>
+          <th>Ngày bắt đầu</th>
+          <th>Ngày kết thúc</th>
+        </tr>
+      </thead>
+      <tbody id="unpaid-fees-list">
+        <!-- Dữ liệu sẽ được tải vào đây bằng JavaScript -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    const records = [
+      { id: "PHI001", apartmentId: "CH001", feeType: "Điện", amount: 450000, description: "Tiêu thụ điện tháng 04/2025", status: "Chưa thanh toán", startDate: "2025-04-01", endDate: "2025-04-30" },
+      { id: "PHI002", apartmentId: "CH001", feeType: "Ô tô", amount: 120000, description: "Sử dụng nước sạch", status: "Chưa thanh toán", startDate: "2025-04-01", endDate: "2025-04-30" },
+      { id: "PHI003", apartmentId: "CH001", feeType: "Xe máy", amount: 80000, description: "Phí gửi 2 xe máy", status: "Chưa thanh toán", startDate: "2025-04-01", endDate: "2025-04-30" },
+      { id: "PHI004", apartmentId: "CH001", feeType: "Nước", amount: 500000, description: "Gửi ô tô dưới tầng hầm", status: "Chưa thanh toán", startDate: "2025-04-01", endDate: "2025-04-30" },
+      { id: "PHI005", apartmentId: "CH001", feeType: "Điện", amount: 320000, description: "Điện dùng tháng 03/2025", status: "Chưa thanh toán", startDate: "2025-03-01", endDate: "2025-03-31" }
+    ];
+
+    const UnpaidFeesListTable = document.getElementById("unpaid-fees-list");
+    records.forEach(record => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${record.id}</td>
+        <td>${record.apartmentId}</td>
+        <td>${record.feeType}</td>
+        <td>${record.amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
+        <td>${record.description}</td>
+        <td>${record.status}</td>
+        <td>${new Date(record.startDate).toLocaleDateString('vi-VN')}</td>
+        <td>${new Date(record.endDate).toLocaleDateString('vi-VN')}</td>
+      `;
+      UnpaidFeesListTable.appendChild(row);
+    });
+
+    function viewDetails(id) {
+      console.log(`Xem chi tiết cho hộ khẩu ID: ${id}`);
+      alert(`Xem chi tiết hộ khẩu ID ${id}`);
+    }
+  </script>
+
+</body>
+</html>

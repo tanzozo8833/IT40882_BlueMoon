@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Các khoản thu phí chưa thanh toán</title>
+  <link rel="stylesheet" href="../common/Button.css"> 
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+</head>
+<body class="bg-light">
+
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Khu vực Sidebar -->
+      <div class="col-md-2" id="sidebar-container"></div>
+
+      <!-- Nội dung chính -->
+      <main class="col-md-10 p-3">
+        <h1 className="mb-6 text-2xl font-semibold text-gray-900">
+          Các khoản thu phí chưa thanh toán
+        </h1>
+        <hr>
+        <div id="SearchFilterSection"></div>
+        <div id="FeeListTable"></div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    function filter() {
+        const apartmentId = document.querySelector('.input-container input[type="text"]').value;
+        const feeType = document.getElementById('dropdown-value-FeeType').textContent;
+        const month = document.getElementById('dropdown-value-Month').textContent;
+
+        UnpaidFeesListTable.innerHTML = ''; // Xóa nội dung hiện tại
+        records.forEach(record => {
+            let match = true;
+            if (apartmentId && !record.apartmentId.includes(apartmentId)) {
+                match = false;
+            }
+            if (feeType && record.feeType !== feeType && feeType !== 'Chọn loại phí') {
+                match = false;
+            }
+            let monthStart = new Date(record.startDate).getMonth() + 1; // Tháng bắt đầu (1-12)
+            let monthEnd = new Date(record.endDate).getMonth() + 1; // Tháng kết thúc (1-12)
+            let monthNumber = month.match(/\d+/);
+            if (month && (monthNumber != monthStart && monthNumber != monthEnd) && month !== 'Chọn tháng') {
+                match = false;
+            }
+            if (match) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${record.id}</td>
+                    <td>${record.apartmentId}</td>
+                    <td>${record.feeType}</td>
+                    <td>${record.amount.toLocaleString()} VNĐ</td>
+                    <td>${record.description}</td>
+                    <td>${record.status}</td>
+                    <td>${record.startDate}</td>
+                    <td>${record.endDate}</td>
+                `;
+                UnpaidFeesListTable.appendChild(row);
+            }
+        });
+    }
+    function loadSection(url, containerId) {
+      fetch(url)
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById(containerId).innerHTML = data;
+          
+          // Thực thi script bên trong file HTML tải vào
+          const scripts = document.getElementById(containerId).querySelectorAll("script");
+          scripts.forEach(script => {
+            const newScript = document.createElement("script");
+            newScript.textContent = script.textContent;
+            document.body.appendChild(newScript);
+          });
+        });
+    }
+
+    // Tải các phần vào Unpaid Fees List
+    loadSection("../common/UnpaidFeesList/Sidebar.html", "sidebar-container");
+    loadSection("../common/UnpaidFeesList/SearchFilterSection.html", "SearchFilterSection");
+    loadSection("../common/UnpaidFeesList/UnpaidFeesListTable.html", "FeeListTable");
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

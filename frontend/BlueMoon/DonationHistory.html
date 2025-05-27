@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Các khoản từ thiện đã đóng góp</title>
+  <link rel="stylesheet" href="../common/Button.css"> 
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+</head>
+<body class="bg-light">
+
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Khu vực Sidebar -->
+      <div class="col-md-2" id="sidebar-container"></div>
+
+      <!-- Nội dung chính -->
+      <main class="col-md-10 p-3">
+        <h1 className="mb-6 text-2xl font-semibold text-gray-900">
+            Các khoản từ thiện đã đóng góp
+        </h1>
+        <hr>
+        <div id="SearchFilterSection"></div>
+        <div id="DonateListTable"></div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    function filter() {
+        const fundName = document.querySelector('.input-container input[type="text"]').value;
+        const month = document.getElementById('dropdown-value-Month').textContent;
+    
+        donateList.innerHTML = '';
+        records.forEach(record => {
+            let matches = true;
+            if (fundName && !record.fundName.toLowerCase().includes(fundName)) {
+                matches = false;
+            }
+            let recordMonth = new Date(record.paymentDate).getMonth() + 1; // Lấy tháng từ ngày
+            let monthNumber = month.match(/\d+/);
+            if (month && recordMonth != monthNumber && month !== 'Chọn tháng') {
+                matches = false;
+            }
+            if (matches) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${record.id}</td>
+                    <td>${record.fullName}</td>
+                    <td>${record.fundName}</td>
+                    <td>${record.content}</td>
+                    <td>${record.amount}</td>
+                    <td>${record.paymentDate}</td>
+                `;
+                donateList.appendChild(row);
+            }
+        });
+    }
+
+    function loadSection(url, containerId) {
+      fetch(url)
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById(containerId).innerHTML = data;
+          
+          // Thực thi script bên trong file HTML tải vào
+          const scripts = document.getElementById(containerId).querySelectorAll("script");
+          scripts.forEach(script => {
+            const newScript = document.createElement("script");
+            newScript.textContent = script.textContent;
+            document.body.appendChild(newScript);
+          });
+        });
+    }
+
+    // Tải các phần vào Donate History
+    loadSection("../common/DonationHistory/Sidebar.html", "sidebar-container");
+    loadSection("../common/DonationHistory/SearchFilterSection.html", "SearchFilterSection");
+    loadSection("../common/DonationHistory/DonationHistoryTable.html", "DonateListTable");
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
