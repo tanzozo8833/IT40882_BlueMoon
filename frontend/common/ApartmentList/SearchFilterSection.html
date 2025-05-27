@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../conmon/Button.css">
+  <link rel="stylesheet" href="../common/Input.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="../common/ComboBox.css">
+  <style>
+    .filter-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .filter-group {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+    }
+    @media (max-width: 640px) {
+      .filter-container, .filter-group {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body class="bg-light p-4">
+
+  <div class="filter-container">
+    <div class="input-container">
+      <label class="input-label">ID căn hộ</label>
+      <input type="text" placeholder="Nhập ID căn hộ" class="input-field" onkeyup="filter()">
+    </div>
+
+    <div class="input-container">
+      <label class="input-label">Loại căn hộ</label>
+      <div class="dropdown" id="dropdownApartmentType">
+        <div class="dropdown-toggle" onclick="toggleDropdown()">
+          <span id="dropdown-value-ApartmentType">Chọn loại căn hộ</span>
+        </div>
+        <div class="dropdown-menu">
+          <div class="dropdown-item" onclick="selectOption('Căn hộ 1 phòng')">Căn hộ 1 phòng</div>
+          <div class="dropdown-item" onclick="selectOption('Căn hộ 2 phòng')">Căn hộ 2 phòng</div>
+          <div class="dropdown-item" onclick="selectOption('Căn hộ 3 phòng')">Căn hộ 3 phòng</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="filter-group">
+      <button class="btn btn-primary" onclick="resetFilters()">Làm mới</button>
+    </div>
+  </div>
+  <script>
+    function resetFilters() {
+      document.querySelectorAll('.input-field').forEach(input => {
+        input.value = '';
+      });
+      document.getElementById('dropdown-value-ApartmentType').textContent = 'Chọn loại căn hộ';
+      document.getElementById('dropdownApartmentType').classList.remove('open');
+    }
+
+    function toggleDropdown() {
+      document.getElementById('dropdownApartmentType').classList.toggle('open');
+    }
+
+    function selectOption(type, value) {
+      document.getElementById('dropdown-value-ApartmentType').textContent = type;
+      document.getElementById('dropdownApartmentType').classList.remove('open');
+      filter();
+    }
+  </script>
+</body>
+</html>

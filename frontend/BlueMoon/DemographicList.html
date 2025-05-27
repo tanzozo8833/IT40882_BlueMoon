@@ -29,6 +29,74 @@
   </div>
 
   <script>
+    function filter() {
+      const name = document.querySelector('.input-container input[type="text"]').value;
+      const shkId = document.querySelectorAll('.input-container input[type="text"]')[1].value;
+      populationList.innerHTML = '';
+      records.forEach(record => {
+        let match = true;
+        if (name && !record.name.toLowerCase().includes(name.toLowerCase())) {
+          match = false;
+        }
+        if (shkId && !record.shkId.toLowerCase().includes(shkId.toLowerCase())) {
+          match = false;
+        }
+        if (match) {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${record.id}</td>
+            <td>${record.idShk}</td>
+            <td>${record.name}</td>
+            <td>${record.birthDate}</td>
+            <td>${record.birthPlace}</td>
+            <td>${record.hometown}</td>
+            <td>${record.ethnicity}</td>
+            <td>${record.occupation}</td>
+            <td>${record.idNumber}</td>
+            <td>${record.issueDate}</td>
+            <td class="text-center"><button class="btn-details" onclick="viewDetails(${record.id})" title="Xem chi tiết" aria-label="Xem chi tiết">
+              <i class="fa fa-info-circle"></i>
+              </button>
+              </td>
+          `;
+          populationList.appendChild(row);
+        } 
+      })
+    }
+    function filter(){
+      const name = document.querySelector('.input-container input[type="text"]').value;
+      const shkId = document.querySelectorAll('.input-container input[type="text"]')[1].value;
+      populationList.innerHTML = '';
+      records.forEach(record => {
+        let match = true;
+        if (name && !record.name.toLowerCase().includes(name.toLowerCase())) {
+          match = false;
+        }
+        if (shkId && !record.idShk.toLowerCase().includes(shkId.toLowerCase())) {
+          match = false;
+        }
+        if (match) {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${record.id}</td>
+            <td>${record.idShk}</td>
+            <td>${record.name}</td>
+            <td>${record.birthDate}</td>
+            <td>${record.birthPlace}</td>
+            <td>${record.hometown}</td>
+            <td>${record.ethnicity}</td>
+            <td>${record.occupation}</td>
+            <td>${record.idNumber}</td>
+            <td>${record.issueDate}</td>
+            <td class="text-center"><button class="btn-details" onclick="viewDetails(${record.id})" title="Xem chi tiết" aria-label="Xem chi tiết">
+              <i class="fa fa-info-circle"></i>
+              </button>
+              </td>
+          `;
+          populationList.appendChild(row);
+        }
+      })
+    }
     function loadSection(url, containerId) {
       fetch(url)
         .then(response => response.text())

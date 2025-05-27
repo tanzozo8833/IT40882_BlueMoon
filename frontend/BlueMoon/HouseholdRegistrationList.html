@@ -49,6 +49,45 @@
     loadSection('../common/HouseholdRegistrationList/Sidebar.html', 'sidebar-container');
     loadSection('../common/HouseholdRegistrationList/SearchFilterSection.html', 'SearchFilterSection');
     loadSection('../common/HouseholdRegistrationList/HouseholdListTable.html', 'HouseholdListTable');
+
+    function filter()
+    {
+      householdList.innerHTML = '';
+
+      const name = document.querySelector('.input-container input[type="text"]').value;
+      const apartmentId = document.querySelectorAll('.input-container input[type="text"]')[1].value;
+      const shkId = document.querySelectorAll('.input-container input[type="text"]')[2].value;
+      
+      // Logic to filter the list based on the inputs
+      households.forEach(household => {
+        let matches = true;
+        if (name && !household.ownerName.toLowerCase().includes(name.toLowerCase())) {
+          matches = false;
+        }
+        if (apartmentId && !household.apartmentId.toLowerCase().includes(apartmentId.toLowerCase())) {
+          matches = false;
+        }
+        if (shkId && !household.id.toLowerCase().includes(shkId.toLowerCase())) {
+          matches = false;
+        }
+        if (matches) {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${household.id}</td>
+            <td>${household.apartmentId}</td>
+            <td>${household.registrationNumber}</td>
+            <td>${household.ownerName}</td>
+            <td>${household.additionalInfo}</td>
+            <td class="text-center">
+              <button class="btn-details" onclick="viewDetails('${household.id}')">
+                <i class="fa fa-info-circle"></i>
+              </button>
+            </td>
+          `;
+          householdList.appendChild(row);
+        } 
+      });
+    }
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

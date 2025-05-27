@@ -31,26 +31,29 @@
   <div class="filter-container">
     <div class="input-container">
       <label class="input-label">HỌ TÊN CHỦ HỘ</label>
-      <input type="text" placeholder="Nhập họ tên" class="input-field">
+      <input type="text" placeholder="Nhập họ tên" class="input-field" onkeyup="filter()">
     </div>
 
     <div class="input-container">
       <label class="input-label">ID CĂN HỘ</label>
-      <input type="text" placeholder="Nhập ID căn hộ" class="input-field">
+      <input type="text" placeholder="Nhập ID căn hộ" class="input-field" onkeyup="filter()">
     </div>
 
     <div class="input-container">
       <label class="input-label">ID SHK</label>
-      <input type="text" placeholder="Nhập ID SHK" class="input-field">
+      <input type="text" placeholder="Nhập ID SHK" class="input-field" onkeyup="filter()">
     </div>
 
     <div class="filter-group">
-      <button class="btn btn-primary">Làm mới</button>
-      <button class="btn btn-primary">
-        <i class="fa fa-filter"></i> Lọc
-      </button>
+      <button class="btn btn-primary" onclick="resetFilters()">Làm mới</button>
     </div>
   </div>
-
+  <script>
+    function resetFilters() {
+      document.querySelectorAll('.input-field').forEach(input => {
+        input.value = '';
+      });
+    }
+  </script>
 </body>
 </html>
