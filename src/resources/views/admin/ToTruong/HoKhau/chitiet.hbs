@@ -1,45 +1,56 @@
-<h2>Chi tiết nhân khẩu</h2>
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">Chi tiết Nhân Khẩu</h2>
 
-<form id="nhanKhauForm" action="/admin/hokhau/{{hokhau.idSoHoKhau}}/update" method="POST">
-  <div class="detail-box">
-    <p><strong>ID:</strong> <span id="view-idNhanKhau">{{hokhau.idSoHoKhau}}</span></p>
+  <form id="nhanKhauForm" action="/admin/hokhau/{{hokhau.idSoHoKhau}}/update" method="POST">
+    <div class="card shadow">
+      <div class="card-body">
+        <div class="mb-3">
+          <label class="form-label fw-bold">ID:</label>
+          <p class="form-control-plaintext" id="view-idNhanKhau">{{hokhau.idSoHoKhau}}</p>
+        </div>
 
-    <p><strong>Số sổ hộ khẩu:</strong>
-      <span class="view-mode">{{hokhau.soSoHoKhau}}</span>
-      <input class="edit-mode" type="text" name="soSoHoKhau" value="{{hokhau.soSoHoKhau}}" style="display:none;">
-    </p>
+        <div class="mb-3">
+          <label class="form-label fw-bold">Số sổ hộ khẩu:</label>
+          <p class="form-control-plaintext view-mode">{{hokhau.soSoHoKhau}}</p>
+          <input type="text" class="form-control edit-mode" name="soSoHoKhau" value="{{hokhau.soSoHoKhau}}" style="display: none;">
+        </div>
 
-    <p><strong>Họ tên chủ hộ:</strong>
-      <span class="view-mode">{{hokhau.hoTenChu}}</span>
-      <input class="edit-mode" type="text" name="hoTenChu" value="{{hokhau.hoTenChu}}" style="display:none;">
-    </p>
+        <div class="mb-3">
+          <label class="form-label fw-bold">Họ tên chủ hộ:</label>
+          <p class="form-control-plaintext view-mode">{{hokhau.hoTenChu}}</p>
+          <input type="text" class="form-control edit-mode" name="hoTenChu" value="{{hokhau.hoTenChu}}" style="display: none;">
+        </div>
 
-    <p><strong>Thông tin thêm:</strong>
-      <span class="view-mode">{{hokhau.thongTinThem}}</span>
-      <input class="edit-mode" type="text" name="thongTinThem" value="{{hokhau.thongTinThem}}" style="display:none;">
-    </p>
-  </div>
+        <div class="mb-3">
+          <label class="form-label fw-bold">Thông tin thêm:</label>
+          <p class="form-control-plaintext view-mode">{{hokhau.thongTinThem}}</p>
+          <input type="text" class="form-control edit-mode" name="thongTinThem" value="{{hokhau.thongTinThem}}" style="display: none;">
+        </div>
+      </div>
 
-  <div class="button-group">
-    <a href="/admin/hokhau" class="btn btn-back">Quay lại</a>
-    <button type="button" id="editBtn" class="btn btn-edit">✏️ Chỉnh sửa</button>
-    <button type="submit" id="saveBtn" class="btn btn-save" style="display:none;">💾 Lưu</button>
-  </div>
-</form>
+      <div class="card-footer d-flex justify-content-between">
+        <a href="/admin/hokhau" class="btn btn-secondary">⬅️ Quay lại</a>
+        <div>
+          <button type="button" id="editBtn" class="btn btn-warning">✏️ Chỉnh sửa</button>
+          <button type="submit" id="saveBtn" class="btn btn-success" style="display: none;">💾 Lưu</button>
+        </div>
+      </div>
+    </div>
+  </form>
 
-<form id="deleteForm" action="/admin/hokhau/{{hokhau.idSoHoKhau}}/delete" method="POST" style="display: inline;">
-  <button type="submit" id="deleteBtn" class="btn btn-delete" onclick="return confirm('Bạn có chắc chắn muốn xóa nhân khẩu này không?')">🗑️ Xóa</button>
-</form>
+  <form id="deleteForm" action="/admin/hokhau/{{hokhau.idSoHoKhau}}/delete" method="POST" class="mt-3 text-end">
+    <button type="submit" id="deleteBtn" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa nhân khẩu này không?')">
+      🗑️ Xóa
+    </button>
+  </form>
+</div>
 
 <script>
   document.getElementById('editBtn').addEventListener('click', function () {
-    // Ẩn phần xem
     document.querySelectorAll('.view-mode').forEach(el => el.style.display = 'none');
-    // Hiện phần chỉnh sửa
-    document.querySelectorAll('.edit-mode').forEach(el => el.style.display = 'inline');
-    // Ẩn nút "Chỉnh sửa" và "Xóa", hiện nút "Lưu"
+    document.querySelectorAll('.edit-mode').forEach(el => el.style.display = 'block');
     document.getElementById('editBtn').style.display = 'none';
     document.getElementById('deleteBtn').style.display = 'none';
-    document.getElementById('saveBtn').style.display = 'inline';
+    document.getElementById('saveBtn').style.display = 'inline-block';
   });
 </script>

@@ -1,192 +1,142 @@
-  <h2>Danh sách căn hộ</h2>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quản lý căn hộ</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container py-4">
 
-  <form class="form-filter" onsubmit="return false;">
-    <div class="form-group">
-      <label>ID Căn hộ</label>
-      <input type="text" id="filterCanHo" placeholder="Nhập số căn hộ">
+  <h2 class="mb-4">Danh sách căn hộ</h2>
+
+  <!-- Bộ lọc -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-3">
+      <label for="filterId" class="form-label">ID Căn hộ</label>
+      <input type="text" class="form-control" id="filterId" placeholder="Nhập ID">
     </div>
-
-    <div class="form-group">
-      <label>Loại căn hộ</label>
-      <select id="filterLoaiCanHo">
+    <div class="col-md-3">
+      <label for="filterLoai" class="form-label">Loại căn hộ</label>
+      <select class="form-select" id="filterLoai">
         <option value="">-- Tất cả --</option>
         <option value="nhà ở">Nhà ở</option>
-        <option value="penhouse">Penhouse</option>
+        <option value="penhouse">Penthouse</option>
       </select>
     </div>
-
-    <div class="form-group">
-      <label>Trạng thái</label>
-      <select id="filterTrangThai">
+    <div class="col-md-3">
+      <label for="filterTrangThai" class="form-label">Trạng thái</label>
+      <select class="form-select" id="filterTrangThai">
         <option value="">-- Tất cả --</option>
         <option value="trống">Trống</option>
         <option value="không trống">Không trống</option>
       </select>
     </div>
-
-    <div class="button-group">
-      <button type="button" class="btn btn-filter" onclick="filterTable()">🔍 Lọc</button>
-      <button type="button" class="btn btn-reset" onclick="resetFilter()">Làm mới</button>
+    <div class="col-md-3 d-flex align-items-end">
+      <button class="btn btn-primary me-2" onclick="filterTable()">Lọc</button>
+      <button class="btn btn-secondary" onclick="resetFilter()">Làm mới</button>
     </div>
-  </form>
+  </div>
 
-  <table class="table-nhankhau">
-    <thead>
+  <!-- Bảng danh sách -->
+  <table class="table table-hover table-bordered align-middle" id="canhoTable">
+    <thead class="table-light">
       <tr>
         <th>ID Căn hộ</th>
-        <th>Loại Căn hộ</th>
-        <th>Diện tích</th>
+        <th>Loại căn hộ</th>
+        <th>Diện tích (m²)</th>
         <th>Trạng thái</th>
         <th>Chỉnh sửa</th>
       </tr>
     </thead>
     <tbody>
       {{#each canhos}}
-        <tr>
-          <td>{{this.idCanHo}}</td>
-          <td>{{this.loai}}</td>
-          <td>{{this.dienTich}}</td>
-          <td>{{this.trangThai}}</td>
-          <td><button class="btn btn-edit" onclick="openOverlay({{this.idCanHo}})">✏️</button></td>
-        </tr>
+      <tr>
+        <td>{{idCanHo}}</td>
+        <td>{{loai}}</td>
+        <td>{{dienTich}}</td>
+        <td>{{trangThai}}</td>
+        <td>
+          <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal"
+                  data-id="{{idCanHo}}" data-trangthai="{{trangThai}}">
+            Chỉnh sửa
+          </button>
+        </td>
+      </tr>
       {{/each}}
     </tbody>
   </table>
+</div>
 
-  <!-- Overlay -->
-  <div id="overlay" class="overlay" style="display: none;">
-    <div class="overlay-content">
-      <h3>Chỉnh sửa Căn hộ</h3>
-      <form id="editForm">
-        <input type="hidden" id="editIdCanHo">
-        <label>Loại căn hộ:</label>
-        <select id="editLoai">
-          <option value="nhà ở">Nhà ở</option>
-          <option value="penhouse">Penhouse</option>
-        </select>
-
-        <label>Diện tích:</label>
-        <input type="number" id="editDienTich" min="0">
-
-        <label>Trạng thái:</label>
-        <select id="editTrangThai">
-          <option value="trống">Trống</option>
-          <option value="không trống">Không trống</option>
-        </select>
-
-        <label>Số xe máy:</label>
-        <input type="number" id="editSoXeMay" min="0">
-
-        <label>Số ô tô:</label>
-        <input type="number" id="editSoOto" min="0">
-
-        <div class="overlay-buttons">
-          <button type="button" onclick="saveChanges()">💾 Lưu</button>
-          <button type="button" onclick="closeOverlay()">❌ Đóng</button>
+<!-- Modal chỉnh sửa -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="POST" id="updateForm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLabel">Chỉnh sửa trạng thái căn hộ</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
         </div>
-      </form>
-    </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="trangThaiSelect" class="form-label">Trạng thái</label>
+            <select class="form-select" id="trangThaiSelect" name="trangThai" required>
+              <option value="trống">Trống</option>
+              <option value="không trống">Không trống</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Lưu</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    </form>
   </div>
+</div>
 
-  <style>
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(0,0,0,0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .overlay-content {
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      width: 400px;
-    }
-    .overlay-content input, .overlay-content select {
-      width: 100%;
-      margin-bottom: 10px;
-    }
-  </style>
+<!-- Bootstrap + JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Hiển thị lại modal và cập nhật form action
+  const editModal = document.getElementById('editModal');
+  editModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget;
+    const id = button.getAttribute('data-id');
+    const trangThai = button.getAttribute('data-trangthai');
 
-  <script>
-    function openOverlay(idCanHo) {
-      fetch(`/admin/canho/${idCanHo}`)
-        .then(response => response.json())
-        .then(data => {
-          document.getElementById('editIdCanHo').value = data.idCanHo;
-          document.getElementById('editLoai').value = data.loai;
-          document.getElementById('editDienTich').value = data.dienTich;
-          document.getElementById('editTrangThai').value = data.trangThai;
-          document.getElementById('editSoXeMay').value = data.soXeMay;
-          document.getElementById('editSoOto').value = data.soOto;
-          document.getElementById('overlay').style.display = 'flex';
-        })
-        .catch(err => alert("Không thể tải dữ liệu căn hộ."));
-    }
+    const form = document.getElementById('updateForm');
+    form.action = `/admin/canho/${id}/update`;
+    document.getElementById('trangThaiSelect').value = trangThai;
+  });
 
-    function closeOverlay() {
-      document.getElementById('overlay').style.display = 'none';
-    }
+  // Lọc bảng theo input
+  function filterTable() {
+    const idValue = document.getElementById('filterId').value.trim().toLowerCase();
+    const loaiValue = document.getElementById('filterLoai').value;
+    const trangThaiValue = document.getElementById('filterTrangThai').value;
 
-    function saveChanges() {
-      const id = document.getElementById('editIdCanHo').value;
-      const body = {
-        loai: document.getElementById('editLoai').value,
-        dienTich: document.getElementById('editDienTich').value,
-        trangThai: document.getElementById('editTrangThai').value,
-        soXeMay: document.getElementById('editSoXeMay').value,
-        soOto: document.getElementById('editSoOto').value
-      };
+    const rows = document.querySelectorAll('#canhoTable tbody tr');
+    rows.forEach(row => {
+      const idText = row.cells[0].innerText.toLowerCase();
+      const loaiText = row.cells[1].innerText;
+      const trangThaiText = row.cells[3].innerText;
 
-      fetch(`/admin/canho/${id}/update`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      })
-      .then(response => {
-        if (response.ok) return response.json();
-        else throw new Error("Lỗi khi cập nhật");
-      })
-      .then(data => {
-        alert(data.message || 'Cập nhật thành công!');
-        location.reload();
-      })
-      .catch(err => alert(err.message));
-    }
+      const idMatch = idText.includes(idValue);
+      const loaiMatch = !loaiValue || loaiText === loaiValue;
+      const trangThaiMatch = !trangThaiValue || trangThaiText === trangThaiValue;
 
-    function filterTable() {
-      const idFilter = document.getElementById('filterCanHo').value.toLowerCase();
-      const loaiFilter = document.getElementById('filterLoaiCanHo').value.toLowerCase();
-      const trangThaiFilter = document.getElementById('filterTrangThai').value.toLowerCase();
+      row.style.display = (idMatch && loaiMatch && trangThaiMatch) ? '' : 'none';
+    });
+  }
 
-      const rows = document.querySelectorAll('.table-nhankhau tbody tr');
-
-      rows.forEach(row => {
-        const id = row.cells[0].textContent.toLowerCase();
-        const loai = row.cells[1].textContent.toLowerCase();
-        const trangThai = row.cells[3].textContent.toLowerCase();
-
-        const matchId = id.includes(idFilter);
-        const matchLoai = !loaiFilter || loai === loaiFilter;
-        const matchTrangThai = !trangThaiFilter || trangThai === trangThaiFilter;
-
-        if (matchId && matchLoai && matchTrangThai) {
-          row.style.display = '';
-        } else {
-          row.style.display = 'none';
-        }
-      });
-    }
-
-    function resetFilter() {
-      document.getElementById('filterCanHo').value = '';
-      document.getElementById('filterLoaiCanHo').value = '';
-      document.getElementById('filterTrangThai').value = '';
-      filterTable();
-    }
-  </script>
-
+  function resetFilter() {
+    document.getElementById('filterId').value = '';
+    document.getElementById('filterLoai').value = '';
+    document.getElementById('filterTrangThai').value = '';
+    filterTable();
+  }
+</script>
+</body>
+</html>
