@@ -8,7 +8,7 @@
   <style>
     body {
       background-color: #f8f9fa;
-      padding: 20px;
+      padding: 0;
     }
     .form-container {
       max-width: 1100px;
@@ -84,18 +84,6 @@
   </div>
 
   <script>
-    const feeData = {
-      id: "PH005",
-      apartmentId: "CH001",
-      feeType: "Điện",
-      amount: "320000",
-      description: "Tiêu thụ điện tháng 03/2025",
-      status: "Chưa thanh toán",
-      paymentDate: "",
-      startDate: "2025-03-01",
-      endDate: "2025-03-31"
-    };
-
     const fields = {
       id: document.getElementById("id"),
       apartmentId: document.getElementById("apartmentId"),
@@ -108,39 +96,25 @@
       endDate: document.getElementById("endDate")
     };
 
-    function loadData(data) {
-      for (const key in fields) {
-        if (fields[key].tagName === "SELECT" || fields[key].tagName === "TEXTAREA" || fields[key].tagName === "INPUT") {
-          fields[key].value = data[key] || "";
-        }
-      }
-    }
-
     function setEditMode(enabled) {
+      document.getElementById("apartmentId").readOnly = !enabled;
+      document.getElementById("feeType").readOnly = !enabled;
+      document.getElementById("amount").readOnly = !enabled;
+      document.getElementById("description").readOnly = !enabled;
+      document.getElementById("status").disabled = !enabled;
+      document.getElementById("paymentDate").disabled = !enabled;
+      document.getElementById("startDate").disabled = !enabled;
+      document.getElementById("endDate").disabled = !enabled;
+
       document.getElementById("page-title").innerText = enabled ? "Chỉnh sửa phí" : "Chi tiết phí";
       document.getElementById("edit-btn").innerText = enabled ? "Lưu" : "Chỉnh sửa";
-
-      for (const key in fields) {
-        if (key !== "id") {
-          fields[key].readOnly = !enabled;
-          fields[key].disabled = key === "status" ? !enabled : false;
-        }
-      }
     }
 
-    let isEdit = false;
     document.getElementById("edit-btn").addEventListener("click", () => {
-      if (!isEdit) {
-        isEdit = true;
+      if (document.getElementById("edit-btn").innerText === "Chỉnh sửa") {
         setEditMode(true);
       } else {
-        const updated = {};
-        for (const key in fields) {
-          updated[key] = fields[key].value;
-        }
-        console.log("Cập nhật phí:", updated);
         alert("Lưu thành công!");
-        isEdit = false;
         setEditMode(false);
       }
     });
@@ -151,8 +125,6 @@
         document.getElementById("fee-form").reset();
       }
     });
-
-    loadData(feeData);
     setEditMode(false);
   </script>
 </body>

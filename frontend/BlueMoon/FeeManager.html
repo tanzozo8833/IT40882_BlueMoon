@@ -22,15 +22,37 @@
         </h1>
         <hr>
         <div id="SearchFilterSection"></div>
-        <button class="btn btn-primary mb-3"><i class="bi bi-plus-lg"></i> Thêm mới</button>
+        <button class="btn btn-primary mb-3" onclick="openAddFeeDialog()"><i class="bi bi-plus-lg"></i> Thêm mới</button>
         <div id="FeeListTable"></div>
       </main>
     </div>
   </div>
-
+  <dialog id="add-fee"></dialog>
+  <dialog id="edit-fee"></dialog>
   <script>
+    function openAddFeeDialog() {
+      loadSection("FeeManager_Add.html", 'add-fee');
+      const dialog = document.getElementById('add-fee');
+      dialog.showModal();
+    }
+
+    function openEditFeeDialog(id){
+      loadSection('FeeManager_ViewEdit.html', 'edit-fee').then(() => {
+        const record = records.find(r => r.id === id);
+        document.getElementById('id').value = record.id;
+        document.getElementById('apartmentId').value = record.apartmentId;
+        document.getElementById('feeType').value = record.feeType;
+        document.getElementById('amount').value = parseInt(record.amount.replace(/,/g, ""), 10);
+        document.getElementById('description').value = record.description;
+        document.getElementById('status').value = record.status;
+        document.getElementById('paymentDate').value = record.paymentDate
+        document.getElementById("startDate").value = record.startDate;
+        document.getElementById("endDate").value = record.endDate;  
+      });
+      const dialog = document.getElementById('edit-fee');
+      dialog.showModal();
+    }
     function filter(){
-      
       const appartmentId = document.querySelector('.input-container input[type="text"]').value;
       const feeType = document.getElementById('dropdown-value-FeeType').textContent;
       const month = document.getElementById('dropdown-value-Month').textContent;
@@ -74,8 +96,8 @@
             <td>${record.paymentDate}</td>
             <td>${record.startDate}</td>
             <td>${record.endDate}</td>
-            <td class="text-center"><button class="btn-details" onclick="viewDetails(${record.id})" title="Xem chi tiết" aria-label="Xem chi tiết">
-              <i class="fa fa-info-circle"></i>
+            <td class="text-center"><button class="btn-details" onclick=openEditFeeDialog('${record.id}')" title="Xem chi tiết" aria-label="Xem chi tiết">
+              <i class="fa fa-edit"></i>
               </button>
               </td>
           `;
@@ -84,7 +106,7 @@
       });
     }
     function loadSection(url, containerId) {
-      fetch(url)
+      return fetch(url)
         .then(response => response.text())
         .then(data => {
           document.getElementById(containerId).innerHTML = data;

@@ -22,7 +22,8 @@
         </h1>
         <hr>
         <div id="SearchFilterSection"></div>
-        <button class="btn btn-primary mb-3"><i class="bi bi-plus-lg"></i> Thêm mới</button>
+        <dialog id="add-account"></dialog>
+        <button class="btn btn-primary mb-3" onclick="openAddAccountDialog()"><i class="bi bi-plus-lg"></i> Thêm mới</button>
         <button class="btn btn-primary mb-3"><i class="bi bi-pencil-square"></i> Lưu</button>
         <div id="AccountListTable"></div>
       </main>
@@ -30,6 +31,11 @@
   </div>
 
   <script>
+    function openAddAccountDialog() {
+      loadSection('AccountManagement_Add.html', 'add-account');
+      const dialog = document.getElementById('add-account');
+      dialog.showModal();
+    }
     function resetFilters() {
       document.querySelectorAll('.input-field').forEach(input => {
         input.value = '';

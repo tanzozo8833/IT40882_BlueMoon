@@ -22,15 +22,35 @@
         </h1>
         <hr>
         <div id="SearchFilterSection"></div>
-        <button class="btn btn-primary mb-3"><i class="bi bi-plus-lg"></i> Thêm mới</button>
+        <button class="btn btn-primary mb-3" onclick="openAddHouseholdDialog()"><i class="bi bi-plus-lg"></i> Thêm mới</button>
         <div id="HouseholdListTable"></div>
       </main>
     </div>
   </div>
-
+  <dialog id="add-household"></dialog>
+  <dialog id="edit-household"></dialog>
   <script>
+    function openAddHouseholdDialog() {
+      loadSection("HouseholdRegistrationList_Add.html", 'add-household');
+      const dialog = document.getElementById('add-household');
+      dialog.showModal();
+    }
+
+    function openEditHouseholdDialog(id) {
+      loadSection('HouseholdRegistrationList_ViewEdit.html', 'edit-household').then(() => {
+        const record = households.find(h => h.id == id);
+        document.getElementById('idShk').value = record.id;
+        document.getElementById('apartmentId').value = record.apartmentId;
+        document.getElementById('shkNumber').value = record.registrationNumber;
+        document.getElementById('ownerName').value = record.ownerName;
+        document.getElementById('additionalInfo').value = record.additionalInfo;
+      });
+      const dialog = document.getElementById('edit-household');
+      dialog.showModal();
+    }
+
     function loadSection(url, containerId) {
-      fetch(url)
+      return fetch(url)
         .then(response => response.text())
         .then(data => {
           document.getElementById(containerId).innerHTML = data;
@@ -79,10 +99,10 @@
             <td>${household.ownerName}</td>
             <td>${household.additionalInfo}</td>
             <td class="text-center">
-              <button class="btn-details" onclick="viewDetails('${household.id}')">
-                <i class="fa fa-info-circle"></i>
-              </button>
-            </td>
+          <button class="btn-details" onclick="openEditHouseholdDialog('${household.id}')" title="Chỉnh sửa" aria-label="Chỉnh sửa">
+            <i class="fa fa-edit"></i>
+          </button>
+        </td>
           `;
           householdList.appendChild(row);
         } 

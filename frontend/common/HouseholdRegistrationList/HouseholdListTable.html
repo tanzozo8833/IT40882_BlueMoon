@@ -75,18 +75,13 @@
         <td>${household.ownerName}</td>
         <td>${household.additionalInfo}</td>
         <td class="text-center">
-          <button class="btn-details" onclick="viewDetails('${household.id}')">
-            <i class="fa fa-info-circle"></i>
+          <button class="btn-details" onclick="openEditHouseholdDialog('${household.id}')" title="Chỉnh sửa" aria-label="Chỉnh sửa">
+            <i class="fa fa-edit"></i>
           </button>
         </td>
       `;
       householdList.appendChild(row);
     });
-
-    function viewDetails(id) {
-      console.log(`Xem chi tiết cho hộ khẩu ID: ${id}`);
-      alert(`Xem chi tiết hộ khẩu ID ${id}`);
-    }
   </script>
 
 </body>

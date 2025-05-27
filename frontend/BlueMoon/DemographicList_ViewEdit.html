@@ -21,15 +21,15 @@
       <div class="row g-3 mb-4">
         <div class="col-md-3">
           <label>ID NHÂN KHẨU</label>
-          <input class="form-control" id="idNhanKhau" value="1" readonly>
+          <input class="form-control" id="idNhanKhau" readonly>
         </div>
         <div class="col-md-3">
           <label>ID SỔ HỘ KHẨU</label>
-          <input class="form-control" id="idSoHoKhau" value="SHK001" readonly>
+          <input class="form-control" id="idSoHoKhau" readonly>
         </div>
         <div class="col-md-3">
           <label>QUAN HỆ VỚI CHỦ HỘ</label>
-          <input class="form-control" id="quanHeChuHo" value="Chủ hộ" readonly>
+          <input class="form-control" id="quanHeChuHo" readonly>
         </div>
         <div class="col-md-3">
           <label>TRẠNG THÁI</label>
@@ -44,66 +44,53 @@
       <div class="row g-3 mb-4">
         <div class="col-md-3">
           <label>HỌ TÊN</label>
-          <input class="form-control" id="hoTen" value="Nguyễn Văn A" readonly>
+          <input class="form-control" id="hoTen" readonly>
         </div>
         <div class="col-md-3">
           <label>NƠI SINH</label>
-          <select class="form-select" id="noiSinh" disabled>
-            <option selected>Hà Nội</option>
-            <option>Đà Nẵng</option>
-            <option>Nam Định</option>
-          </select>
+          <input class="form-control" id="noiSinh" readonly>
         </div>
         <div class="col-md-3">
           <label>QUÊ QUÁN</label>
-          <select class="form-select" id="queQuan" disabled>
-            <option selected>Nam Định</option>
-            <option>Thái Bình</option>
-            <option>Huế</option>
-          </select>
+          <input class="form-control" id="queQuan" readonly>
         </div>
         <div class="col-md-3">
           <label>NGÀY SINH</label>
-          <input type="date" class="form-control" id="ngaySinh" value="1985-03-15" readonly>
+          <input type="date" class="form-control" id="ngaySinh" readonly>
         </div>
       </div>
 
       <div class="row g-3 mb-4">
         <div class="col-md-3">
           <label>DÂN TỘC</label>
-          <select class="form-select" id="danToc" disabled>
-            <option selected>Kinh</option>
-            <option>Tày</option>
-            <option>Mường</option>
-            <option>Hoa</option>
-          </select>
+          <input class="form-control" id="danToc" readonly>
         </div>
         <div class="col-md-3">
           <label>NGHỀ NGHIỆP</label>
-          <input class="form-control" id="ngheNghiep" value="Kỹ sư" readonly>
+          <input class="form-control" id="ngheNghiep" readonly>
         </div>
         <div class="col-md-3">
           <label>NƠI LÀM VIỆC</label>
-          <input class="form-control" id="noiLamViec" value="Công ty ABC" readonly>
+          <input class="form-control" id="noiLamViec" readonly>
         </div>
         <div class="col-md-3">
           <label>THÔNG TIN THÊM</label>
-          <input class="form-control" id="thongTinThem" value="Không có" readonly>
+          <input class="form-control" id="thongTinThem" readonly>
         </div>
       </div>
 
       <div class="row g-3 mb-4">
         <div class="col-md-4">
           <label>SỐ CCCD</label>
-          <input class="form-control" id="soCCCD" value="012345678901" readonly>
+          <input class="form-control" id="soCCCD" readonly>
         </div>
         <div class="col-md-4">
           <label>NGÀY CẤP</label>
-          <input type="date" class="form-control" id="ngayCap" value="2020-05-10" readonly>
+          <input type="date" class="form-control" id="ngayCap" readonly>
         </div>
         <div class="col-md-4">
           <label>NƠI CẤP</label>
-          <input class="form-control" id="noiCap" value="Công an tỉnh Nam Định" readonly>
+          <input class="form-control" id="noiCap" readonly>
         </div>
       </div>
 
@@ -116,32 +103,33 @@
   </main>
 
   <script>
-    const inputs = document.querySelectorAll('#memberForm input, #memberForm select');
-    const editBtn = document.getElementById('editBtn');
-    const saveBtn = document.getElementById('saveBtn');
-    const pageTitle = document.getElementById('pageTitle');
-
-    editBtn.addEventListener('click', () => {
-      pageTitle.innerText = "Chỉnh sửa nhân khẩu";
-      toggleForm(true);
-    });
-
-    saveBtn.addEventListener('click', () => {
-      pageTitle.innerText = "Chi tiết nhân khẩu";
-      toggleForm(false);
-      alert('Đã lưu thay đổi!');
+    
+    document.getElementById("editBtn").addEventListener('click', () => {
+        if (document.getElementById("editBtn").innerText === "Chỉnh sửa") {
+            document.getElementById("pageTitle").innerText = "Chỉnh sửa nhân khẩu";
+            toggleForm(true);
+        } else {
+            document.getElementById("pageTitle").innerText = "Chi tiết nhân khẩu";
+            toggleForm(false);
+        }
     });
 
     function toggleForm(enable) {
-      inputs.forEach(input => {
-        if (input.tagName === "SELECT") {
-          input.disabled = !enable;
-        } else {
-          input.readOnly = !enable;
-        }
-      });
-      editBtn.classList.toggle('d-none', enable);
-      saveBtn.classList.toggle('d-none', !enable);
+        document.getElementById("idNhanKhau").readOnly = !enable;
+        document.getElementById("idSoHoKhau").readOnly = !enable;
+        document.getElementById("quanHeChuHo").readOnly = !enable;
+        document.getElementById("trangThai").disabled = !enable;
+        document.getElementById("hoTen").readOnly = !enable;
+        document.getElementById("noiSinh").disabled = !enable;
+        document.getElementById("queQuan").disabled = !enable;
+        document.getElementById("ngaySinh").disabled = !enable;
+        document.getElementById("danToc").disabled = !enable;
+        document.getElementById("ngheNghiep").readOnly = !enable;
+        document.getElementById("noiLamViec").readOnly = !enable;
+        document.getElementById("thongTinThem").readOnly = !enable;
+        document.getElementById("soCCCD").readOnly = !enable;
+        document.getElementById("ngayCap").disabled = !enable;
+        document.getElementById("noiCap").readOnly = !enable;
     }
   </script>
 </body>

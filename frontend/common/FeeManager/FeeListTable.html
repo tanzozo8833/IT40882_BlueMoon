@@ -83,8 +83,8 @@
         <td>${record.paymentDate}</td>
         <td>${record.startDate}</td>
         <td>${record.endDate}</td>
-        <td class="text-center"><button class="btn-details" onclick="viewDetails(${record.id})" title="Xem chi tiết" aria-label="Xem chi tiết">
-          <i class="fa fa-info-circle"></i>
+        <td class="text-center"><button class="btn-details" onclick="openEditFeeDialog('${record.id}')" title="Chỉnh sửa" aria-label="Chỉnh sửa">
+          <i class="fa fa-edit"></i>
           </button>
           </td>
       `;

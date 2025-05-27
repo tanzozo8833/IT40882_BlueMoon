@@ -26,8 +26,22 @@
       </main>
     </div>
   </div>
-
+  <dialog id="edit-apartment"></dialog>
   <script>
+    function openEditApartmentDialog(id) {
+      loadSection('ApartmentList_ViewEdit.html', 'edit-apartment').then(() => {
+        const record = records.find(r => r.id == id);
+        document.getElementById('idShk').value = record.id;
+        document.getElementById('apartmentId').value = record.apartmentId;
+        document.getElementById('type').value = record.type;
+        document.getElementById('motorbikeCount').value = record.motorbikeCount;
+        document.getElementById('carCount').value = record.carCount;
+        document.getElementById('area').value = record.area;
+      });
+      const dialog = document.getElementById('edit-apartment');
+      dialog.showModal();
+    }
+
     function filter() {
       const apartmentId = document.querySelector('.input-container input[type="text"]').value;
       const type = document.getElementById('dropdown-value-ApartmentType').textContent;
@@ -53,11 +67,10 @@
             <td>${record.motorbikeCount}</td>
             <td>${record.carCount}</td>
             <td>${record.area}</td>
-            <td class="text-center">
-              <button class="btn-details" onclick="viewDetails(${record.id})" title="Xem chi tiết" aria-label="Xem chi tiết">
-                <i class="fa fa-info-circle"></i>
+            <td class="text-center"><button class="btn-details" onclick="openEditApartmentDialog('${record.id}')" title="Xem chi tiết" aria-label="Xem chi tiết">
+              <i class="fa fa-edit"></i>
               </button>
-            </td>
+              </td>
           `;
           appartmentList.appendChild(row);
         }
@@ -65,7 +78,7 @@
     }
 
     function loadSection(url, containerId) {
-      fetch(url)
+      return fetch(url)
         .then(response => response.text())
         .then(data => {
           document.getElementById(containerId).innerHTML = data;

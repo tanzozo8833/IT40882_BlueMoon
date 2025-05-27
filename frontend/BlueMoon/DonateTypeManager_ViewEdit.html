@@ -9,7 +9,7 @@
   <style>
     body {
       background-color: #f8f9fa;
-      padding: 20px;
+      padding: 0;
     }
 
     .form-container {
@@ -77,91 +77,38 @@
       </div>
 
       <div class="mt-4" id="button-area">
-        <button type="button" id="edit-btn" class="btn btn-warning fw-bold px-4">Chỉnh sửa</button>
-        <button type="button" id="delete-btn" class="btn btn-danger fw-bold px-4">Xóa quỹ</button>
+        <button type="button" id="edit-btn" class="btn btn-warning fw-bold px-4" onclick="edit()">Chỉnh sửa</button>
+        <button type="button" id="delete-btn" class="btn btn-danger fw-bold px-4" onclick="del()">Xóa quỹ</button>
       </div>
     </form>
   </div>
 
   <script>
-    // Dữ liệu mẫu
-    let donateData = {
-      id: "PHI005",
-      fundName: "Quỹ tình thương tháng 5",
-      description: "Điện dụng tháng 03/2025",
-      status: "Đang tiến hành",
-      startDate: "2025-05-01",
-      endDate: "2025-05-31"
-    };
-
-    const form = document.getElementById('donate-form');
-    const pageTitle = document.getElementById('page-title');
-    const editBtn = document.getElementById('edit-btn');
-    const deleteBtn = document.getElementById('delete-btn');
-
-    const fields = {
-      id: document.getElementById('id'),
-      fundName: document.getElementById('fundName'),
-      description: document.getElementById('description'),
-      status: document.getElementById('status'),
-      startDate: document.getElementById('startDate'),
-      endDate: document.getElementById('endDate')
-    };
-
-    function loadData(data) {
-      fields.id.value = data.id;
-      fields.fundName.value = data.fundName;
-      fields.description.value = data.description;
-      fields.status.value = data.status;
-      fields.startDate.value = data.startDate;
-      fields.endDate.value = data.endDate;
-    }
-
-    let isEdit = false;
     function setEditMode(editMode) {
-      isEdit = editMode;
-      for (const key in fields) {
-        if (fields.hasOwnProperty(key)) {
-          if (key === 'id') {
-            fields[key].readOnly = true;
-          } else if (key === 'status') {
-            fields[key].disabled = !editMode;
-          } else {
-            fields[key].readOnly = !editMode;
-          }
-        }
-      }
-      pageTitle.textContent = isEdit ? "Chỉnh sửa quỹ" : "Chi tiết quỹ";
-      editBtn.textContent = isEdit ? "Xác nhận thay đổi" : "Chỉnh sửa";
+      document.getElementById('fundName').readOnly = !editMode;
+      document.getElementById('description').readOnly = !editMode;
+      document.getElementById('status').disabled = !editMode;
+      document.getElementById('startDate').readOnly = !editMode;
+      document.getElementById('endDate').readOnly = !editMode;
+      document.getElementById('page-title').textContent = editMode ? "Chỉnh sửa quỹ" : "Chi tiết quỹ";
+      document.getElementById('edit-btn').textContent = editMode ? "Xác nhận thay đổi" : "Chỉnh sửa";
     }
 
-    editBtn.addEventListener('click', () => {
-      if (isEdit) {
-        const updatedData = {
-          id: fields.id.value,
-          fundName: fields.fundName.value,
-          description: fields.description.value,
-          status: fields.status.value,
-          startDate: fields.startDate.value,
-          endDate: fields.endDate.value
-        };
-        donateData = updatedData;
+    function edit() {
+      if (document.getElementById('edit-btn').textContent === "Xác nhận thay đổi") {
         alert("Đã lưu thay đổi!");
         setEditMode(false);
-        loadData(donateData);
       } else {
         setEditMode(true);
       }
-    });
+    };
 
-    deleteBtn.addEventListener('click', () => {
+    function del() {
       if (confirm("Bạn có chắc muốn xóa quỹ này không?")) {
-        alert(`Đã xóa quỹ có ID ${donateData.id}`);
-        form.reset();
+        alert(`Đã xóa quỹ có ID ${document.getElementById('id').value}`);
+        document.getElementById('donate-form').reset();
       }
-    });
-
-    loadData(donateData);
+    };
     setEditMode(false);
   </script>
 
