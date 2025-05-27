@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Xem / Chỉnh sửa Căn hộ</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      background-color: #f8f9fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .form-container {
+      width: 1120px;
+      height: 645px;
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .section-title {
+      font-size: 1.75rem;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .form-label {
+      font-weight: 500;
+    }
+
+    .btn-action {
+      min-width: 120px;
+    }
+
+    textarea#note {
+      resize: vertical;
+      min-height: 120px;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2 id="page-title" class="section-title">Thông tin căn hộ</h2>
+
+    <form id="apartment-form">
+      <div class="row g-4">
+        <div class="col-md-6">
+          <label class="form-label" for="idShk">ID Sổ hộ khẩu</label>
+          <input type="text" id="idShk" class="form-control" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="apartmentId">ID Căn hộ</label>
+          <input type="text" id="apartmentId" class="form-control" readonly />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="type">Loại căn hộ</label>
+          <input type="text" id="type" class="form-control" readonly />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="area">Diện tích (m²)</label>
+          <input type="text" id="area" class="form-control" readonly />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="motorbikeCount">Số xe máy</label>
+          <input type="number" id="motorbikeCount" class="form-control" min="0" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="carCount">Số xe ô tô</label>
+          <input type="number" id="carCount" class="form-control" min="0" />
+        </div>
+        <div class="col-12">
+          <label class="form-label" for="note">Ghi chú</label>
+          <textarea id="note" class="form-control" rows="5" readonly></textarea>
+        </div>
+      </div>
+
+      <div class="text-center mt-4" id="button-area">
+        <button type="button" id="edit-btn" class="btn btn-warning me-2 btn-action">Chỉnh sửa</button>
+        <button type="button" id="delete-btn" class="btn btn-danger btn-action">Xóa</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const apartmentData = {
+      idShk: "HK001",
+      apartmentId: "CH012",
+      type: "2 phòng ngủ",
+      area: "75",
+      motorbikeCount: "2",
+      carCount: "1",
+      note: "Căn hộ góc, view đẹp"
+    };
+
+    const fields = {
+      idShk: document.getElementById("idShk"),
+      apartmentId: document.getElementById("apartmentId"),
+      type: document.getElementById("type"),
+      area: document.getElementById("area"),
+      motorbikeCount: document.getElementById("motorbikeCount"),
+      carCount: document.getElementById("carCount"),
+      note: document.getElementById("note")
+    };
+
+    function loadData(data) {
+      for (const key in fields) {
+        fields[key].value = data[key] || "";
+      }
+    }
+
+    function setEditMode(enabled) {
+      document.getElementById("page-title").innerText = enabled ? "Chỉnh sửa thông tin căn hộ" : "Thông tin căn hộ";
+      document.getElementById("edit-btn").innerText = enabled ? "Lưu" : "Chỉnh sửa";
+
+      // Chỉ cho phép chỉnh sửa 3 trường cụ thể
+      fields.idShk.readOnly = !enabled;
+      fields.motorbikeCount.readOnly = !enabled;
+      fields.carCount.readOnly = !enabled;
+    }
+
+    let isEdit = false;
+    document.getElementById("edit-btn").addEventListener("click", () => {
+      if (!isEdit) {
+        isEdit = true;
+        setEditMode(true);
+      } else {
+        const updated = {
+          idShk: fields.idShk.value,
+          motorbikeCount: fields.motorbikeCount.value,
+          carCount: fields.carCount.value
+        };
+        console.log("Cập nhật căn hộ:", updated);
+        alert("Lưu thành công!");
+        isEdit = false;
+        setEditMode(false);
+      }
+    });
+
+    document.getElementById("delete-btn").addEventListener("click", () => {
+      if (confirm("Bạn có chắc muốn xóa căn hộ này?")) {
+        alert(`Đã xóa căn hộ có ID ${apartmentData.apartmentId}`);
+        document.getElementById("apartment-form").reset();
+      }
+    });
+
+    loadData(apartmentData);
+    setEditMode(false);
+  </script>
+</body>
+</html>
