@@ -1,42 +1,115 @@
-<h2>Thêm nhân khẩu mới</h2>
+<h2 class="text-center display-6 fw-bold text-dark mb-5">Thêm nhân khẩu mới</h2>
 
-<form method="POST" action="/admin/nhankhau/add" class="form-them-nhankhau">
-  <div class="form-row">
-    <label>Họ tên</label>
-    <input type="text" name="hoTen" required>
+<form method="POST" action="/admin/nhankhau/add" class="container">
+  <div class="row g-3 mb-4">
+    <div class="col-md-3">
+      <label class="form-label">Họ tên</label>
+      <input type="text" name="hoTen" class="form-control" required>
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Ngày sinh</label>
+      <input type="date" name="ngaySinh" class="form-control" required>
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Nơi sinh</label>
+      <select name="noiSinh" class="form-select" required>
+        <option value="">-- Chọn nơi sinh --</option>
+        <option>Hà Nội</option>
+        <option>Hồ Chí Minh</option>
+        <option>Đà Nẵng</option>
+        <option>Hải Phòng</option>
+        <option>Cần Thơ</option>
+        <option>Nam Định</option>
+        <option>Thái Bình</option>
+        <option>Quảng Ninh</option>
+        <option>Huế</option>
+        <option>Nghệ An</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Quê quán</label>
+      <select name="queQuan" class="form-select" required>
+        <option value="">-- Chọn quê quán --</option>
+        <option>Hà Nội</option>
+        <option>Hồ Chí Minh</option>
+        <option>Đà Nẵng</option>
+        <option>Hải Phòng</option>
+        <option>Cần Thơ</option>
+        <option>Nam Định</option>
+        <option>Thái Bình</option>
+        <option>Quảng Ninh</option>
+        <option>Huế</option>
+        <option>Nghệ An</option>
+      </select>
+    </div>
   </div>
-  <div class="form-row">
-    <label>Ngày sinh</label>
-    <input type="date" name="ngaySinh" required>
+
+  <div class="row g-3 mb-4">
+    <div class="col-md-3">
+      <label class="form-label">Dân tộc</label>
+      <select name="danToc" class="form-select" required>
+        <option value="">-- Chọn dân tộc --</option>
+        <option>Kinh</option>
+        <option>Tày</option>
+        <option>Thái</option>
+        <option>Mường</option>
+        <option>Khơ Me</option>
+        <option>Hoa</option>
+        <option>Nùng</option>
+        <option>Dao</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Nghề nghiệp</label>
+      <input type="text" name="ngheNghiep" class="form-control" required>
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Số CCCD</label>
+      <input type="text" name="soCCCD" class="form-control" required>
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Ngày cấp</label>
+      <input type="date" name="ngayCap" class="form-control" required>
+    </div>
   </div>
-  <div class="form-row">
-    <label>Nơi sinh</label>
-    <input type="text" name="noiSinh">
+
+  <div class="row g-3 mb-4">
+    <div class="col-md-3">
+      <label class="form-label">ID Sổ hộ khẩu</label>
+      <input type="number" name="idSoHoKhau" class="form-control" required>
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Nơi cấp</label>
+      <input type="text" name="noiCap" class="form-control">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Nơi làm việc</label>
+      <input type="text" name="noiLamViec" class="form-control">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Thông tin thêm</label>
+      <input type="text" name="thongTinKhac" class="form-control">
+    </div>
   </div>
-  <div class="form-row">
-    <label>Quê quán</label>
-    <input type="text" name="queQuan">
+
+  <div class="row g-3 mb-5">
+    <div class="col-md-3">
+      <label class="form-label">Quan hệ với chủ hộ</label>
+      <input type="text" name="quanHeVoiChuHo" class="form-control" required>
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Trạng thái</label>
+      <select name="trangThai" class="form-select" required>
+        <option value="">-- Chọn trạng thái --</option>
+        <option>Thường trú</option>
+        <option>Tạm trú</option>
+        <option>Tạm vắng</option>
+      </select>
+    </div>
   </div>
-  <div class="form-row">
-    <label>Dân tộc</label>
-    <input type="text" name="danToc">
+
+  <div class="text-center">
+    <button type="submit" class="btn btn-primary px-5 fw-bold me-2">Lưu</button>
+    <a href="/admin/nhankhau" class="btn btn-secondary px-4">Huỷ</a>
   </div>
-  <div class="form-row">
-    <label>Nghề nghiệp</label>
-    <input type="text" name="ngheNghiep">
-  </div>
-  <div class="form-row">
-    <label>Số CCCD</label>
-    <input type="text" name="soCCCD">
-  </div>
-  <div class="form-row">
-    <label>Ngày cấp</label>
-    <input type="date" name="ngayCap">
-  </div>
-  <div class="form-row">
-    <label>ID Sổ hộ khẩu</label>
-    <input type="number" name="idSoHoKhau" required>
-  </div>
-  <button type="submit" class="btn btn-submit">Lưu</button>
-  <a href="/admin/nhankhau" class="btn btn-cancel">Huỷ</a>
 </form>
