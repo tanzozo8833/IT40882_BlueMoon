@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Bộ lọc tìm kiếm</title>
   <link rel="stylesheet" href="../conmon/Button.css">
   <link rel="stylesheet" href="../common/Input.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="../common/ComboBox.css">
   <style>
     .filter-container {
       display: flex;
@@ -30,20 +30,23 @@
 
   <div class="filter-container">
     <div class="input-container">
-      <label class="input-label">HỌ TÊN CHỦ HỘ</label>
-      <input type="text" placeholder="Nhập họ tên" class="input-field" onkeyup="filter()">
-    </div>
-
-    <div class="input-container">
-      <label class="input-label">ID CĂN HỘ</label>
+      <label class="input-label">ID căn hộ</label>
       <input type="text" placeholder="Nhập ID căn hộ" class="input-field" onkeyup="filter()">
     </div>
 
     <div class="input-container">
-      <label class="input-label">ID SHK</label>
-      <input type="text" placeholder="Nhập ID SHK" class="input-field" onkeyup="filter()">
+      <label class="input-label">Loại căn hộ</label>
+      <div class="dropdown" id="dropdownApartmentType">
+        <div class="dropdown-toggle" onclick="toggleDropdown()">
+          <span id="dropdown-value-ApartmentType">Chọn loại căn hộ</span>
+        </div>
+        <div class="dropdown-menu">
+          <div class="dropdown-item" onclick="selectOption('Nhà ở')">Nhà ở</div>
+          <div class="dropdown-item" onclick="selectOption('Penthouse')">Penthouse</div>
+        </div>
+      </div>
     </div>
-
+    
     <div class="filter-group">
       <button class="btn btn-primary" onclick="resetFilters()">Làm mới</button>
     </div>
@@ -53,6 +56,19 @@
       document.querySelectorAll('.input-field').forEach(input => {
         input.value = '';
       });
+      document.getElementById('dropdown-value-ApartmentType').textContent = 'Chọn loại căn hộ';
+      document.getElementById('dropdownApartmentType').classList.remove('open');
+      filter();
+    }
+
+    function toggleDropdown() {
+      document.getElementById('dropdownApartmentType').classList.toggle('open');
+    }
+
+    function selectOption(type, value) {
+      document.getElementById('dropdown-value-ApartmentType').textContent = type;
+      document.getElementById('dropdownApartmentType').classList.remove('open');
+      filter();
     }
   </script>
 </body>
