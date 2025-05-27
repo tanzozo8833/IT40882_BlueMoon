@@ -1,4 +1,4 @@
-<p>Xin chào, {{currentUser.email}} (Role: {{currentUser.role}})</p>
+{{!-- <p>Xin chào, {{currentUser.email}} (Role: {{currentUser.role}})</p>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
     <a class="navbar-brand" href="/">BlueMoon</a>
@@ -36,4 +36,114 @@
       </form>
     </div>
   </div>
-</nav>
+</nav> --}}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Mũi tên mặc định (collapsed) hướng xuống */
+    .arrow-icon {
+      filter: invert(1);
+      transition: transform 0.3s ease;
+      transform: rotate(180deg);
+    }
+    /* Khi button không còn class "collapsed" (tức là đang mở) thì xoay mũi tên lên */
+    .nav-link:not(.collapsed) .arrow-icon {
+      transform: rotate(0deg);
+    }
+  </style>
+</head>
+<body class="bg-light">
+
+  <!-- Sidebar -->
+  <nav class="d-flex flex-column bg-dark text-white p-3" style="width: 250px; height: 100vh;">
+    
+    <!-- Profile -->
+    <div class="text-center mb-4" id="profile-container">
+      <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/28c12a65e22d1818976375bffb56964a37fe1cba"
+           class="rounded-circle img-fluid" alt="Admin profile" width="60">
+      <p class="mt-2 text-secondary">{{currentUser.role}}</p>
+      <p class="h5">{{currentUser.email}}</p>
+    </div>
+
+    <!-- Sidebar Menu -->
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link bg-primary rounded text-white py-2" href="/BlueMoon/DashBoard.html">
+          Tổng quan
+        </a>
+      </li>
+
+      <!-- Quản lý dân cư -->
+      <li class="nav-item">
+        <button
+          type="button"
+          class="nav-link text-white py-2 d-flex justify-content-between w-100 collapsed"
+          data-target="#quanLyDanCu"
+        >
+          Quản lý dân cư
+          <img src="https://cdn-icons-png.flaticon.com/512/130/130906.png"
+               alt="Arrow" class="arrow-icon ms-2" width="12" height="12">
+        </button>
+        <div id="quanLyDanCu" class="collapse">
+          <ul class="nav flex-column ms-3">
+            <li class="nav-item"><a class="nav-link text-white py-2" href="/BlueMoon/HouseholdRegistrationList.html">Danh sách sổ hộ khẩu</a></li>
+            <li class="nav-item"><a class="nav-link text-white py-2" href="/BlueMoon/DemographicList.html">Danh sách nhân khẩu</a></li>
+            <li class="nav-item"><a class="nav-link text-white py-2" href="#">Danh sách căn hộ</a></li>
+          </ul>
+        </div>
+      </li>
+
+      <!-- Quản lý thu phí -->
+      <li class="nav-item">
+        <button
+          type="button"
+          class="nav-link text-white py-2 d-flex justify-content-between w-100 collapsed"
+          data-target="#quanLyThuPhi"
+        >
+          Quản lý thu phí
+          <img src="https://cdn-icons-png.flaticon.com/512/130/130906.png"
+               alt="Arrow" class="arrow-icon ms-2" width="12" height="12">
+        </button>
+        <div id="quanLyThuPhi" class="collapse">
+          <ul class="nav flex-column ms-3">
+            <li class="nav-item"><a class="nav-link text-white py-2" href="/BlueMoon/FeeManager.html">Danh sách thu phí</a></li>
+            <li class="nav-item"><a class="nav-link text-white py-2" href="/BlueMoon/DonateTypeManager.html">Danh sách đóng góp</a></li>
+          </ul>
+        </div>
+      </li>
+
+      <!-- Quản lý tài khoản -->
+      <li class="nav-item">
+        <a class="nav-link text-white py-2" href="/BlueMoon/AccountManagement.html">Quản lý tài khoản</a>
+      </li>
+
+      <!-- Tài khoản -->
+      <li class="nav-item">
+        <a class="nav-link text-white py-2" href="/BlueMoon/Account.html">Tài khoản</a>
+      </li>
+    </ul>
+
+    <!-- Logout Button -->
+    <a href="/logout" class="btn btn-outline-light mt-5 w-100">Đăng xuất</a>
+
+  </nav>
+
+  <script>
+    // Bỏ dùng data-bs-toggle để tự xử lý toggle
+    document.querySelectorAll('button[data-target]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const selector = btn.getAttribute('data-target');
+        const panel = document.querySelector(selector);
+        // Toggle hiển thị
+        panel.classList.toggle('show');
+        // Toggle class collapsed để CSS mũi tên xoay
+        btn.classList.toggle('collapsed');
+      });
+    });
+  </script>
+</body>
+</html>
