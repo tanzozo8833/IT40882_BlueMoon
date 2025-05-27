@@ -74,6 +74,7 @@ class LoginController {
 
         TaiKhoan.findById(req.session.taiKhoan._id)
             .then(taiKhoan => {
+                console.log("Thông tin tài khoản", taiKhoan);
                 if (!taiKhoan) return res.status(404).send('Không tìm thấy tài khoản');
                 res.render('myInfo', {
                     taiKhoan : taiKhoan,
@@ -86,16 +87,38 @@ class LoginController {
             });
     }
 
-    // [POST] /myInfo (đổi mật khẩu)
     postMyInfo(req, res) {
         const userId = req.session.taiKhoan._id;
-        const { newPassword } = req.body;
+        const { oldPassword, newPassword, confirmPassword } = req.body;
 
-        if (!newPassword || newPassword.length < 3) {
-            return res.status(400).send('Mật khẩu không hợp lệ');
+        // Kiểm tra đầu vào
+        if (!oldPassword || !newPassword || !confirmPassword) {
+            return res.status(400).send('Vui lòng nhập đầy đủ thông tin');
         }
 
-        TaiKhoan.findByIdAndUpdate(userId, { password: newPassword }, { new: true })
+        if (newPassword.length < 3) {
+            return res.status(400).send('Mật khẩu mới phải có ít nhất 3 ký tự');
+        }
+
+        if (newPassword !== confirmPassword) {
+            return res.status(400).send('Xác nhận mật khẩu không khớp');
+        }
+
+        // Tìm người dùng theo ID và kiểm tra mật khẩu cũ
+        TaiKhoan.findById(userId)
+            .then(user => {
+                if (!user) {
+                    return res.status(404).send('Không tìm thấy tài khoản');
+                }
+
+                if (user.password !== oldPassword) {
+                    return res.status(400).send('Mật khẩu cũ không đúng');
+                }
+
+                // Cập nhật mật khẩu mới
+                user.password = newPassword;
+                return user.save();
+            })
             .then(() => {
                 res.redirect('/myInfo');
             })

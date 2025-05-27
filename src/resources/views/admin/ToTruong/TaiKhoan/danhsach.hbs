@@ -4,124 +4,132 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Danh sách tài khoản người dùng</title>
-  <link rel="stylesheet" href="/css/Button.css"> 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/css/app.css">
+  <link rel="stylesheet" href="/css/Button.css"> 
 </head>
-<body class="bg-light">
+<body>
+<div class="container py-4">
 
-  <div class="container-fluid">
-    <div class="row">
-      <!-- Sidebar -->
-      <div class="col-md-2" id="sidebar-container"></div>
+  <h2 class="mb-4">Danh sách tài khoản người dùng</h2>
 
-      <!-- Main content -->
-      <main class="col-md-10 p-3">
-        <h1 class="mb-4">Danh sách tài khoản người dùng</h1>
-        <hr>
-
-        <!-- Bộ lọc -->
-        <form class="row g-3 mb-3" onsubmit="return false;">
-          <div class="col-md-4">
-            <label class="form-label">Họ tên</label>
-            <input type="text" class="form-control" id="filterHoTen" placeholder="Nhập họ tên">
-          </div>
-          <div class="col-md-4">
-            <label class="form-label">Email</label>
-            <input type="text" class="form-control" id="filterEmail" placeholder="Nhập email">
-          </div>
-          <div class="col-md-4 d-flex align-items-end gap-2">
-            <button type="button" class="btn btn-primary" onclick="filterTable()">
-              <i class="bi bi-search"></i> Lọc
-            </button>
-            <button type="button" class="btn btn-secondary" onclick="resetFilter()">
-              <i class="bi bi-arrow-clockwise"></i> Làm mới
-            </button>
-            <a href="/admin/taikhoan/add" class="btn btn-success">
-              <i class="bi bi-plus-lg"></i> Thêm mới
-            </a>
-          </div>
-        </form>
-
-        <!-- Bảng tài khoản -->
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Tên đăng nhập</th>
-              <th>Họ tên</th>
-              <th>Email</th>
-              <th>Vai trò</th>
-              <th>Xóa</th>
-            </tr>
-          </thead>
-          <tbody>
-            {{#each taikhoans}}
-            <tr>
-              <td>{{this.idTaiKhoan}}</td>
-              <td>{{this.tenDangNhap}}</td>
-              <td>{{this.hoTen}}</td>
-              <td>{{this.email}}</td>
-              <td>
-                <select name="role" data-id="{{this.idTaiKhoan}}" class="form-select">
-                  <option value="admin" {{#if (eq this.role 'admin')}}selected{{/if}}>admin</option>
-                  <option value="user" {{#if (eq this.role 'user')}}selected{{/if}}>user</option>
-                </select>
-              </td>
-              <td>
-                <form action="/admin/taikhoan/{{this.idTaiKhoan}}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa tài khoản này không?');">
-                  <button type="submit" class="btn btn-danger">
-                    <i class="bi bi-trash"></i>
-                  </button>
-                </form>
-              </td>
-            </tr>
-            {{/each}}
-          </tbody>
-        </table>
-
-        <!-- Nút lưu thay đổi -->
-        <div id="saveChangesContainer" class="text-end mt-3" style="display: none;">
-          <form id="saveChangesForm" action="/admin/taikhoan" method="POST">
-            <input type="hidden" name="updatedRoles" id="updatedRoles">
-            <button type="submit" class="btn btn-primary">
-              <i class="bi bi-save"></i> Lưu thay đổi
-            </button>
-          </form>
-        </div>
-      </main>
+  <!-- Bộ lọc -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-4">
+      <label for="filterHoTen" class="form-label">Họ tên</label>
+      <input type="text" class="form-control" id="filterHoTen" placeholder="Nhập họ tên">
+    </div>
+    <div class="col-md-4">
+      <label for="filterEmail" class="form-label">Email</label>
+      <input type="text" class="form-control" id="filterEmail" placeholder="Nhập email">
+    </div>
+    <div class="col-md-4 d-flex align-items-end gap-2">
+      <button type="button" class="btn btn-primary" onclick="filterTable()">
+        <i class="bi bi-search"></i> Tìm kiếm
+      </button>
+      <button type="button" class="btn btn-secondary" onclick="resetFilter()">
+        <i class="bi bi-arrow-clockwise"></i> Làm mới
+      </button>
+      <a href="/admin/taikhoan/add" class="btn btn-success">
+        <i class="bi bi-plus-lg"></i> Thêm mới
+      </a>
     </div>
   </div>
 
-  <script>
-    function filterTable() {
-      const hoTen = document.getElementById('filterHoTen').value.toLowerCase();
-      const email = document.getElementById('filterEmail').value.toLowerCase();
+  <!-- Bảng danh sách -->
+  <table class="table table-bordered my-custom-table" id="tuthienTable">
+    <thead class="table-light">
+      <tr>
+        <th>ID</th>
+        <th>Tên đăng nhập</th>
+        <th>Họ tên</th>
+        <th>Email</th>
+        <th>Vai trò</th>
+        <th>Xóa</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each taikhoans}}
+      <tr>
+        <td>{{this.idTaiKhoan}}</td>
+        <td>{{this.tenDangNhap}}</td>
+        <td>{{this.hoTen}}</td>
+        <td>{{this.email}}</td>
+        <td>
+          <select name="role" data-id="{{this.idTaiKhoan}}" class="form-select">
+            <option value="admin" {{#if (eq this.role 'admin')}}selected{{/if}}>admin</option>
+            <option value="user" {{#if (eq this.role 'user')}}selected{{/if}}>user</option>
+          </select>
+        </td>
+        <td>
+          <form action="/admin/taikhoan/{{this.idTaiKhoan}}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa tài khoản này không?');">
+            <button type="submit" class="btn btn-danger">
+              <i class="bi bi-trash"></i>
+            </button>
+          </form>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
 
-      const rows = document.querySelectorAll('tbody tr');
-      rows.forEach(row => {
-        const hoTenCell = row.children[2].textContent.toLowerCase(); // hoTen ở cột thứ 3
-        const emailCell = row.children[3].textContent.toLowerCase(); // email ở cột thứ 4
+  <!-- Nút lưu thay đổi -->
+  <div id="saveChangesContainer" class="text-end mt-3" style="display: none;">
+    <form id="saveChangesForm" action="/admin/taikhoan" method="POST">
+      <input type="hidden" name="updatedRoles" id="updatedRoles">
+      <button type="submit" class="btn btn-primary">
+        <i class="bi bi-save"></i> Lưu thay đổi
+      </button>
+    </form>
+  </div>
+</div>
 
-        const matchHoTen = hoTenCell.includes(hoTen);
-        const matchEmail = emailCell.includes(email);
+<!-- Bootstrap + JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  function filterTable() {
+    const hoTen = document.getElementById('filterHoTen').value.toLowerCase();
+    const email = document.getElementById('filterEmail').value.toLowerCase();
 
-        if (matchHoTen && matchEmail) {
-          row.style.display = '';
-        } else {
-          row.style.display = 'none';
-        }
+    const rows = document.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+      const hoTenCell = row.children[2].textContent.toLowerCase();
+      const emailCell = row.children[3].textContent.toLowerCase();
+
+      const matchHoTen = hoTenCell.includes(hoTen);
+      const matchEmail = emailCell.includes(email);
+
+      row.style.display = (matchHoTen && matchEmail) ? '' : 'none';
+    });
+  }
+
+  function resetFilter() {
+    document.getElementById('filterHoTen').value = '';
+    document.getElementById('filterEmail').value = '';
+    filterTable();
+  }
+
+  // Gắn sự kiện khi select thay đổi
+  document.querySelectorAll('select[name="role"]').forEach(select => {
+    select.addEventListener('change', () => {
+      document.getElementById('saveChangesContainer').style.display = 'block';
+    });
+  });
+
+  // (Optional) Gửi danh sách thay đổi về server
+  const saveForm = document.getElementById('saveChangesForm');
+  saveForm.addEventListener('submit', function (event) {
+    const updates = [];
+    document.querySelectorAll('select[name="role"]').forEach(select => {
+      updates.push({
+        id: select.dataset.id,
+        role: select.value
       });
-    }
+    });
 
-    function resetFilter() {
-      document.getElementById('filterHoTen').value = '';
-      document.getElementById('filterEmail').value = '';
-      filterTable(); // hiện lại tất cả
-    }
-  </script>
-
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    document.getElementById('updatedRoles').value = JSON.stringify(updates);
+  });
+</script>
 </body>
 </html>

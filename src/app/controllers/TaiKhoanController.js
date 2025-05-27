@@ -48,13 +48,19 @@ class TaiKhoanController {
 
     // Cập nhật thông tin tài khoản
     updateTaiKhoan(req, res) {
-        const updates = req.body.updates;
+        let updates;
+        try {
+        updates = JSON.parse(req.body.updatedRoles);
+        } catch (e) {
+        return res.status(400).send('Dữ liệu không hợp lệ');
+        }
+
         if (!Array.isArray(updates)) {
             return res.status(400).send('Dữ liệu không hợp lệ');
         }
         const updatePromises = updates.map(item => {
             return TaiKhoan.findOneAndUpdate(
-            { idTaiKhoan: item.idTaiKhoan },
+            { idTaiKhoan: item.id },
             { role: item.role },
             { new: true }
             );
