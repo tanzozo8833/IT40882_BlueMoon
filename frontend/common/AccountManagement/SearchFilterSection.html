@@ -30,7 +30,7 @@
   <div class="filter-container">
     <div class="input-container">
       <label class="input-label">HỌ TÊN</label>
-      <input type="text" placeholder="Nhập họ tên" class="input-field">
+      <input type="text" placeholder="Nhập họ tên" class="input-field" onkeyup="filter()">
     </div>
 
     <div class="filter-group">
@@ -42,6 +42,7 @@
       document.querySelectorAll('.input-field').forEach(input => {
         input.value = '';
       });
+      filter();
     }
   </script>
 </body>

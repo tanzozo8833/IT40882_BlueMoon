@@ -31,7 +31,7 @@
   <div class="filter-container">
     <div class="input-container">
       <label class="input-label">ID Quỹ từ thiện</label>
-      <input type="text" placeholder="Nhập ID quỹ" class="input-field">
+      <input type="text" placeholder="Nhập ID quỹ" class="input-field" onkeyup="filter()">
     </div>
 
     <div class="input-container">
@@ -57,14 +57,39 @@
             </div>
     </div>
 
+    <div class="input-container">
+      <label class="input-label">Chọn năm</label>
+      <div class="dropdown" id="dropdownYear">
+              <div class="dropdown-toggle" onclick="toggleDropdown('Year')">
+                <span id="dropdown-value-Year"></span>
+              </div>
+              <div class="dropdown-menu" id="year-options">
+              </div>
+            </div>
+    </div>
+
     <div class="filter-group">
-      <button class="btn btn-primary">Làm mới</button>
-      <button class="btn btn-primary">
-        <i class="fa fa-filter"></i> Lọc
-      </button>
+      <button class="btn btn-primary" onclick="resetFilters()">Làm mới</button>
     </div>
   </div>
   <script>
+    const startYear = 2020;
+    const currentYear = new Date().getFullYear();
+    document.getElementById('dropdown-value-Year').textContent = currentYear;
+    const yearOptions = document.getElementById('year-options');
+    for (let year = startYear; year <= currentYear; year++) {
+      yearOptions.innerHTML += `<div class="dropdown-item" onclick="selectOption('Year', '${year}')">${year}</div>`;
+    }
+
+    function resetFilters() {
+      document.querySelectorAll('.input-field').forEach(input => {
+        input.value = '';
+      });
+      document.getElementById('dropdown-value-Month').textContent = 'Chọn tháng';
+      document.getElementById('dropdown-value-Year').textContent = currentYear;
+      filter();
+    }
+
     function toggleDropdown(type) {
       const dropdown = document.getElementById(`dropdown${type}`);
       dropdown.classList.toggle('open');
@@ -73,6 +98,7 @@
     function selectOption(type, value) {
       document.getElementById(`dropdown-value-${type}`).textContent = value;
       document.getElementById(`dropdown${type}`).classList.remove('open');
+      filter();
     }
   </script>
 </body>

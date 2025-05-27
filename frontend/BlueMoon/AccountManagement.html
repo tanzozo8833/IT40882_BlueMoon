@@ -30,6 +30,31 @@
   </div>
 
   <script>
+    function resetFilters() {
+      document.querySelectorAll('.input-field').forEach(input => {
+        input.value = '';
+      });
+      filter();
+    }
+
+    function filter() {
+      const name = document.querySelector('.input-container input[type="text"]').value;
+      
+      accountList.innerHTML = '';
+      records.forEach(record => {
+        if (record.name.toLowerCase().includes(name.toLowerCase())) {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${record.id}</td>
+            <td>${record.username}</td>
+            <td>${record.name}</td>
+            <td>${record.role}</td>
+          `;
+          accountList.appendChild(row);
+        }
+      });
+    }
+
     function loadSection(url, containerId) {
       fetch(url)
         .then(response => response.text())

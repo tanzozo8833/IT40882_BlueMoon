@@ -29,6 +29,60 @@
   </div>
 
   <script>
+    function filter(){
+      
+      const appartmentId = document.querySelector('.input-container input[type="text"]').value;
+      const feeType = document.getElementById('dropdown-value-FeeType').textContent;
+      const month = document.getElementById('dropdown-value-Month').textContent;
+      const year = document.getElementById('dropdown-value-Year').textContent;
+
+      feeList.innerHTML = '';
+      records.forEach(record => {
+        let match = true;
+        if (appartmentId && !record.apartmentId.includes(appartmentId)) {
+          match = false;
+        }
+
+        if (feeType && record.feeType !== feeType && feeType !== 'Chọn loại phí') {
+          match = false;
+        }
+
+        let startMonth = new Date(record.startDate).getMonth() + 1;
+        let endMonth = new Date(record.endDate).getMonth() + 1;
+        let paymentMonth = new Date(record.paymentDate).getMonth() + 1;
+        let monthNumber = month.match(/\d+/);
+        if (month && (monthNumber != startMonth && monthNumber != endMonth && monthNumber != paymentMonth) && month !== 'Chọn tháng') {
+          match = false;
+        }
+
+        let startYear = new Date(record.startDate).getFullYear();
+        let endYear = new Date(record.endDate).getFullYear();
+        let paymentYear = new Date(record.paymentDate).getFullYear();
+        if (year && (year != startYear && year != endYear && year != paymentYear)) {
+          match = false;
+        }
+
+        if (match) {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${record.id}</td>
+            <td>${record.apartmentId}</td>
+            <td>${record.feeType}</td>
+            <td>${record.amount}</td>
+            <td>${record.description}</td>
+            <td>${record.status}</td>
+            <td>${record.paymentDate}</td>
+            <td>${record.startDate}</td>
+            <td>${record.endDate}</td>
+            <td class="text-center"><button class="btn-details" onclick="viewDetails(${record.id})" title="Xem chi tiết" aria-label="Xem chi tiết">
+              <i class="fa fa-info-circle"></i>
+              </button>
+              </td>
+          `;
+          feeList.appendChild(row);
+        }
+      });
+    }
     function loadSection(url, containerId) {
       fetch(url)
         .then(response => response.text())
