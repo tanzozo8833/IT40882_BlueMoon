@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chi tiết / Chỉnh sửa nhân khẩu</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    label {
+      margin-bottom: 4px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body class="bg-light">
+  <main class="container py-5">
+    <h1 id="pageTitle" class="text-center display-6 fw-bold text-dark mb-5">Chi tiết nhân khẩu</h1>
+
+    <form id="memberForm">
+      <div class="row g-3 mb-4">
+        <div class="col-md-3">
+          <label>ID NHÂN KHẨU</label>
+          <input class="form-control" id="idNhanKhau" value="1" readonly>
+        </div>
+        <div class="col-md-3">
+          <label>ID SỔ HỘ KHẨU</label>
+          <input class="form-control" id="idSoHoKhau" value="SHK001" readonly>
+        </div>
+        <div class="col-md-3">
+          <label>QUAN HỆ VỚI CHỦ HỘ</label>
+          <input class="form-control" id="quanHeChuHo" value="Chủ hộ" readonly>
+        </div>
+        <div class="col-md-3">
+          <label>TRẠNG THÁI</label>
+          <select class="form-select" id="trangThai" disabled>
+            <option selected>Thường trú</option>
+            <option>Tạm trú</option>
+            <option>Tạm vắng</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row g-3 mb-4">
+        <div class="col-md-3">
+          <label>HỌ TÊN</label>
+          <input class="form-control" id="hoTen" value="Nguyễn Văn A" readonly>
+        </div>
+        <div class="col-md-3">
+          <label>NƠI SINH</label>
+          <select class="form-select" id="noiSinh" disabled>
+            <option selected>Hà Nội</option>
+            <option>Đà Nẵng</option>
+            <option>Nam Định</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label>QUÊ QUÁN</label>
+          <select class="form-select" id="queQuan" disabled>
+            <option selected>Nam Định</option>
+            <option>Thái Bình</option>
+            <option>Huế</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label>NGÀY SINH</label>
+          <input type="date" class="form-control" id="ngaySinh" value="1985-03-15" readonly>
+        </div>
+      </div>
+
+      <div class="row g-3 mb-4">
+        <div class="col-md-3">
+          <label>DÂN TỘC</label>
+          <select class="form-select" id="danToc" disabled>
+            <option selected>Kinh</option>
+            <option>Tày</option>
+            <option>Mường</option>
+            <option>Hoa</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label>NGHỀ NGHIỆP</label>
+          <input class="form-control" id="ngheNghiep" value="Kỹ sư" readonly>
+        </div>
+        <div class="col-md-3">
+          <label>NƠI LÀM VIỆC</label>
+          <input class="form-control" id="noiLamViec" value="Công ty ABC" readonly>
+        </div>
+        <div class="col-md-3">
+          <label>THÔNG TIN THÊM</label>
+          <input class="form-control" id="thongTinThem" value="Không có" readonly>
+        </div>
+      </div>
+
+      <div class="row g-3 mb-4">
+        <div class="col-md-4">
+          <label>SỐ CCCD</label>
+          <input class="form-control" id="soCCCD" value="012345678901" readonly>
+        </div>
+        <div class="col-md-4">
+          <label>NGÀY CẤP</label>
+          <input type="date" class="form-control" id="ngayCap" value="2020-05-10" readonly>
+        </div>
+        <div class="col-md-4">
+          <label>NƠI CẤP</label>
+          <input class="form-control" id="noiCap" value="Công an tỉnh Nam Định" readonly>
+        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <button type="button" id="editBtn" class="btn btn-warning text-dark px-4">Chỉnh sửa</button>
+        <button type="button" id="saveBtn" class="btn btn-primary fw-bold px-4 d-none">Xác nhận thay đổi</button>
+        <button type="button" class="btn btn-danger fw-bold px-4">Xóa nhân khẩu</button>
+      </div>
+    </form>
+  </main>
+
+  <script>
+    const inputs = document.querySelectorAll('#memberForm input, #memberForm select');
+    const editBtn = document.getElementById('editBtn');
+    const saveBtn = document.getElementById('saveBtn');
+    const pageTitle = document.getElementById('pageTitle');
+
+    editBtn.addEventListener('click', () => {
+      pageTitle.innerText = "Chỉnh sửa nhân khẩu";
+      toggleForm(true);
+    });
+
+    saveBtn.addEventListener('click', () => {
+      pageTitle.innerText = "Chi tiết nhân khẩu";
+      toggleForm(false);
+      alert('Đã lưu thay đổi!');
+    });
+
+    function toggleForm(enable) {
+      inputs.forEach(input => {
+        if (input.tagName === "SELECT") {
+          input.disabled = !enable;
+        } else {
+          input.readOnly = !enable;
+        }
+      });
+      editBtn.classList.toggle('d-none', enable);
+      saveBtn.classList.toggle('d-none', !enable);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chi tiết & Chỉnh sửa Quỹ</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+      padding: 20px;
+    }
+
+    .form-container {
+      max-width: 1100px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-title {
+      font-size: 1.75rem;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .form-label {
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: #495057;
+    }
+
+    #button-area {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2 id="page-title" class="section-title">Chi tiết quỹ</h2>
+
+    <form id="donate-form">
+      <div class="row g-4">
+        <div class="col-md-6">
+          <label for="id" class="form-label">ID quỹ</label>
+          <input type="text" id="id" class="form-control" readonly />
+        </div>
+        <div class="col-md-6">
+          <label for="fundName" class="form-label">Tên quỹ</label>
+          <input type="text" id="fundName" class="form-control" readonly />
+        </div>
+        <div class="col-12">
+          <label for="description" class="form-label">Mô tả</label>
+          <textarea id="description" class="form-control" rows="2" readonly></textarea>
+        </div>
+        <div class="col-md-6">
+          <label for="status" class="form-label">Trạng thái</label>
+          <select id="status" class="form-select" disabled>
+            <option value="Đang tiến hành">Đang tiến hành</option>
+            <option value="Kết thúc">Kết thúc</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label for="startDate" class="form-label">Ngày bắt đầu</label>
+          <input type="date" id="startDate" class="form-control" readonly />
+        </div>
+        <div class="col-md-6">
+          <label for="endDate" class="form-label">Ngày kết thúc</label>
+          <input type="date" id="endDate" class="form-control" readonly />
+        </div>
+      </div>
+
+      <div class="mt-4" id="button-area">
+        <button type="button" id="edit-btn" class="btn btn-warning fw-bold px-4">Chỉnh sửa</button>
+        <button type="button" id="delete-btn" class="btn btn-danger fw-bold px-4">Xóa quỹ</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // Dữ liệu mẫu
+    let donateData = {
+      id: "PHI005",
+      fundName: "Quỹ tình thương tháng 5",
+      description: "Điện dụng tháng 03/2025",
+      status: "Đang tiến hành",
+      startDate: "2025-05-01",
+      endDate: "2025-05-31"
+    };
+
+    const form = document.getElementById('donate-form');
+    const pageTitle = document.getElementById('page-title');
+    const editBtn = document.getElementById('edit-btn');
+    const deleteBtn = document.getElementById('delete-btn');
+
+    const fields = {
+      id: document.getElementById('id'),
+      fundName: document.getElementById('fundName'),
+      description: document.getElementById('description'),
+      status: document.getElementById('status'),
+      startDate: document.getElementById('startDate'),
+      endDate: document.getElementById('endDate')
+    };
+
+    function loadData(data) {
+      fields.id.value = data.id;
+      fields.fundName.value = data.fundName;
+      fields.description.value = data.description;
+      fields.status.value = data.status;
+      fields.startDate.value = data.startDate;
+      fields.endDate.value = data.endDate;
+    }
+
+    let isEdit = false;
+    function setEditMode(editMode) {
+      isEdit = editMode;
+      for (const key in fields) {
+        if (fields.hasOwnProperty(key)) {
+          if (key === 'id') {
+            fields[key].readOnly = true;
+          } else if (key === 'status') {
+            fields[key].disabled = !editMode;
+          } else {
+            fields[key].readOnly = !editMode;
+          }
+        }
+      }
+      pageTitle.textContent = isEdit ? "Chỉnh sửa quỹ" : "Chi tiết quỹ";
+      editBtn.textContent = isEdit ? "Xác nhận thay đổi" : "Chỉnh sửa";
+    }
+
+    editBtn.addEventListener('click', () => {
+      if (isEdit) {
+        const updatedData = {
+          id: fields.id.value,
+          fundName: fields.fundName.value,
+          description: fields.description.value,
+          status: fields.status.value,
+          startDate: fields.startDate.value,
+          endDate: fields.endDate.value
+        };
+        donateData = updatedData;
+        alert("Đã lưu thay đổi!");
+        setEditMode(false);
+        loadData(donateData);
+      } else {
+        setEditMode(true);
+      }
+    });
+
+    deleteBtn.addEventListener('click', () => {
+      if (confirm("Bạn có chắc muốn xóa quỹ này không?")) {
+        alert(`Đã xóa quỹ có ID ${donateData.id}`);
+        form.reset();
+      }
+    });
+
+    loadData(donateData);
+    setEditMode(false);
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

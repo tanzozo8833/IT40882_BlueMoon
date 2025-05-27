@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Danh sách đăng ký sổ hộ khẩu</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      background-color: #f8f9fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .form-container {
+      width: 1120px;
+      height: 645px;
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .section-title {
+      font-size: 1.75rem;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .form-label {
+      font-weight: 500;
+    }
+
+    .btn-action {
+      min-width: 120px;
+    }
+
+    textarea#additionalInfo {
+      resize: vertical;
+      min-height: 120px;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2 id="page-title" class="section-title">Danh sách đăng ký sổ hộ khẩu</h2>
+
+    <form id="household-form">
+      <div class="row g-4">
+        <div class="col-md-6">
+          <label class="form-label" for="idShk">ID SHK</label>
+          <input type="text" id="idShk" class="form-control" readonly />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="apartmentId">ID Căn hộ</label>
+          <input type="text" id="apartmentId" class="form-control" readonly />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="shkNumber">Số sổ hộ khẩu</label>
+          <input type="text" id="shkNumber" class="form-control" readonly />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="ownerName">Chủ hộ</label>
+          <input type="text" id="ownerName" class="form-control" readonly />
+        </div>
+        <div class="col-12">
+          <label class="form-label" for="additionalInfo">Thông tin thêm</label>
+          <textarea id="additionalInfo" class="form-control" rows="5" readonly></textarea>
+        </div>
+      </div>
+
+      <div class="text-center mt-4" id="button-area">
+        <button type="button" id="edit-btn" class="btn btn-warning me-2 btn-action">Chỉnh sửa</button>
+        <button type="button" id="delete-btn" class="btn btn-danger btn-action">Xóa</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // Dữ liệu mẫu
+    const householdData = {
+      idShk: "HK001",
+      apartmentId: "CH001",
+      shkNumber: "123456789",
+      ownerName: "Nguyễn Văn A",
+      additionalInfo: "Ghi chú thêm cho đăng ký"
+    };
+
+    const fields = {
+      idShk: document.getElementById("idShk"),
+      apartmentId: document.getElementById("apartmentId"),
+      shkNumber: document.getElementById("shkNumber"),
+      ownerName: document.getElementById("ownerName"),
+      additionalInfo: document.getElementById("additionalInfo")
+    };
+
+    function loadData(data) {
+      for (const key in fields) {
+        fields[key].value = data[key] || "";
+      }
+    }
+
+    function setEditMode(enabled) {
+      document.getElementById("page-title").innerText = enabled ? "Chỉnh sửa đăng ký sổ hộ khẩu" : "Danh sách đăng ký sổ hộ khẩu";
+      document.getElementById("edit-btn").innerText = enabled ? "Lưu" : "Chỉnh sửa";
+
+      for (const key in fields) {
+        fields[key].readOnly = !enabled;
+      }
+    }
+
+    let isEdit = false;
+    document.getElementById("edit-btn").addEventListener("click", () => {
+      if (!isEdit) {
+        isEdit = true;
+        setEditMode(true);
+      } else {
+        // Lưu dữ liệu mới (giả lập)
+        const updated = {};
+        for (const key in fields) {
+          updated[key] = fields[key].value;
+        }
+        console.log("Cập nhật đăng ký SHK:", updated);
+        alert("Lưu thành công!");
+        isEdit = false;
+        setEditMode(false);
+      }
+    });
+
+    document.getElementById("delete-btn").addEventListener("click", () => {
+      if (confirm("Bạn có chắc muốn xóa đăng ký sổ hộ khẩu này?")) {
+        alert(`Đã xóa đăng ký sổ hộ khẩu có ID ${householdData.idShk}`);
+        document.getElementById("household-form").reset();
+      }
+    });
+
+    loadData(householdData);
+    setEditMode(false);
+  </script>
+</body>
+</html>

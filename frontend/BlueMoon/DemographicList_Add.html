@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Thêm nhân khẩu</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    label {
+      margin-bottom: 4px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body class="bg-light">
+  <main class="container py-5">
+    <h1 class="text-center display-6 fw-bold text-dark mb-5">Thêm nhân khẩu mới</h1>
+
+    <form id="addForm">
+      <div class="row g-3 mb-4">
+        <div class="col-md-3"><label>ID NHÂN KHẨU</label><input class="form-control" id="idNhanKhau" required></div>
+        <div class="col-md-3"><label>ID SỔ HỘ KHẨU</label><input class="form-control" id="idSoHoKhau" required></div>
+        <div class="col-md-3"><label>QUAN HỆ VỚI CHỦ HỘ</label><input class="form-control" id="quanHeChuHo" required></div>
+        <div class="col-md-3">
+          <label>TRẠNG THÁI</label>
+          <select class="form-select" id="trangThai" required>
+            <option value="">-- Chọn trạng thái --</option>
+            <option>Thường trú</option>
+            <option>Tạm trú</option>
+            <option>Tạm vắng</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row g-3 mb-4">
+        <div class="col-md-3"><label>HỌ TÊN</label><input class="form-control" id="hoTen" required></div>
+        <div class="col-md-3">
+          <label>NƠI SINH</label>
+          <select class="form-select" id="noiSinh" required>
+            <option value="">-- Chọn nơi sinh --</option>
+            <option>Hà Nội</option>
+            <option>Hồ Chí Minh</option>
+            <option>Đà Nẵng</option>
+            <option>Hải Phòng</option>
+            <option>Cần Thơ</option>
+            <option>Nam Định</option>
+            <option>Thái Bình</option>
+            <option>Quảng Ninh</option>
+            <option>Huế</option>
+            <option>Nghệ An</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label>QUÊ QUÁN</label>
+          <select class="form-select" id="queQuan" required>
+            <option value="">-- Chọn quê quán --</option>
+            <option>Hà Nội</option>
+            <option>Hồ Chí Minh</option>
+            <option>Đà Nẵng</option>
+            <option>Hải Phòng</option>
+            <option>Cần Thơ</option>
+            <option>Nam Định</option>
+            <option>Thái Bình</option>
+            <option>Quảng Ninh</option>
+            <option>Huế</option>
+            <option>Nghệ An</option>
+          </select>
+        </div>
+        <div class="col-md-3"><label>NGÀY SINH</label><input type="date" class="form-control" id="ngaySinh" required></div>
+      </div>
+
+      <div class="row g-3 mb-4">
+        <div class="col-md-3">
+          <label>DÂN TỘC</label>
+          <select class="form-select" id="danToc" required>
+            <option value="">-- Chọn dân tộc --</option>
+            <option>Kinh</option>
+            <option>Tày</option>
+            <option>Thái</option>
+            <option>Mường</option>
+            <option>Khơ Me</option>
+            <option>Hoa</option>
+            <option>Nùng</option>
+            <option>Dao</option>
+          </select>
+        </div>
+        <div class="col-md-3"><label>NGHỀ NGHIỆP</label><input class="form-control" id="ngheNghiep" required></div>
+        <div class="col-md-3"><label>NƠI LÀM VIỆC</label><input class="form-control" id="noiLamViec"></div>
+        <div class="col-md-3"><label>THÔNG TIN THÊM</label><input class="form-control" id="thongTinThem"></div>
+      </div>
+
+      <div class="row g-3 mb-4">
+        <div class="col-md-4"><label>SỐ CCCD</label><input class="form-control" id="soCCCD" required></div>
+        <div class="col-md-4"><label>NGÀY CẤP</label><input type="date" class="form-control" id="ngayCap" required></div>
+        <div class="col-md-4"><label>NƠI CẤP</label><input class="form-control" id="noiCap" required></div>
+      </div>
+
+      <div class="text-center mt-4">
+        <button type="submit" class="btn btn-primary px-5 fw-bold">Lưu</button>
+      </div>
+    </form>
+  </main>
+
+  <script>
+    document.getElementById("addForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const fields = [
+        "idNhanKhau", "idSoHoKhau", "quanHeChuHo", "trangThai", "hoTen", "noiSinh", "queQuan",
+        "ngaySinh", "danToc", "ngheNghiep", "noiLamViec", "thongTinThem", "soCCCD", "ngayCap", "noiCap"
+      ];
+
+      const data = {};
+      fields.forEach((field) => {
+        data[field] = document.getElementById(field).value;
+      });
+
+      console.log("Dữ liệu nhân khẩu mới:", data);
+      alert("Đã lưu nhân khẩu mới!");
+      this.reset();
+    });
+  </script>
+</body>
+</html>
