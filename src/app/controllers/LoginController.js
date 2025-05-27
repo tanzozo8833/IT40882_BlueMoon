@@ -75,7 +75,10 @@ class LoginController {
         TaiKhoan.findById(req.session.taiKhoan._id)
             .then(taiKhoan => {
                 if (!taiKhoan) return res.status(404).send('Không tìm thấy tài khoản');
-                res.render('myInfo', { taiKhoan });
+                res.render('myInfo', {
+                    taiKhoan : taiKhoan,
+                    title: 'Thông tin cá nhân',
+                    layout: 'adminLayout',});
             })
             .catch(err => {
                 console.error('Lỗi khi lấy thông tin tài khoản:', err);

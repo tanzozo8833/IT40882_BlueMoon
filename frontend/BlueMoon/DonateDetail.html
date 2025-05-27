@@ -29,7 +29,8 @@
         </h1>
         <hr>
         <div id="SearchFilterSection"></div>
-        <button class="btn btn-primary mb-3"><i class="bi bi-plus-lg"></i> Thêm mới</button>
+        <dialog id="add-donate"></dialog>
+        <button class="btn btn-primary mb-3" onclick="openAddDonateDialog()"><i class="bi bi-plus-lg"></i> Thêm mới</button>
         <div id="DonateListTable"></div>
         <button class="btn btn-primary bottom-right" onclick="window.location.href='DonateTypeManager.html'">
           <i class="bi bi-arrow-left"></i> Quay lại
@@ -40,6 +41,12 @@
   </div>
 
   <script>
+    const role = localStorage.getItem("role");
+    function openAddDonateDialog() {
+      loadSection("DonateDetail_Add.html", "add-donate");
+      const dialog = document.getElementById("add-donate");
+      dialog.showModal();
+    }
     function loadSection(url, containerId) {
       fetch(url)
         .then(response => response.text())
@@ -57,7 +64,11 @@
     }
 
     // Tải các phần vào Donate Detail
-    loadSection("../common/DonateDetail/Sidebar.html", "sidebar-container");
+    if (role === "Admin") {
+      loadSection("../common/DonateDetail/SidebarAdmin.html", "sidebar-container");
+    } else {
+      loadSection("../common/DonateDetail/SidebarUser.html", "sidebar-container");
+    }
     loadSection("../common/DonateDetail/SearchFilterSection.html", "SearchFilterSection");
     loadSection("../common/DonateDetail/DonateListTable.html", "DonateListTable");
   </script>

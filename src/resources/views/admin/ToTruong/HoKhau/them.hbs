@@ -1,18 +1,25 @@
-<h2>Thêm nhân khẩu mới</h2>
+<div class="container mt-5">
+  <h2 class="mb-4">📝 Thêm nhân khẩu mới</h2>
 
-<form method="POST" action="/admin/hokhau/add" class="form-them-nhankhau">
-  <div class="form-row">
-    <label>Số sổ hộ khẩu</label>
-    <input type="text" name="soSoHoKhau" required>
-  </div>
-  <div class="form-row">
-    <label>Họ tên chủ hộ</label>
-    <input type="text" name="hoTenChu" required>
-  </div>
-  <div class="form-row">
-    <label>Thông tin thêm</label>
-    <input type="text" name="thongTinThem">
-  </div>
-  <button type="submit" class="btn btn-submit">Lưu</button>
-  <a href="/admin/hokhau" class="btn btn-cancel">Huỷ</a>
-</form>
+  <form method="POST" action="/admin/hokhau/add" class="p-4 border rounded shadow-sm bg-light">
+    <div class="mb-3">
+      <label for="soSoHoKhau" class="form-label">Số sổ hộ khẩu</label>
+      <input type="text" class="form-control" id="soSoHoKhau" name="soSoHoKhau" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="hoTenChu" class="form-label">Họ tên chủ hộ</label>
+      <input type="text" class="form-control" id="hoTenChu" name="hoTenChu" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="thongTinThem" class="form-label">Thông tin thêm</label>
+      <input type="text" class="form-control" id="thongTinThem" name="thongTinThem">
+    </div>
+
+    <div class="d-flex gap-2">
+      <button type="submit" class="btn btn-success">💾 Lưu</button>
+      <a href="/admin/hokhau" class="btn btn-secondary">↩️ Huỷ</a>
+    </div>
+  </form>
+</div>

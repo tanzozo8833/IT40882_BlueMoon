@@ -127,13 +127,21 @@
       const password = document.getElementById("password").value.trim();
       const errorBox = document.getElementById("error-message");
 
-      if (login !== "admin" || password !== "123456") {
+      if ((login !== "admin" && login !=="user") || password !== "123456") {
         errorBox.style.display = "block";
         errorBox.textContent = "Tên đăng nhập hoặc mật khẩu không đúng!";
-      } else {
+        localStorage.setItem("role", "admin");
+      } 
+      else {
+        localStorage.setItem("role", login);
         errorBox.style.display = "none";
         alert("Đăng nhập thành công!");
-        // window.location.href = "dashboard.html";
+        let role = localStorage.getItem("role");
+        if (role === "admin") {
+          window.location.href = "DashBoard.html";
+        } else if (role === "user") {
+          window.location.href = "HouseholdRegistry.html";
+        }
       }
     }
   </script>

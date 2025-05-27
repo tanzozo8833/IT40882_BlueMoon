@@ -51,6 +51,7 @@
           <th>Ngày bắt đầu</th>
           <th>Ngày kết thúc</th>
           <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody id="donate-list">
@@ -81,9 +82,14 @@
         <td>${record.startDate}</td>
         <td>${record.endDate}</td>
         <td>
-            <a href="/BlueMoon/DonateDetail.html?FunName=${record.fundName}&&Status=${record.status}" class="btn-details">
-              <i class="fa fa-info-circle"></i></a>
+            <a href="/BlueMoon/DonateDetail.html?FunName=${record.fundName}&&Status=${record.status}" class="btn-details" title="Chi tiết đóng góp">
+              <i class="fa fa-info-circle"></i>
             </a>
+        </td>
+        <td class="text-center">
+          <button class="btn-details" onclick="openEditDonateDialog('${record.id}')" title="Chỉnh sửa" aria-label="Chỉnh sửa">
+            <i class="fa fa-edit"></i>
+          </button>
         </td>
       `;
       donateList.appendChild(row);
