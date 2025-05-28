@@ -33,16 +33,28 @@ class NhanKhauController {
 
     // Tạo mới nhân khẩu
     createNhanKhau(req, res) {
-        const nhanKhau = new NhanKhau(req.body);
-        nhanKhau.save()
-            .then(() => {
-                res.redirect('/admin/nhankhau');
-            })
-            .catch((err) => {
-                console.error(err);
-                res.status(500).send('Lỗi tạo nhân khẩu');
-            });
-    }
+    NhanKhau.findOne({ soCCCD: req.body.soCCCD })
+        .then((existing) => {
+            if (existing) {
+                req.flash('error_msg', 'Số CCCD đã tồn tại trong hệ thống.');
+                return res.redirect('/admin/nhankhau/add'); // ⛔ cần return ở đây
+            }
+
+            const nhanKhau = new NhanKhau(req.body);
+            return nhanKhau.save()
+                .then(() => {
+                    req.flash('success_msg', 'Thêm nhân khẩu thành công');
+                    return res.redirect('/admin/nhankhau');
+                });
+        })
+        .catch((err) => {
+            console.error(err);
+            req.flash('error_msg', 'Đã xảy ra lỗi khi thêm nhân khẩu.');
+            return res.redirect('/admin/nhankhau/add');
+        });
+}
+
+
 
     // Xem chi tiết nhân khẩu
     getNhanKhauById(req, res) {

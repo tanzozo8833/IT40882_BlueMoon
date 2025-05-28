@@ -7,7 +7,13 @@
 </div>
 
 <h2 class="green-header text-center mb-4">Thêm nhân khẩu mới</h2>
+{{#if success_msg}}
+  <div class="alert alert-success text-center">{{success_msg}}</div>
+{{/if}}
 
+{{#if error_msg}}
+  <div class="alert alert-danger text-center">{{error_msg}}</div>
+{{/if}}
 <form method="POST" action="/admin/nhankhau/add" class="container">
   <div class="row g-3 mb-4">
     <div class="col-md-3">
