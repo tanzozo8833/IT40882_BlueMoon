@@ -3,8 +3,8 @@ const router = express.Router();
 
 const adminController = require('../app/controllers/AdminController');
 
-router.get('/:email', adminController.index);
-router.get('/', adminController.index2);
+
+
 //Ke toan
 //Thu Phi
 const thuPhiRouter = require('./thuphi');
@@ -33,4 +33,6 @@ router.use('/taikhoan', taikhoanRouter);
 const canhoRouter = require('./canho');
 router.use('/canho', canhoRouter);
 
+router.get('/:email', adminController.index);
+router.get('/', adminController.index2);
 module.exports = router;
