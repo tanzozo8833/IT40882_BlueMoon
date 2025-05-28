@@ -20,8 +20,8 @@
         </div>
 
         <div class="mt-3 d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
             <button type="submit" class="btn btn-secondary">Làm mới</button>
-            <button type="submit" class="btn btn-primary">Lọc</button>
             <a href="/admin/tuthien/them" class="btn btn-success ms-auto">+ Thêm mới</a>
         </div>
     </form>
@@ -32,10 +32,11 @@
                 <tr>
                     <th>ID</th>
                     <th>Tên Quỹ</th>
-                    <th>Mô tả</th>
+                    <th style="width: 200px;">Mô tả</th>
                     <th>Thời gian</th>
                     <th>Trạng thái</th>
                     <th>Xem chi tiết</th>
+                    <th>Hành động</th>
                 </tr>
             </thead>
             <tbody>
@@ -54,11 +55,14 @@
                                     d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2" />
                             </svg>
                         </a>
+                    </td>
+                    <td>
                         <a href="/admin/tuthien/{{this.idQuyTuThien}}-{{this.slug}}/chinh-sua"
-                            class="btn btn-link p-0 text-warning">
-                            <i class="fas fa-edit"></i>
+                            class="btn btn-sm btn-warning">
+                            Chỉnh sửa
                         </a>
                     </td>
+
                 </tr>
                 {{else}}
                 <tr>

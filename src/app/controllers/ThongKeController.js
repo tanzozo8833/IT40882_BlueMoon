@@ -63,6 +63,7 @@ class ThongKeController {
         res.redirect(`/admin/thongke?thang=${thang}&nam=${nam}`);
     }
 
+    // GET /thongke/:idCanHo - Hiển thị chi tiết căn hộ
     async detailCanHo(req, res, next) {
         try {
             const idCanHo = req.params.idCanHo;
@@ -97,6 +98,39 @@ class ThongKeController {
             next(err);
         }
     }
+
+    // PUT /thongke/:idCanHo/:loaiPhi/:thang/:nam- Xử lý đóng tiền
+    async dongtien(req, res, next) {
+        try {
+            const { loaiPhi, thang, nam, idCanHo } = req.params;
+
+            // Tìm khoản phí cần cập nhật
+            const phi = await Phi.findOne({
+                loaiPhi,
+                thang: Number(thang),
+                nam: Number(nam),
+                idCanHo
+            });
+
+            if (!phi) {
+                return res.status(404).json({ success: false, message: 'Không tìm thấy phí cần đóng.' });
+            }
+
+            // Cập nhật trạng thái
+            phi.trangThai = 'da_dong';
+            await phi.save();
+
+            res.json({
+                success: true,
+                message: `Đã đóng phí ${loaiPhi} cho căn hộ ${idCanHo} tháng ${thang}/${nam}.`
+            });
+
+        } catch (error) {
+            console.error('Lỗi khi cập nhật trạng thái đóng tiền:', error);
+            next(error);
+        }
+    }
+
 
 }
 

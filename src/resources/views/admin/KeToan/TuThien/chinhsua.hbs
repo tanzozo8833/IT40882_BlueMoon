@@ -1,5 +1,11 @@
+<div class="back-link-wrapper">
+    <a href="/admin/tuthien" class="back-link">
+        <span class="back-link__icon">←</span>
+        <span class="back-link__text">Trở về danh sách từ thiện</span>
+    </a>
+</div>
 <div class="container mt-4">
-    <h3>Chỉnh sửa Quỹ từ thiện</h3>
+    <h3 style="text-align: center;">Chỉnh sửa Quỹ từ thiện</h3>
     <form method="POST" action="">
         <div class="mb-3">
             <label for="tenQuy" class="form-label">Tên Quỹ</label>
@@ -20,6 +26,5 @@
                 value="{{formatDateForInput quy.ngayKetThuc}}">
         </div>
         <button type="submit" class="btn btn-success">Lưu thay đổi</button>
-        <a href="/admin/tuthien" class="btn btn-secondary ms-2">Hủy</a>
     </form>
 </div>

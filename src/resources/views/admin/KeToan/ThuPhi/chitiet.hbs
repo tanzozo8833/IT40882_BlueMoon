@@ -1,9 +1,15 @@
 <div class="container py-5">
     <!-- Nút quay lại -->
-    <a href="/admin/thuphi" class="btn btn-secondary mb-3">← Quay lại</a>
+    <div class="back-link-wrapper">
+        <a href="/admin/thuphi" class="back-link">
+            <span class="back-link__icon">←</span>
+            <span class="back-link__text">Trở về danh sách các khoản phí</span>
+        </a>
+    </div>
 
     <!-- Tiêu đề -->
-    <h2 class="fw-bold mb-4">Chi tiết phí {{formatLoaiPhi loaiPhi}} - Tháng {{thang}}/{{nam}}</h2>
+    <h2 class="fw-bold mb-4" style="text-align: center;">Chi tiết phí {{formatLoaiPhi loaiPhi}} - Tháng
+        {{thang}}/{{nam}}</h2>
 
     <!-- Bộ lọc -->
     <form class="mb-4">

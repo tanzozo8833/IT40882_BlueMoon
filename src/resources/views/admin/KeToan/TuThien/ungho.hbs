@@ -1,5 +1,12 @@
 <div class="container mt-5">
-    <h2 class="mb-4">🤝 Ủng hộ quỹ {{quy.tenQuy}}</h2>
+    <!-- Nút quay lại -->
+    <div class="back-link-wrapper">
+        <a href="/admin/tuthien" class="back-link">
+            <span class="back-link__icon">←</span>
+            <span class="back-link__text">Trở về </span>
+        </a>
+    </div>
+    <h2 class="mb-4" style="text-align: center;">🤝 Ủng hộ quỹ {{quy.tenQuy}}</h2>
 
     <form method="POST" action="/admin/tuthien/{{quy.idQuyTuThien}}-{{quy.slug}}"
         class="p-4 border rounded shadow-sm bg-light">
@@ -16,7 +23,6 @@
 
         <div class="d-flex gap-2">
             <button type="submit" class="btn btn-success">💖 Ủng hộ</button>
-            <a href="/admin/tuthien" class="btn btn-secondary">↩️ Huỷ</a>
         </div>
     </form>
 </div>
