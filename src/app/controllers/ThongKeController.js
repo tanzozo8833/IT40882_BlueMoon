@@ -1,3 +1,4 @@
+
 const { mutipleMongooseToObject } = require('../../utils/mongoose');
 const Phi = require('../models/Phi');
 const TuThienPayment = require('../models/TuThienPayment');
@@ -6,11 +7,10 @@ const QuyTuThien = require('../models/QuyTuThien');
 const SoHoKhau = require('../models/SoHoKhau');
 
 class ThongKeController {
-    listCanHo(req, res, next) {
-        const now = new Date();
-        const thang = parseInt(req.query.thang) || now.getMonth() + 1;
-        const nam = parseInt(req.query.nam) || now.getFullYear();
-
+	listCanHo(req, res, next) {
+		const now = new Date();
+		const thang = parseInt(req.query.thang) || now.getMonth() + 1;
+		const nam = parseInt(req.query.nam) || now.getFullYear();
         CanHo.find({}).lean()
             .then(canHoList => {
                 const filteredCanHoList = canHoList.filter(canHo => !!canHo.idSoHoKhau);
@@ -87,34 +87,21 @@ class ThongKeController {
             const thang = parseInt(req.query.thang) || (new Date()).getMonth() + 1;
             const nam = parseInt(req.query.nam) || (new Date()).getFullYear();
 
-            // Tìm thông tin căn hộ
-            const canHo = await CanHo.findOne({ idCanHo }).lean();
-            if (!canHo) {
-                return res.status(404).send('Không tìm thấy căn hộ');
-            }
+			// Tìm thông tin căn hộ
+			const canHo = await CanHo.findOne({ idCanHo }).lean();
+			if (!canHo) {
+				return res.status(404).send("Không tìm thấy căn hộ");
+			}
 
-            // Lấy danh sách phí của căn hộ trong tháng năm đó
-            const danhSachPhi = await Phi.find({ idCanHo, thang, nam }).lean();
+			// Lấy danh sách phí của căn hộ trong tháng năm đó
+			const danhSachPhi = await Phi.find({ idCanHo, thang, nam }).lean();
 
-            const danhSachPhiCoDaDong = danhSachPhi.map(phi => ({
-                ...phi,
-                daDong: phi.trangThai === 'da_dong'
-            }));
-            // Bạn có thể kết hợp hoặc xử lý thêm nếu cần
+			const danhSachPhiCoDaDong = danhSachPhi.map((phi) => ({
+				...phi,
+				daDong: phi.trangThai === "da_dong",
+			}));
+			// Bạn có thể kết hợp hoặc xử lý thêm nếu cần
 
-            res.render('admin/KeToan/ThongKe/chitiet', {
-                layout: 'adminLayout',
-                title: `Chi tiết căn hộ ${idCanHo} tháng ${thang}/${nam}`,
-                idCanHo,
-                thang,
-                nam,
-                danhSachPhi: danhSachPhiCoDaDong,
-                canHo,
-            });
-        } catch (err) {
-            next(err);
-        }
-    }
 
     // PUT /thongke/:idCanHo/:loaiPhi/:thang/:nam- Xử lý đóng tiền
     async dongtien(req, res, next) {
@@ -148,7 +135,5 @@ class ThongKeController {
         }
     }
 
-
-}
 
 module.exports = new ThongKeController();
