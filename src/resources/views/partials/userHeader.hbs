@@ -40,40 +40,45 @@
 
 <!-- Sidebar -->
 <style>
-    /* Thiết lập màu trắng cho mũi tên */ .arrow-icon { filter: invert(1); transition: transform 0.3s ease; } /* Xoay
-    mũi tên khi mở menu */ .collapsed .arrow-icon { transform: rotate(180deg); }
+	/* Thiết lập màu trắng cho mũi tên */ .arrow-icon { filter: invert(1); transition: transform 0.3s ease; } /* Xoay
+	mũi tên khi mở menu */ .collapsed .arrow-icon { transform: rotate(180deg); }
 </style>
 <nav
-    class="d-flex flex-column bg-dark text-white p-3"
-    style="width: 250px; height: 100vh; position: fixed; left: 0; top: 0;"
+	class="d-flex flex-column bg-dark text-white p-3"
+	style="width: 250px; height: 100vh; position: fixed; left: 0; top: 0;"
 >
 
-    <!-- Profile -->
-    <div class="text-center mb-4" id="profile-container">
-        <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/28c12a65e22d1818976375bffb56964a37fe1cba"
-            class="rounded-circle img-fluid"
-            alt="Admin profile"
-            width="60"
-        />
-        <p class="mt-2 text-secondary">{{currentUser.role}}</p>
-        <p class="h5">{{currentUser.email}}</p>
-    </div>
+	<!-- Profile -->
+	<div class="text-center mb-4" id="profile-container">
+		<img
+			src="https://cdn.builder.io/api/v1/image/assets/TEMP/28c12a65e22d1818976375bffb56964a37fe1cba"
+			class="rounded-circle img-fluid"
+			alt="Admin profile"
+			width="60"
+		/>
+		<p class="mt-2 text-secondary">{{currentUser.role}}</p>
+		<p class="h5">{{currentUser.email}}</p>
+	</div>
 
-    <!-- Sidebar Menu -->
-    <ul class="nav flex-column">
-        <!-- Quản lý dân cư -->
-        <li class="nav-item"><a class="nav-link text-white py-2" href="/user/listNhanKhau">Danh sách Nhân khẩu</a></li>
-        <li class="nav-item"><a class="nav-link text-white py-2" href="/user/tuthien">Từ Thiện</a></li>
-        <li class="nav-item"><a class="nav-link text-white py-2" href="/user/listPhiChuaDong">Danh sách phí chưa đóng</a></li>
-        <li class="nav-item"><a class="nav-link text-white py-2" href="/user/listPhiDaDong">Danh sách phí đã đóng</a></li>
-        <!-- Quản lý tài khoản (Không mở rộng) -->
-        <li class="nav-item">
-            <a class="nav-link text-white py-2" href="../user/userInfo">Quản lý tài khoản</a>
-        </li>
-        <!--Tài khoản-->
-    </ul>
-    <!-- Logout Button -->
-    <button class="btn btn-outline-light mt-5 w-100" onclick="window.location.href='/logout'">Đăng xuất</button>
+	<!-- Sidebar Menu -->
+	<ul class="nav flex-column" id="sidebarMenu">
+		<li class="nav-item">
+			<a class="nav-link text-white py-2" href="/user/listNhanKhau">Danh sách Nhân khẩu</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link text-white py-2" href="/user/tuthien">Từ Thiện</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link text-white py-2" href="/user/listPhiChuaDong">Danh sách phí chưa đóng</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link text-white py-2" href="/user/listPhiDaDong">Danh sách phí đã đóng</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link text-white py-2" href="/user/userInfo">Quản lý tài khoản</a>
+		</li>
+	</ul>
+	<!-- Logout Button -->
+	<button class="btn btn-outline-light mt-5 w-100" onclick="window.location.href='/logout'">Đăng xuất</button>
 
 </nav>
