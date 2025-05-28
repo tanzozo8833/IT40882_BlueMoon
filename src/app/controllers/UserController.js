@@ -178,10 +178,12 @@ class UserController {
 				errors.push("Xác nhận mật khẩu không khớp");
 			}
 
+			// Nếu có lỗi validate, vẫn cần lấy đầy đủ tài khoản để render
 			if (errors.length) {
+				const fullUser = await TaikhoanUser.findById(userId);
 				return res.render("user/userInfo", {
 					layout: "userLayout",
-					taiKhoan: sessionUser,
+					taiKhoan: fullUser,
 					errors,
 					showChangePasswordModal: true,
 				});
@@ -196,9 +198,11 @@ class UserController {
 			}
 
 			if (errors.length) {
+				console.log("Lỗi đầu vào:", errors);
+				const fullUser = await TaikhoanUser.findById(userId);
 				return res.render("user/userInfo", {
 					layout: "userLayout",
-					taiKhoan: sessionUser,
+					taiKhoan: fullUser,
 					errors,
 					showChangePasswordModal: true,
 				});
@@ -213,12 +217,23 @@ class UserController {
 			return res.redirect("/user/userInfo");
 		} catch (err) {
 			console.error("Lỗi khi cập nhật mật khẩu:", err);
-			return res.status(500).render("user/userInfo", {
-				layout: "userLayout",
-				taiKhoan: req.session.taiKhoan,
-				errors: ["Không thể cập nhật mật khẩu, vui lòng thử lại sau."],
-				showChangePasswordModal: true,
-			});
+			try {
+				const fullUser = await TaikhoanUser.findById(req.session.taiKhoan._id);
+				return res.status(500).render("user/userInfo", {
+					layout: "userLayout",
+					taiKhoan: fullUser,
+					errors: ["Không thể cập nhật mật khẩu, vui lòng thử lại sau."],
+					showChangePasswordModal: true,
+				});
+			} catch (loadError) {
+				// fallback nếu việc lấy tài khoản cũng lỗi
+				return res.status(500).render("user/userInfo", {
+					layout: "userLayout",
+					taiKhoan: {},
+					errors: ["Lỗi hệ thống, vui lòng thử lại sau."],
+					showChangePasswordModal: true,
+				});
+			}
 		}
 	}
 }

@@ -3,7 +3,9 @@ const router = express.Router();
 
 const adminController = require('../app/controllers/AdminController');
 
+router.post('/userInfo', adminController.postMyInfo);
 
+router.get('/userInfo', adminController.viewMyInfo);
 
 //Ke toan
 //Thu Phi

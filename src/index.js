@@ -1,6 +1,7 @@
 const express = require('express');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
+const flash = require('connect-flash'); // ⚠️ THÊM connect-flash
 
 const route = require('./routes');
 const path = require('path');
@@ -11,17 +12,6 @@ require('./utils/handlebars-helpers');
 
 const app = express();
 const port = 3000;
-
-const exphbs  = require('express-handlebars');
-
-const hbs = exphbs.create({
-  helpers: {
-    eq: function (a, b) {
-      return a === b; // Or use '==' if you want type coercion
-    }
-  }
-});
-
 
 // Middleware cơ bản
 app.use(morgan('combined'));
@@ -63,7 +53,17 @@ app.use(session({
     cookie: { maxAge: 1000 * 60 * 60 * 24 },
 }));
 
-// Middleware xác thực
+// ⚠️ FLASH - phải sau session
+app.use(flash());
+
+// ⚠️ Truyền flash ra view (biến global dùng được trong mọi view)
+app.use((req, res, next) => {
+    res.locals.success_msg = req.flash('success_msg');
+    res.locals.error_msg = req.flash('error_msg');
+    next();
+});
+
+// Middleware định tuyến
 route(app);
 
 app.listen(port, () => {
