@@ -41,7 +41,7 @@ class LoginController {
 
                 // Điều hướng sau khi đăng nhập thành công
                 if (taiKhoan.role === 'admin') {
-                    res.redirect('/admin');
+                    res.redirect('/admin/'+ req.session.taiKhoan.email);
                 } else if (taiKhoan.role === 'user') {
                     res.redirect('/user/' + req.session.taiKhoan.email);
                 }
