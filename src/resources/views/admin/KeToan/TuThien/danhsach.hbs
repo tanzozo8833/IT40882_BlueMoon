@@ -1,90 +1,73 @@
-<link rel="stylesheet" href="../common/Button.css">
-<link rel="stylesheet" href="../common/Input.css">
-<link rel="stylesheet" href="../common/ComboBox.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<style>
-    .filter-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 16px;
-        margin-bottom: 24px;
-    }
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/css/app.css">
+<div class="container mt-5">
+    <h2 class="mb-4">📋 Danh sách Từ thiện</h2>
 
-    .filter-group {
-        display: flex;
-        gap: 12px;
-        align-items: flex-end;
-    }
-
-    @media (max-width: 640px) {
-
-        .filter-container,
-        .filter-group {
-            flex-direction: column;
-        }
-    }
-</style>
-<div class="container mt-4">
-    <h3 class="mb-4">Danh sách Từ thiện</h3>
-
-    <form method="GET" action="/admin/tuthien" class="row mb-3">
-        <div class="row mb-3">
+    <form method="GET" action="/admin/tuthien" class="mb-4">
+        <div class="row g-3">
             <div class="col-md-4">
-                <input type="text" class="form-control" name="idQuy" placeholder="ID quỹ từ thiện" value="{{idQuy}}">
+                <label for="idQuy" class="form-label">ID Quỹ từ thiện</label>
+                <input type="text" class="form-control" id="idQuy" name="idQuy" placeholder="Nhập ID" value="{{idQuy}}">
             </div>
-            <div class="col-md-3">
-                <input type="date" class="form-control" name="startDate" value="{{startDate}}">
+            <div class="col-md-4">
+                <label for="startDate" class="form-label">Từ ngày</label>
+                <input type="date" class="form-control" id="startDate" name="startDate" value="{{startDate}}">
             </div>
-            <div class="col-md-3">
-                <input type="date" class="form-control" name="endDate" value="{{endDate}}">
+            <div class="col-md-4">
+                <label for="endDate" class="form-label">Đến ngày</label>
+                <input type="date" class="form-control" id="endDate" name="endDate" value="{{endDate}}">
             </div>
-            <div class="col-md-1 d-grid">
-                <button type="submit" class="btn btn-secondary">Làm mới</button>
-            </div>
-            <div class="col-md-1 d-grid">
-                <button type="submit" class="btn btn-primary">Lọc</button>
-            </div>
+        </div>
+
+        <div class="mt-3 d-flex gap-2">
+            <button type="submit" class="btn btn-secondary">Làm mới</button>
+            <button type="submit" class="btn btn-primary">Lọc</button>
+            <a href="/admin/tuthien/them" class="btn btn-success ms-auto">+ Thêm mới</a>
         </div>
     </form>
 
-    <div class="mb-3 text-end">
-        <a href="/admin/tuthien/them" class="btn btn-outline-primary">+ Thêm mới</a>
+    <div class="table-responsive">
+        <table class="table table-bordered my-custom-table">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Tên Quỹ</th>
+                    <th>Mô tả</th>
+                    <th>Thời gian</th>
+                    <th>Trạng thái</th>
+                    <th>Xem chi tiết</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each danhSachTuThien}}
+                <tr>
+                    <td>{{this.idQuyTuThien}}</td>
+                    <td>{{this.tenQuy}}</td>
+                    <td>{{this.mota}}</td>
+                    <td>{{formatDate this.ngayBatDau}} → {{formatDate this.ngayKetThuc}}</td>
+                    <td><span class="badge bg-info">{{this.trangThai}}</span></td>
+                    <td>
+                        <a href="/admin/tuthien/{{this.idQuyTuThien}}-{{this.slug}}" class="btn btn-link p-0 me-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2" />
+                            </svg>
+                        </a>
+                        <a href="/admin/tuthien/{{this.idQuyTuThien}}-{{this.slug}}/chinh-sua"
+                            class="btn btn-link p-0 text-warning">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                    </td>
+                </tr>
+                {{else}}
+                <tr>
+                    <td colspan="6">
+                        <div class="alert alert-danger text-center m-0">Không có Quỹ từ thiện nào.</div>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
     </div>
-
-    <table class="table table-bordered mt-3">
-        <thead class="table-primary">
-            <tr>
-                <th>ID</th>
-                <th>Tên Quỹ</th>
-                <th>Mô tả</th>
-                <th>Thời gian</th>
-                <th>Trạng thái</th>
-                <th>Xem chi tiết</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each danhSachTuThien}}
-            <tr>
-                <td>{{this.idQuyTuThien}}</td>
-                <td>{{this.tenQuy}}</td>
-                <td>{{this.mota}}</td>
-                <td>{{formatDate this.ngayBatDau}} → {{formatDate this.ngayKetThuc}}</td>
-                <td><span class="badge bg-info">{{this.trangThai}}</span></td>
-                <td>
-                    <a href="/admin/tuthien/{{this.idQuyTuThien}}-{{this.slug}}" class="btn btn-sm btn-primary">Xem</a>
-                    <a href="/admin/tuthien/{{this.idQuyTuThien}}-{{this.slug}}/chinh-sua"
-                        class="btn btn-sm btn-warning ms-2">Chỉnh sửa</a>
-                </td>
-            </tr>
-            {{else}}
-            <tr>
-                <td colspan="6">
-                    <div class="alert alert-danger" role="alert">
-                        Không có Quỹ từ thiện nào.
-                    </div>
-                </td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
 </div>

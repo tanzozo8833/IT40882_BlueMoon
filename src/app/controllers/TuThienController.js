@@ -155,12 +155,11 @@ class TuThienController {
     }
 
     // [POST] /admin/tuthien/:idslug/ungho
+    // [POST] /admin/tuthien/:idslug/ungho
     ungho(req, res, next) {
-        console.log(req.params);
-        const idslug = req.params.idslug;  // Đặt tên params là "idslug" thôi nhé!
-        const id = Number(idslug.split('-')[0]); // Lấy phần ID số trước dấu '-'
+        const idslug = req.params.idslug;
+        const id = Number(idslug.split('-')[0]);
 
-        // Kiểm tra id có hợp lệ không
         if (isNaN(id)) {
             return res.status(400).send('ID Quỹ phải là số');
         }
@@ -177,28 +176,29 @@ class TuThienController {
 
         QuyTuThien.findOne({ idQuyTuThien: id })
             .then(quy => {
-                if (!quy) {
-                    throw new Error('Không tìm thấy Quỹ từ thiện');
-                }
+                if (!quy) throw new Error('Không tìm thấy Quỹ từ thiện');
 
-                return CanHo.findOne({ idCanHo: idCanHo })
-                    .then(canHo => {
-                        if (!canHo) {
-                            throw new Error('Không tìm thấy căn hộ');
+                return CanHo.findOne({ idCanHo: idCanHo }).then(canHo => {
+                    if (!canHo) throw new Error('Không tìm thấy căn hộ');
+
+                    // ✅ Kiểm tra xem hộ đã đóng góp cho quỹ này chưa
+                    return TuThienPayment.findOne({ idCanHo, idQuyTuThien: id }).then(existing => {
+                        if (existing) {
+                            // Nếu đã tồn tại, trả về lỗi hoặc thông báo
+                            return res.status(400).send('Căn hộ này đã ủng hộ quỹ từ thiện này rồi!');
                         }
 
                         const payment = new TuThienPayment({
-                            idCanHo: idCanHo,
-                            soTienDaDong: soTienDaDong,
-                            idQuyTuThien: quy.idQuyTuThien
+                            idCanHo,
+                            soTienDaDong,
+                            idQuyTuThien: id
                         });
 
                         return payment.save();
                     });
+                });
             })
-            .then(() => {
-                res.redirect(`/admin/tuthien/${idslug}`);
-            })
+            .then(() => res.redirect(`/admin/tuthien/${idslug}`))
             .catch(err => {
                 console.error("Lỗi khi lưu ủng hộ:", err);
                 next(err);

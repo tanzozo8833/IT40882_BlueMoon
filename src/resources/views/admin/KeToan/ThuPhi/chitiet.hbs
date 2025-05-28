@@ -1,36 +1,154 @@
-<div class="container mt-4">
-    <h3 class="mb-4">Chi tiết phí {{loaiPhi}} - Tháng {{thang}}/{{nam}}</h3>
+<div class="container py-5">
+    <!-- Nút quay lại -->
+    <a href="/admin/thuphi" class="btn btn-secondary mb-3">← Quay lại</a>
 
-    <table class="table table-bordered mt-3">
-        <thead class="table-primary">
-            <tr>
-                <th>ID Căn hộ</th>
-                <th>Tên Căn hộ</th>
-                <th>Số tiền</th>
-                <th>Trạng thái</th>
-                <th>Mô tả</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each danhSachPhi}}
-            <tr>
-                <td>{{this.idCanHo}}</td>
-                <td>{{this.canHo.tenCanHo}}</td>
-                <td>{{this.soTien}}</td>
-                <td>
-                    <span class="badge {{#if (eq this.trangThai 'da_dong')}}bg-success{{else}}bg-warning{{/if}}">
-                        {{this.trangThai}}
-                    </span>
-                </td>
-                <td>{{this.moTa}}</td>
-            </tr>
-            {{else}}
-            <tr>
-                <td colspan="5" class="text-center">Không có dữ liệu đóng phí.</td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
+    <!-- Tiêu đề -->
+    <h2 class="fw-bold mb-4">Chi tiết phí {{formatLoaiPhi loaiPhi}} - Tháng {{thang}}/{{nam}}</h2>
 
-    <a href="/admin/thuphi" class="btn btn-secondary mt-3">← Quay lại danh sách</a>
+    <!-- Bộ lọc -->
+    <form class="d-flex align-items-end mb-4" method="GET">
+        <div class="me-3">
+            <label for="idCanHo" class="form-label">ID Căn hộ</label>
+            <input type="text" id="idCanHo" name="idCanHo" class="form-control" placeholder="Nhập ID căn hộ"
+                value="{{idCanHo}}">
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3 me-2">Lọc</button>
+        <a href="/admin/thuphi/{{loaiPhi}}/{{thang}}/{{nam}}" class="btn btn-secondary mt-3">Làm mới</a>
+    </form>
+
+    <!-- Bảng dữ liệu -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>ID Căn hộ</th>
+                    <th>Số tiền</th>
+                    <th>Trạng thái</th>
+                    <th>Mô tả</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each danhSachPhi}}
+                <tr>
+                    <td>{{@index}}</td>
+                    <td>{{this.idCanHo}}</td>
+                    <td>{{this.soTien}} VND</td>
+                    <td>
+                        <span class="badge {{#if (eq this.trangThai 'da_dong')}}bg-success{{else}}bg-warning{{/if}}">
+                            {{this.trangThai}}
+                        </span>
+                    </td>
+                    <td>{{this.moTa}}</td>
+                    <td>
+                        {{#if (eq this.trangThai 'chua_dong')}}
+                        <button class="btn btn-sm btn-success btn-dong-tien"
+                            data-link="/admin/thuphi/{{loaiPhi}}/{{thang}}/{{nam}}/{{this.idCanHo}}/dongtien"
+                            data-loaiphi="{{formatLoaiPhi ../loaiPhi}}" data-thang="{{../thang}}" data-nam="{{../nam}}"
+                            data-sotien="{{this.soTien}}" data-idcanho="{{this.idCanHo}}">
+                            Đóng tiền
+                        </button>
+                        {{else}}
+                        <span class="text-muted">Đã đóng</span>
+                        {{/if}}
+                    </td>
+                </tr>
+                {{else}}
+                <tr>
+                    <td colspan="7" class="text-center">Không có dữ liệu đóng phí.</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
 </div>
+<!-- Modal xác nhận -->
+<div class="modal fade" id="xacNhanDongTienModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Xác nhận đóng tiền</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body">
+                <p id="modal-noi-dung" class="mb-2"></p>
+                <ul class="list-unstyled">
+                    <li><strong>ID Căn hộ:</strong> <span id="modal-id-can-ho"></span></li>
+                    <li><strong>Số tiền:</strong> <span id="modal-so-tien"></span> VND</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <a href="#" id="modal-xac-nhan-link" class="btn btn-success">Xác nhận đóng tiền</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const buttons = document.querySelectorAll('.btn-dong-tien');
+        const modal = new bootstrap.Modal(document.getElementById('xacNhanDongTienModal'));
+        const modalNoiDung = document.getElementById('modal-noi-dung');
+        const modalIdCanHo = document.getElementById('modal-id-can-ho');
+        const modalSoTien = document.getElementById('modal-so-tien');
+        const modalXacNhanLink = document.getElementById('modal-xac-nhan-link');
+
+        let currentButton = null;
+
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const loaiPhi = btn.getAttribute('data-loaiphi');
+                const thang = btn.getAttribute('data-thang');
+                const nam = btn.getAttribute('data-nam');
+                const soTien = btn.getAttribute('data-sotien');
+                const idCanHo = btn.getAttribute('data-idcanho');
+                const link = btn.getAttribute('data-link');
+
+                modalNoiDung.textContent = `Bạn chắc chắn muốn đóng tiền phí "${loaiPhi}" cho tháng ${thang}/${nam}?`;
+                modalIdCanHo.textContent = idCanHo;
+                modalSoTien.textContent = soTien;
+                modalXacNhanLink.dataset.link = link; // lưu link
+                currentButton = btn; // lưu button hiện tại
+
+                modal.show();
+            });
+        });
+
+        // Xử lý khi xác nhận
+        modalXacNhanLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            const link = modalXacNhanLink.dataset.link;
+
+            fetch(link, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({}) // có thể gửi dữ liệu nếu cần
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        modal.hide();
+                        // Cập nhật UI
+                        if (currentButton) {
+                            const td = currentButton.parentElement;
+                            td.innerHTML = '<span class="text-muted">Đã đóng</span>';
+                            const badge = td.parentElement.querySelector('.badge');
+                            badge.classList.remove('bg-warning');
+                            badge.classList.add('bg-success');
+                            badge.textContent = 'da_dong';
+                        }
+                    } else {
+                        alert('Có lỗi xảy ra: ' + data.message);
+                    }
+                })
+                .catch(err => {
+                    alert('Lỗi kết nối: ' + err.message);
+                });
+        });
+    });
+</script>
