@@ -102,21 +102,7 @@ class ThongKeController {
 			}));
 			// Bạn có thể kết hợp hoặc xử lý thêm nếu cần
 
-<<<<<<< HEAD
-			res.render("admin/KeToan/ThongKe/chitiet", {
-				layout: "adminLayout",
-				title: `Chi tiết căn hộ ${idCanHo} tháng ${thang}/${nam}`,
-				idCanHo,
-				thang,
-				nam,
-				danhSachPhi: danhSachPhiCoDaDong,
-				canHo,
-			});
-		} catch (err) {
-			next(err);
-		}
-	}
-=======
+
     // PUT /thongke/:idCanHo/:loaiPhi/:thang/:nam- Xử lý đóng tiền
     async dongtien(req, res, next) {
         try {
@@ -149,8 +135,5 @@ class ThongKeController {
         }
     }
 
-
->>>>>>> a52e5bc4400d12b786641a2086d8a10b6b160857
-}
 
 module.exports = new ThongKeController();
