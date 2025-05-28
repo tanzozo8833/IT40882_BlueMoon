@@ -12,7 +12,9 @@ router.use('/thuphi', thuPhiRouter);
 //Tu thien
 const tuthienRouter = require('./tuthien');
 router.use('/tuthien', tuthienRouter);
-
+//Thong ke
+const thongkeRouter = require('./thongke');
+router.use('/thongke', thongkeRouter);
 //To Truong
 //Quan ly nhan khau
 const nhankhauRouter = require('./nhankhau');

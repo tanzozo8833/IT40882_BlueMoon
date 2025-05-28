@@ -1,34 +1,14 @@
 <div class="container py-5">
-    <!-- Nút quay lại -->
-    <a href="/admin/thuphi" class="btn btn-secondary mb-3">← Quay lại</a>
+    <a href="/admin/thongke" class="btn btn-secondary mb-3">← Quay lại</a>
 
-    <!-- Tiêu đề -->
-    <h2 class="fw-bold mb-4">Chi tiết phí {{formatLoaiPhi loaiPhi}} - Tháng {{thang}}/{{nam}}</h2>
+    <h2 class="fw-bold mb-4">Chi tiết khoản phí căn hộ {{idCanHo}} - Tháng {{thang}}/{{nam}}</h2>
 
-    <!-- Bộ lọc -->
-    <form class="mb-4">
-        <div class="row g-3 align-items-end">
-            <div class="col-md-4">
-                <label for="idCanHo" class="form-label">ID Căn hộ</label>
-                <input type="text" id="idCanHo" name="idCanHo" class="form-control" placeholder="Nhập ID căn hộ"
-                    value="{{idCanHo}}">
-            </div>
-        </div>
-
-        <div class="mt-3 d-flex gap-2">
-            <button type="submit" class="btn btn-primary">Lọc</button>
-            <a href="/admin/thuphi/{{loaiPhi}}/{{thang}}/{{nam}}" class="btn btn-secondary">Làm mới</a>
-        </div>
-    </form>
-
-
-    <!-- Bảng dữ liệu -->
     <div class="table-responsive">
-        <table class="table table-bordered my-custom-table" id="chiTietPhiTable">
-            <thead class="table-light">
+        <table class="table table-bordered table-striped align-middle">
+            <thead class="table-dark">
                 <tr>
                     <th>#</th>
-                    <th>ID Căn hộ</th>
+                    <th>Tên khoản phí</th>
                     <th>Số tiền</th>
                     <th>Trạng thái</th>
                     <th>Mô tả</th>
@@ -39,30 +19,31 @@
                 {{#each danhSachPhi}}
                 <tr>
                     <td>{{@index}}</td>
-                    <td>{{this.idCanHo}}</td>
+                    <td>{{this.loaiPhi}}</td>
                     <td>{{this.soTien}} VND</td>
                     <td>
-                        <span class="badge {{#if (eq this.trangThai 'da_dong')}}bg-success{{else}}bg-warning{{/if}}">
-                            {{this.trangThai}}
+                        <span class="badge {{#if this.daDong}}bg-success{{else}}bg-warning{{/if}}">
+                            {{#if this.daDong}}Đã đóng{{else}}Chưa đóng{{/if}}
                         </span>
                     </td>
                     <td>{{this.moTa}}</td>
                     <td>
-                        {{#if (eq this.trangThai 'chua_dong')}}
+                        {{#unless this.daDong}}
                         <button class="btn btn-sm btn-success btn-dong-tien"
-                            data-link="/admin/thuphi/{{loaiPhi}}/{{thang}}/{{nam}}/{{this.idCanHo}}/dongtien"
-                            data-loaiphi="{{formatLoaiPhi ../loaiPhi}}" data-thang="{{../thang}}" data-nam="{{../nam}}"
-                            data-sotien="{{this.soTien}}" data-idcanho="{{this.idCanHo}}">
+                            data-link="/admin/thongke/{{../idCanHo}}/dongtien/{{this._id}}?thang={{../thang}}&nam={{../nam}}"
+                            data-ten="{{this.loaiPhi}}" data-thang="{{../thang}}" data-nam="{{../nam}}"
+                            data-sotien="{{this.soTien}}" data-idcanho="{{../idCanHo}}">
                             Đóng tiền
                         </button>
                         {{else}}
                         <span class="text-muted">Đã đóng</span>
-                        {{/if}}
+                        {{/unless}}
                     </td>
+
                 </tr>
                 {{else}}
                 <tr>
-                    <td colspan="6" class="text-center">Không có dữ liệu đóng phí.</td>
+                    <td colspan="6" class="text-center">Không có khoản phí nào.</td>
                 </tr>
                 {{/each}}
             </tbody>
@@ -70,7 +51,7 @@
     </div>
 </div>
 
-<!-- Modal xác nhận -->
+<!-- Modal Xác nhận -->
 <div class="modal fade" id="xacNhanDongTienModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -83,7 +64,9 @@
                 <p id="modal-noi-dung" class="mb-2"></p>
                 <ul class="list-unstyled">
                     <li><strong>ID Căn hộ:</strong> <span id="modal-id-can-ho"></span></li>
+                    <li><strong>Tên khoản phí:</strong> <span id="modal-ten-khoan-phi"></span></li>
                     <li><strong>Số tiền:</strong> <span id="modal-so-tien"></span> VND</li>
+                    <li><strong>Tháng/Năm:</strong> <span id="modal-thang-nam"></span></li>
                 </ul>
             </div>
             <div class="modal-footer">
@@ -100,38 +83,41 @@
         const modal = new bootstrap.Modal(document.getElementById('xacNhanDongTienModal'));
         const modalNoiDung = document.getElementById('modal-noi-dung');
         const modalIdCanHo = document.getElementById('modal-id-can-ho');
+        const modalTenKhoanPhi = document.getElementById('modal-ten-khoan-phi');
         const modalSoTien = document.getElementById('modal-so-tien');
+        const modalThangNam = document.getElementById('modal-thang-nam');
         const modalXacNhanLink = document.getElementById('modal-xac-nhan-link');
 
         let currentButton = null;
 
         buttons.forEach(btn => {
             btn.addEventListener('click', () => {
-                const loaiPhi = btn.getAttribute('data-loaiphi');
+                const ten = btn.getAttribute('data-ten');
                 const thang = btn.getAttribute('data-thang');
                 const nam = btn.getAttribute('data-nam');
                 const soTien = btn.getAttribute('data-sotien');
                 const idCanHo = btn.getAttribute('data-idcanho');
                 const link = btn.getAttribute('data-link');
 
-                modalNoiDung.textContent = `Bạn chắc chắn muốn đóng tiền phí "${loaiPhi}" cho tháng ${thang}/${nam}?`;
+                modalNoiDung.textContent = `Bạn chắc chắn muốn đóng tiền khoản phí "${ten}" cho căn hộ ${idCanHo} tháng ${thang}/${nam}?`;
                 modalIdCanHo.textContent = idCanHo;
+                modalTenKhoanPhi.textContent = ten;
                 modalSoTien.textContent = soTien;
-                modalXacNhanLink.dataset.link = link;
-                currentButton = btn;
+                modalThangNam.textContent = `${thang}/${nam}`;
+                modalXacNhanLink.href = link;
 
+                currentButton = btn;
                 modal.show();
             });
         });
 
-        modalXacNhanLink.addEventListener('click', (e) => {
+        modalXacNhanLink.addEventListener('click', e => {
             e.preventDefault();
-            const link = modalXacNhanLink.dataset.link;
+            const url = modalXacNhanLink.href;
 
-            fetch(link, {
+            fetch(url, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({})
+                headers: { 'Content-Type': 'application/json' }
             })
                 .then(res => res.json())
                 .then(data => {
@@ -140,18 +126,16 @@
                         if (currentButton) {
                             const td = currentButton.parentElement;
                             td.innerHTML = '<span class="text-muted">Đã đóng</span>';
-                            const badge = td.parentElement.querySelector('.badge');
+                            const badge = td.parentElement.querySelector('span.badge');
                             badge.classList.remove('bg-warning');
                             badge.classList.add('bg-success');
-                            badge.textContent = 'da_dong';
+                            badge.textContent = 'Đã đóng';
                         }
                     } else {
                         alert('Có lỗi xảy ra: ' + data.message);
                     }
                 })
-                .catch(err => {
-                    alert('Lỗi kết nối: ' + err.message);
-                });
+                .catch(err => alert('Lỗi kết nối: ' + err.message));
         });
     });
 </script>

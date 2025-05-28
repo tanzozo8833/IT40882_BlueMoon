@@ -1,0 +1,103 @@
+const { mutipleMongooseToObject } = require('../../utils/mongoose');
+const Phi = require('../models/Phi');
+const TuThienPayment = require('../models/TuThienPayment');
+const CanHo = require('../models/CanHo');
+const QuyTuThien = require('../models/QuyTuThien');
+
+class ThongKeController {
+    listCanHo(req, res, next) {
+        const now = new Date();
+        const thang = parseInt(req.query.thang) || now.getMonth() + 1;
+        const nam = parseInt(req.query.nam) || now.getFullYear();
+
+        CanHo.find({}).lean()
+            .then(canHoList => {
+                // Lọc những căn hộ có idSoHoKhau
+                const filteredCanHoList = canHoList.filter(canHo => !!canHo.idSoHoKhau);
+
+                return Promise.all(
+                    filteredCanHoList.map(canHo => {
+                        return Promise.all([
+                            Phi.find({ idCanHo: canHo.idCanHo, thang, nam }).lean(),
+                            TuThienPayment.find({
+                                idCanHo: canHo.idCanHo,
+                                $expr: {
+                                    $and: [
+                                        { $eq: [{ $month: "$thoiGianDongTien" }, thang] },
+                                        { $eq: [{ $year: "$thoiGianDongTien" }, nam] }
+                                    ]
+                                }
+                            }).lean()
+                        ]).then(([phiList, tuThienList]) => {
+                            const totalPhi = phiList.reduce((sum, phi) => sum + phi.soTien, 0);
+                            const daDongPhi = phiList
+                                .filter(p => p.trangThai === 'da_dong')
+                                .reduce((sum, p) => sum + p.soTien, 0);
+                            const daTuThien = tuThienList.reduce((sum, p) => sum + p.soTienDaDong, 0);
+
+                            return {
+                                idCanHo: canHo.idCanHo,
+                                idSoHoKhau: canHo.idSoHoKhau,
+                                tongPhiThang: totalPhi,
+                                daDongPhi,
+                                daTuThien
+                            };
+                        });
+                    })
+                );
+            })
+            .then(results => {
+                res.render('admin/KeToan/ThongKe/danhsach', {
+                    layout: 'adminLayout',
+                    title: 'Thống kê căn hộ',
+                    thongKeList: results,
+                    selectedThang: thang,
+                    selectedNam: nam
+                });
+            })
+            .catch(next);
+    }
+
+    async postFilter(req, res, next) {
+        const { thang, nam } = req.body;
+        res.redirect(`/admin/thongke?thang=${thang}&nam=${nam}`);
+    }
+
+    async detailCanHo(req, res, next) {
+        try {
+            const idCanHo = req.params.idCanHo;
+            const thang = parseInt(req.query.thang) || (new Date()).getMonth() + 1;
+            const nam = parseInt(req.query.nam) || (new Date()).getFullYear();
+
+            // Tìm thông tin căn hộ
+            const canHo = await CanHo.findOne({ idCanHo }).lean();
+            if (!canHo) {
+                return res.status(404).send('Không tìm thấy căn hộ');
+            }
+
+            // Lấy danh sách phí của căn hộ trong tháng năm đó
+            const danhSachPhi = await Phi.find({ idCanHo, thang, nam }).lean();
+
+            const danhSachPhiCoDaDong = danhSachPhi.map(phi => ({
+                ...phi,
+                daDong: phi.trangThai === 'da_dong'
+            }));
+            // Bạn có thể kết hợp hoặc xử lý thêm nếu cần
+
+            res.render('admin/KeToan/ThongKe/chitiet', {
+                layout: 'adminLayout',
+                title: `Chi tiết căn hộ ${idCanHo} tháng ${thang}/${nam}`,
+                idCanHo,
+                thang,
+                nam,
+                danhSachPhi: danhSachPhiCoDaDong,
+                canHo,
+            });
+        } catch (err) {
+            next(err);
+        }
+    }
+
+}
+
+module.exports = new ThongKeController();

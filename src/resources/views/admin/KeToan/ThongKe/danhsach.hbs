@@ -1,0 +1,80 @@
+<div class="container py-4">
+    <h2 class="mb-4">Thống kê căn hộ</h2>
+
+    <!-- Bộ lọc -->
+    <form method="POST" action="/admin/thongke" class="row g-3 mb-3">
+        <div class="col-md-3">
+            <label for="thang" class="form-label">Tháng</label>
+            <select name="thang" id="thang" class="form-select">
+                {{#each (range 1 12)}}
+                <option value="{{this}}" {{#if (eq ../selectedThang this)}}selected{{/if}}>{{this}}</option>
+                {{/each}}
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label for="nam" class="form-label">Năm</label>
+            <select name="nam" id="nam" class="form-select">
+                {{#each (range 2023 2030)}}
+                <option value="{{this}}" {{#if (eq ../selectedNam this)}}selected{{/if}}>{{this}}</option>
+                {{/each}}
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label for="filterId" class="form-label">ID Căn hộ</label>
+            <input type="text" id="filterId" class="form-control" placeholder="Nhập ID để tìm...">
+        </div>
+        <div class="col-md-3 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary me-2">Lọc</button>
+            <button type="button" class="btn btn-secondary" onclick="resetFilter()">Làm mới</button>
+        </div>
+    </form>
+
+    <!-- Bảng kết quả -->
+    <table class="table table-bordered" id="thongkeTable">
+        <thead class="table-light">
+            <tr>
+                <th>ID Căn Hộ</th>
+                <th>ID Sổ Hộ Khẩu</th>
+                <th>Tổng phí tháng</th>
+                <th>Đã đóng phí</th>
+                <th>Đã từ thiện</th>
+                <th>Chi tiết phí</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each thongKeList}}
+            <tr>
+                <td>{{this.idCanHo}}</td>
+                <td>{{this.idSoHoKhau}}</td>
+                <td>{{this.tongPhiThang}}</td>
+                <td>{{this.daDongPhi}}</td>
+                <td>{{this.daTuThien}}</td>
+                <td>
+                    <a href="/admin/thongke/{{this.idCanHo}}?thang={{../selectedThang}}&nam={{../selectedNam}}"
+                        class="btn btn-sm btn-info">Xem</a>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // Lọc theo ID Căn hộ
+    document.getElementById('filterId').addEventListener('input', function () {
+        const keyword = this.value.trim().toLowerCase();
+        const rows = document.querySelectorAll('#thongkeTable tbody tr');
+
+        rows.forEach(row => {
+            const idCanHo = row.cells[0].innerText.toLowerCase();
+            row.style.display = idCanHo.includes(keyword) ? '' : 'none';
+        });
+    });
+
+    function resetFilter() {
+        document.getElementById('filterId').value = '';
+        document.querySelectorAll('#thongkeTable tbody tr').forEach(row => {
+            row.style.display = '';
+        });
+    }
+</script>
