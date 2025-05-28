@@ -1,92 +1,148 @@
 <!-- views/user/detailNhanKhau.hbs -->
 
 <div class="container mt-5">
-    <div class="back-link-wrapper">
-        <a href="/user/listNhanKhau" class="back-link">
-            <span class="back-link__icon">←</span>
-            <span class="back-link__text">Trở về trang nhân khẩu</span>
-        </a>
-    </div>
-<h2 class="mb-4 text-center">Chi tiết nhân khẩu {{NhanKhau.hoTen}}</h2>
-    <div class="row g-3">
-    <div class="col-md-3">
-        <label for="idNhanKhau" class="form-label">ID nhân khẩu</label>
-        <input type="text" class="form-control" id="idNhanKhau" name="_id" value="{{NhanKhau._id}}" readonly>
-    </div>
-    <div class="col-md-3">
-        <label for="idSoHoKhau" class="form-label">ID sổ hộ khẩu</label>
-        <input type="text" class="form-control" id="idSoHoKhau" name="idSoHoKhau" value="{{NhanKhau.idSoHoKhau}}" readonly>
-    </div>
-    <div class="col-md-3">
-        <label for="quanHeVoiChuHo" class="form-label">Quan hệ với chủ hộ</label>
-        <input type="text" class="form-control" id="quanHeVoiChuHo" name="quanHeVoiChuHo" value="{{NhanKhau.quanHeVoiChuHo}}" readonly>
-    </div>
-    <div class="col-md-3">
-        <label for="trangThai" class="form-label">Trạng thái</label>
-        <input type="text" class="form-control" id="trangThai" name="trangThai" value="{{NhanKhau.trangThai}}" readonly>
+	<div class="back-link-wrapper">
+		<a href="/user/listNhanKhau" class="back-link">
+			<span class="back-link__icon">←</span>
+			<span class="back-link__text">Trở về trang nhân khẩu</span>
+		</a>
+	</div>
+	<h2 class="mb-4 text-center green-header text-center mb-4">Chi tiết nhân khẩu {{NhanKhau.hoTen}}</h2>
+	<div class="row g-3">
+		<div class="col-md-3">
+			<label for="idNhanKhau" class="form-label">ID nhân khẩu</label>
+			<input type="text" class="form-control" id="idNhanKhau" name="_id" value="{{NhanKhau._id}}" readonly />
+		</div>
+		<div class="col-md-3">
+			<label for="idSoHoKhau" class="form-label">ID sổ hộ khẩu</label>
+			<input
+				type="text"
+				class="form-control"
+				id="idSoHoKhau"
+				name="idSoHoKhau"
+				value="{{NhanKhau.idSoHoKhau}}"
+				readonly
+			/>
+		</div>
+		<div class="col-md-3">
+			<label for="quanHeVoiChuHo" class="form-label">Quan hệ với chủ hộ</label>
+			<input
+				type="text"
+				class="form-control"
+				id="quanHeVoiChuHo"
+				name="quanHeVoiChuHo"
+				value="{{NhanKhau.quanHeVoiChuHo}}"
+				readonly
+			/>
+		</div>
+		<div class="col-md-3">
+			<label for="trangThai" class="form-label">Trạng thái</label>
+			<input
+				type="text"
+				class="form-control"
+				id="trangThai"
+				name="trangThai"
+				value="{{NhanKhau.trangThai}}"
+				readonly
+			/>
 
-    </div>
+		</div>
 
-    <div class="col-md-4">
-        <label for="hoTen" class="form-label">Họ tên</label>
-        <input type="text" class="form-control" id="hoTen" name="hoTen" value="{{NhanKhau.hoTen}}" readonly>
-    </div>
-    <div class="col-md-4">
-        <label for="danToc" class="form-label">Bí danh </label>
-        <input type="text" class="form-control" id="biDanh" name="biDanh" value="{{NhanKhau.biDanh}}" readonly>
-    </div>
-    
-    <div class="col-md-4">
-        <label for="queQuan" class="form-label">Quê quán</label>
-        <input type="text" class="form-control" id="queQuan" name="queQuan" value="{{NhanKhau.queQuan}}" readonly>
-    </div>
-    <div class="col-md-4">
-        <label for="ngaySinh" class="form-label">Ngày sinh</label>
-        <input type="date" class="form-control" id="ngaySinh" name="ngaySinh" value="{{formatDate NhanKhau.ngaySinh 'YYYY-MM-DD'}}" readonly>
-    </div>
-    <div class="col-md-4">
-        <label for="noiSinh" class="form-label">Nơi sinh</label>
-        <input type="text" class="form-control" id="noiSinh" name="noiSinh" value="{{NhanKhau.noiSinh}}" readonly>
-    </div>
-    <div class="col-md-4">
-        <label for="ngheNghiep" class="form-label">Nghề nghiệp</label>
-        <input type="text" class="form-control" id="ngheNghiep" name="ngheNghiep" value="{{NhanKhau.ngheNghiep}}" readonly>
-    </div>
-    <div class="col-md-6">
-        <label for="noiLamViec" class="form-label">Nơi làm việc</label>
-        <input type="text" class="form-control" id="noiLamViec" name="noiLamViec" value="{{NhanKhau.noiLamViec}}" readonly>
-    </div>
-    <div class="col-md-6">
-        <label for="thongTinKhac" class="form-label">Thông tin thêm</label>
-        <input type="text" class="form-control" id="thongTinKhac" name="thongTinKhac" value="{{NhanKhau.thongTinKhac}}" readonly>
-    </div>
+		<div class="col-md-4">
+			<label for="hoTen" class="form-label">Họ tên</label>
+			<input type="text" class="form-control" id="hoTen" name="hoTen" value="{{NhanKhau.hoTen}}" readonly />
+		</div>
+		<div class="col-md-4">
+			<label for="danToc" class="form-label">Bí danh </label>
+			<input type="text" class="form-control" id="biDanh" name="biDanh" value="{{NhanKhau.biDanh}}" readonly />
+		</div>
 
-    <div class="col-md-4">
-        <label for="soCCCD" class="form-label">Số CCCD</label>
-        <input type="text" class="form-control" id="soCCCD" name="soCCCD" value="{{NhanKhau.soCCCD}}" readonly>
-    </div>
-    <div class="col-md-4">
-        <label for="ngayCap" class="form-label">Ngày cấp</label>
-        <input type="date" class="form-control" id="ngayCap" name="ngayCap" value="{{formatDate NhanKhau.ngayCap 'YYYY-MM-DD'}}" readonly>
-    </div>
-    <div class="col-md-4">
-        <label for="noiCap" class="form-label">Nơi cấp</label>
-        <input type="text" class="form-control" id="noiCap" name="noiCap" value="{{NhanKhau.noiCap}}" readonly>
-    </div>
-    </div>
+		<div class="col-md-4">
+			<label for="queQuan" class="form-label">Quê quán</label>
+			<input type="text" class="form-control" id="queQuan" name="queQuan" value="{{NhanKhau.queQuan}}" readonly />
+		</div>
+		<div class="col-md-4">
+			<label for="ngaySinh" class="form-label">Ngày sinh</label>
+			<input
+				type="date"
+				class="form-control"
+				id="ngaySinh"
+				name="ngaySinh"
+				value="{{formatDate NhanKhau.ngaySinh 'YYYY-MM-DD'}}"
+				readonly
+			/>
+		</div>
+		<div class="col-md-4">
+			<label for="noiSinh" class="form-label">Nơi sinh</label>
+			<input type="text" class="form-control" id="noiSinh" name="noiSinh" value="{{NhanKhau.noiSinh}}" readonly />
+		</div>
+		<div class="col-md-4">
+			<label for="ngheNghiep" class="form-label">Nghề nghiệp</label>
+			<input
+				type="text"
+				class="form-control"
+				id="ngheNghiep"
+				name="ngheNghiep"
+				value="{{NhanKhau.ngheNghiep}}"
+				readonly
+			/>
+		</div>
+		<div class="col-md-6">
+			<label for="noiLamViec" class="form-label">Nơi làm việc</label>
+			<input
+				type="text"
+				class="form-control"
+				id="noiLamViec"
+				name="noiLamViec"
+				value="{{NhanKhau.noiLamViec}}"
+				readonly
+			/>
+		</div>
+		<div class="col-md-6">
+			<label for="thongTinKhac" class="form-label">Thông tin thêm</label>
+			<input
+				type="text"
+				class="form-control"
+				id="thongTinKhac"
+				name="thongTinKhac"
+				value="{{NhanKhau.thongTinKhac}}"
+				readonly
+			/>
+		</div>
 
-    <div class="mt-5 d-flex justify-content-between">
-    <form action="/user/{{NhanKhau._id}}/edit" method="GET" style="display:inline">
-        <button type="submit" class="btn btn-primary px-5">Chỉnh sửa</button>
-    </form>
+		<div class="col-md-4">
+			<label for="soCCCD" class="form-label">Số CCCD</label>
+			<input type="text" class="form-control" id="soCCCD" name="soCCCD" value="{{NhanKhau.soCCCD}}" readonly />
+		</div>
+		<div class="col-md-4">
+			<label for="ngayCap" class="form-label">Ngày cấp</label>
+			<input
+				type="date"
+				class="form-control"
+				id="ngayCap"
+				name="ngayCap"
+				value="{{formatDate NhanKhau.ngayCap 'YYYY-MM-DD'}}"
+				readonly
+			/>
+		</div>
+		<div class="col-md-4">
+			<label for="noiCap" class="form-label">Nơi cấp</label>
+			<input type="text" class="form-control" id="noiCap" name="noiCap" value="{{NhanKhau.noiCap}}" readonly />
+		</div>
+	</div>
 
-    {{!-- <button type="button"
+	<div class="mt-5 d-flex justify-content-between">
+		<form action="/user/{{NhanKhau._id}}/edit" method="GET" style="display:inline">
+			<button type="submit" class="btn btn-primary px-5">Chỉnh sửa</button>
+		</form>
+
+		{{! <button type="button"
             class="btn btn-danger px-5"
             data-bs-toggle="modal"
             data-bs-target="#confirmDeleteModal">
       Xóa nhân khẩu
-    </button> --}}
-    </div>
+    </button> }}
+	</div>
 </div>
 
 {{!-- <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
@@ -109,4 +165,3 @@
     </div>
   </div>
 </div> --}}
-

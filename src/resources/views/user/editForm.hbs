@@ -1,6 +1,12 @@
 {{!-- kế thừa layout --}}
   <div class="container mt-5">
-    <h2 class="mb-4 text-center">Chỉnh sửa nhân khẩu</h2>
+    <div class="back-link-wrapper">
+		<a href="/user/listNhanKhau" class="back-link">
+			<span class="back-link__icon">←</span>
+			<span class="back-link__text">Trở về trang nhân khẩu</span>
+		</a>
+	</div>
+    <h2 class="mb-4 text-center green-header text-center mb-4">Chỉnh sửa nhân khẩu</h2>
     <form action="/user/{{NhanKhau._id}}/edit" method="POST">
       <div class="row g-3">
         <!-- ID và sổ hộ khẩu readonly -->
@@ -69,7 +75,6 @@
     </div>
       <div class="mt-4 text-center">
         <button type="submit" class="btn btn-success px-5">Lưu thay đổi</button>
-        <a href="/user/listNhanKhau" class="btn btn-secondary px-4 ms-2">Hủy</a>
       </div>
     </form>
   </div>
