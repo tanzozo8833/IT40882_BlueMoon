@@ -1,0 +1,106 @@
+<div class="main-content" style="margin-left: 100px; margin-right: 120px;">
+  <div class="container mt-4">
+    <div class="card shadow-lg" style="border-radius: 15px; overflow: hidden;">
+      
+      <!-- Header gradient -->
+      <div style="height: 150px; background: linear-gradient(to right, #B7D3F1, #FCF7E1); position: relative;">
+        <!-- Avatar nổi lên trên gradient -->
+        <div class="text-center" style="position: absolute; bottom: -50px; left: 50%; transform: translateX(-50%);">
+          <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/28c12a65e22d1818976375bffb56964a37fe1cba"
+               class="rounded-circle shadow border border-white" width="150" height="150" alt="avatar">
+        </div>
+      </div>
+
+      <!-- Nội dung tài khoản -->
+      <div class="p-4 mt-5"> <!-- Khoảng cách để tránh avatar bị che -->
+        <div class="text-center mb-4">
+          <h3 class="fw-bold">Welcome, {{taiKhoan.bietDanh}}</h3>
+          <p class="text-muted">{{taiKhoan.hoTen}}<br>{{taiKhoan.email}}</p>
+        </div>
+        <form method="POST" action="user/userInfo">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Họ tên</label>
+              <input type="text" class="form-control" name="hoTen" value="{{taiKhoan.hoTen}}" readonly>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Email</label>
+              <input type="text" class="form-control" name="bietDanh" value="{{taiKhoan.email}}" readonly>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Vai trò</label>
+              <input type="text" class="form-control" name="vaiTro" value="{{taiKhoan.role}}" readonly>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">ID Sổ hộ khẩu</label>
+              <input type="text" class="form-control" name="idSoHoKhau" value="{{taiKhoan.idSoHoKhau}}" readonly>
+            </div>
+            <div class="col-md-6"></div>
+            <div class="col-md-6"></div>
+            <div class="col-12">
+              <div class="d-flex justify-content-center">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                  Đổi mật khẩu
+                </button>
+              </div>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="POST" action="/user/userInfo">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="changePasswordModalLabel">Đổi mật khẩu</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+        </div>
+        <div class="modal-body">
+          {{!-- Hiển thị lỗi nếu có --}}
+          {{#if errors}}
+          <div class="mb-3">
+            {{#each errors}}
+              <div class="alert alert-danger py-1">{{this}}</div>
+            {{/each}}
+          </div>
+          {{/if}}
+
+          <div class="mb-3">
+            <label class="form-label">Mật khẩu cũ</label>
+            <input type="password" class="form-control" name="oldPassword" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Mật khẩu mới</label>
+            <input type="password" class="form-control" name="newPassword" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Xác nhận mật khẩu mới</label>
+            <input type="password" class="form-control" name="confirmPassword" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+          <button type="submit" class="btn btn-primary">Lưu</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+{{!-- Flash thành công --}}
+{{#if success_msg}}
+  <div class="alert alert-success">{{success_msg}}</div>
+{{/if}}
+
+<!-- Cuối file, bật modal nếu cần -->
+{{#if showChangePasswordModal}}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var changeModal = new bootstrap.Modal(document.getElementById('changePasswordModal'));
+    changeModal.show();
+  });
+</script>
+{{/if}}

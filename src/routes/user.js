@@ -5,6 +5,9 @@ const userController = require('../app/controllers/UserController');
 const UserController = require('../app/controllers/UserController');
 
 
+router.post('/userInfo', userController.postMyInfo);
+
+router.get('/userInfo', userController.viewMyInfo);
 
 router.get('/tuThien', userController.tuthien);
 
