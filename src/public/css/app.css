@@ -51,9 +51,16 @@
 }
 
 .nav-link.active {
-  background-color: rgb(0, 159, 161);
+  background-color: #009fa1;
   border-radius: 0.25rem;
   color: #ffffff !important;
+}
+
+.green-header {
+  background-color: #009fa1;
+  color: white !important;
+  padding: 12px 20px;
+  border-radius: 8px;
 }
 
 /*# sourceMappingURL=app.css.map */

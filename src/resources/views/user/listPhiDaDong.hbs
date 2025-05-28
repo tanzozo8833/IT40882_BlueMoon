@@ -1,135 +1,97 @@
 <div class="container mt-5">
-  <h2 class="text-center mb-4">Các khoản phí đã đóng</h2>
-  <div class="row mb-3">
-    <div class="col-md-3">
-      <label for="searchLoaiPhi">Chọn loại phí</label>
-      <select id="searchLoaiPhi" class="form-select">
-        <option value="">Chọn loại phí</option>
-        <option value="Phí quản lý">dien</option>
-        <option value="Phí quản lý">nuoc</option>
-        <option value="Phí quản lý">xemay</option>
-        <option value="Phí quản lý">oto</option>
-        <option value="Phí quản lý">Phi dich vu nha o</option>
-        <option value="Phí quản lý">Phi dich vu cao cap</option>
-        <option value="Phí quản lý">Phí quản lý</option>
-        <!-- Thêm các loại phí khác nếu cần -->
-      </select>
-    </div>
-    <div class="col-md-2">
-      <label for="searchThang">Chọn tháng</label>
-      <select id="searchThang" class="form-select">
-        <option value="">Chọn tháng</option>
-        {{#each (range 1 12)}}
-          <option value="{{this}}">{{this}}</option>
-        {{/each}}
-      </select>
-    </div>
+	<h2 class="green-header text-center mb-4">Các khoản phí đã đóng</h2>
+	<div class="row mb-3">
+		<div class="col-md-3">
+			<label for="searchLoaiPhi">Chọn loại phí</label>
+			<select id="searchLoaiPhi" class="form-select">
+				<option value="">Chọn loại phí</option>
+				<option value="Phí quản lý">dien</option>
+				<option value="Phí quản lý">nuoc</option>
+				<option value="Phí quản lý">xemay</option>
+				<option value="Phí quản lý">oto</option>
+				<option value="Phí quản lý">Phi dich vu nha o</option>
+				<option value="Phí quản lý">Phi dich vu cao cap</option>
+				<option value="Phí quản lý">Phí quản lý</option>
+				<!-- Thêm các loại phí khác nếu cần -->
+			</select>
+		</div>
+		<div class="col-md-2">
+			<label for="searchThang">Chọn tháng</label>
+			<select id="searchThang" class="form-select">
+				<option value="">Chọn tháng</option>
+				{{#each (range 1 12)}}
+					<option value="{{this}}">{{this}}</option>
+				{{/each}}
+			</select>
+		</div>
 
-    <div class="col-md-2">
-      <label for="searchNam">Chọn năm</label>
-      <select id="searchNam" class="form-select">
-        <option value="">Chọn năm</option>
-        <option value="2023">2023</option>
-        <option value="2024">2024</option>
-        <option value="2025">2025</option>
-        <!-- Thêm các năm nếu cần -->
-      </select>
-    </div>
-    <div class="col-md-2 d-flex">
-      <button id="btnSearchPhi"
-              class="btn btn-primary w-100 mt-auto">
-        Tìm kiếm
-      </button>
-    </div>
-    <div class="col-md-2 d-flex">
-      <button id="btnRefreshPhi"
-              class="btn btn-secondary w-100 mt-auto">
-        Làm mới
-      </button>
-    </div>
-  </div>
+		<div class="col-md-2">
+			<label for="searchNam">Chọn năm</label>
+			<select id="searchNam" class="form-select">
+				<option value="">Chọn năm</option>
+				<option value="2023">2023</option>
+				<option value="2024">2024</option>
+				<option value="2025">2025</option>
+				<!-- Thêm các năm nếu cần -->
+			</select>
+		</div>
+		<div class="col-md-2 d-flex">
+			<button id="btnSearchPhi" class="btn btn-primary w-100 mt-auto">
+				Tìm kiếm
+			</button>
+		</div>
+		<div class="col-md-2 d-flex">
+			<button id="btnRefreshPhi" class="btn btn-secondary w-100 mt-auto">
+				Làm mới
+			</button>
+		</div>
+	</div>
 
-
-  {{#if phi.length}}
-  <table class="table table-bordered my-custom-table" id="phiTable">
-    <thead>
-      <tr>
-        <th>Loại phí</th>
-        <th>Số tiền</th>
-        <th>Trạng thái</th>
-        <th>Tháng</th>
-        <th>Năm</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each phi}}
-      <tr>
-        <td>{{this.loaiPhi}}</td>
-        <td>{{this.soTien}} VND</td>
-        <td>{{this.trangThai}}</td>
-        <td>{{this.thang}}</td>
-        <td>{{this.nam}}</td>
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
-  {{else}}
-    <p>Không có khoản phí nào đã đóng.</p>
-  {{/if}}
+	{{#if phi.length}}
+		<table class="table table-bordered my-custom-table" id="phiTable">
+			<thead>
+				<tr>
+					<th>Loại phí</th>
+					<th>Số tiền</th>
+					<th>Trạng thái</th>
+					<th>Tháng</th>
+					<th>Năm</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{#each phi}}
+					<tr>
+						<td>{{this.loaiPhi}}</td>
+						<td>{{this.soTien}} VND</td>
+						<td>{{this.trangThai}}</td>
+						<td>{{this.thang}}</td>
+						<td>{{this.nam}}</td>
+					</tr>
+				{{/each}}
+			</tbody>
+		</table>
+	{{else}}
+		<p>Không có khoản phí nào đã đóng.</p>
+	{{/if}}
 </div>
 
 <script>
-  // Hàm loại bỏ dấu tiếng Việt
-  function removeVietnameseTones(str) {
-    return str.normalize("NFD")
-              .replace(/[\u0300-\u036f]/g, "")
-              .replace(/đ/g, "d")
-              .replace(/Đ/g, "D");
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const btnSearch   = document.getElementById('btnSearchPhi');
-    const btnRefresh  = document.getElementById('btnRefreshPhi');
-    const selLoaiPhi  = document.getElementById('searchLoaiPhi');
-    const selThang    = document.getElementById('searchThang');
-    const selNam      = document.getElementById('searchNam');
-    const rows        = document.querySelectorAll('#phiTable tbody tr');
-
-    btnSearch.addEventListener('click', () => {
-      // Lấy text của option được chọn
-      const rawLoaiPhi = selLoaiPhi.options[selLoaiPhi.selectedIndex].text.trim();
-      // Nếu chọn "Chọn loại phí" (text = "Chọn loại phí"), chúng ta coi như không lọc theo loại
-      const searchLoaiPhi = rawLoaiPhi === "Chọn loại phí"
-        ? ""
-        : removeVietnameseTones(rawLoaiPhi.toLowerCase());
-
-      const searchThang = selThang.value; // giá trị của option tháng, nếu để trống => show all
-      const searchNam   = selNam.value;
-
-      rows.forEach(row => {
-        // Text của cell Loại phí (cột 0)
-        const loaiPhiCell = removeVietnameseTones(
-          row.children[0].textContent.trim().toLowerCase()
-        );
-
-        // Cell tháng (cột 3), năm (cột 4)
-        const thangCell = row.children[3].textContent.trim();
-        const namCell   = row.children[4].textContent.trim();
-
-        // Kiểm tra điều kiện
-        const matchLoaiPhi = !searchLoaiPhi || loaiPhiCell === searchLoaiPhi;
-        const matchThang   = !searchThang   || thangCell === searchThang;
-        const matchNam     = !searchNam     || namCell === searchNam;
-
-        row.style.display = (matchLoaiPhi && matchThang && matchNam) ? "" : "none";
-      });
-    });
-
-    btnRefresh.addEventListener('click', () => {
-      selLoaiPhi.selectedIndex = 0;
-      selThang.selectedIndex   = 0;
-      selNam.selectedIndex     = 0;
-      rows.forEach(row => row.style.display = "");
-    });
-  });
+	// Hàm loại bỏ dấu tiếng Việt function removeVietnameseTones(str) { return str.normalize("NFD")
+	.replace(/[\u0300-\u036f]/g, "") .replace(/đ/g, "d") .replace(/Đ/g, "D"); }
+	document.addEventListener('DOMContentLoaded', () => { const btnSearch = document.getElementById('btnSearchPhi');
+	const btnRefresh = document.getElementById('btnRefreshPhi'); const selLoaiPhi =
+	document.getElementById('searchLoaiPhi'); const selThang = document.getElementById('searchThang'); const selNam =
+	document.getElementById('searchNam'); const rows = document.querySelectorAll('#phiTable tbody tr');
+	btnSearch.addEventListener('click', () => { // Lấy text của option được chọn const rawLoaiPhi =
+	selLoaiPhi.options[selLoaiPhi.selectedIndex].text.trim(); // Nếu chọn "Chọn loại phí" (text = "Chọn loại phí"),
+	chúng ta coi như không lọc theo loại const searchLoaiPhi = rawLoaiPhi === "Chọn loại phí" ? "" :
+	removeVietnameseTones(rawLoaiPhi.toLowerCase()); const searchThang = selThang.value; // giá trị của option tháng,
+	nếu để trống => show all const searchNam = selNam.value; rows.forEach(row => { // Text của cell Loại phí (cột 0)
+	const loaiPhiCell = removeVietnameseTones( row.children[0].textContent.trim().toLowerCase() ); // Cell tháng (cột
+	3), năm (cột 4) const thangCell = row.children[3].textContent.trim(); const namCell =
+	row.children[4].textContent.trim(); // Kiểm tra điều kiện const matchLoaiPhi = !searchLoaiPhi || loaiPhiCell ===
+	searchLoaiPhi; const matchThang = !searchThang || thangCell === searchThang; const matchNam = !searchNam || namCell
+	=== searchNam; row.style.display = (matchLoaiPhi && matchThang && matchNam) ? "" : "none"; }); });
+	btnRefresh.addEventListener('click', () => { selLoaiPhi.selectedIndex = 0; selThang.selectedIndex = 0;
+	selNam.selectedIndex = 0; rows.forEach(row => row.style.display = ""); }); });
 </script>

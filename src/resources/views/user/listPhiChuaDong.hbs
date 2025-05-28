@@ -1,122 +1,96 @@
 <div class="container mt-5">
-  <h2 class="text-center mb-4">Các khoản phí chưa đóng</h2>
-  <div class="row mb-3">
-    <div class="col-md-3">
-      <label for="searchLoaiPhi">Chọn loại phí</label>
-      <select id="searchLoaiPhi" class="form-select">
-        <option value="">Chọn loại phí</option>
-        <option value="Phí quản lý">dien</option>
-        <option value="Phí quản lý">nuoc</option>
-        <option value="Phí quản lý">xemay</option>
-        <option value="Phí quản lý">oto</option>
-        <option value="Phí quản lý">Phi dich vu nha o</option>
-        <option value="Phí quản lý">Phi dich vu cao cap</option>
-        <option value="Phí quản lý">Phí quản lý</option>
-        <!-- Thêm các loại phí khác nếu cần -->
-      </select>
-    </div>
+	<h2 class="green-header text-center mb-4">Các khoản phí chưa đóng</h2>
 
-    <div class="col-md-2">
-      <label for="searchThang">Chọn tháng</label>
-      <select id="searchThang" class="form-select">
-        <option value="">Chọn tháng</option>
-        {{#each (range 1 12)}}
-          <option value="{{this}}">{{this}}</option>
-        {{/each}}
-      </select>
-    </div>
+	<div class="row mb-3">
+		<div class="col-md-3">
+			<label for="searchLoaiPhi">Chọn loại phí</label>
+			<select id="searchLoaiPhi" class="form-select">
+				<option value="">Chọn loại phí</option>
+				<option value="Phí quản lý">dien</option>
+				<option value="Phí quản lý">nuoc</option>
+				<option value="Phí quản lý">xemay</option>
+				<option value="Phí quản lý">oto</option>
+				<option value="Phí quản lý">Phi dich vu nha o</option>
+				<option value="Phí quản lý">Phi dich vu cao cap</option>
+				<option value="Phí quản lý">Phí quản lý</option>
+				<!-- Thêm các loại phí khác nếu cần -->
+			</select>
+		</div>
 
-    <div class="col-md-2">
-      <label for="searchNam">Chọn năm</label>
-      <select id="searchNam" class="form-select">
-        <option value="">Chọn năm</option>
-        <option value="2023">2023</option>
-        <option value="2024">2024</option>
-        <option value="2025">2025</option>
-        <!-- Thêm các năm nếu cần -->
-      </select>
-    </div>
-    <div class="col-md-2 d-flex">
-      <button id="btnSearchPhiChuaDong"
-              class="btn btn-primary w-100 mt-auto">
-        Tìm kiếm
-      </button>
-    </div>
-    <div class="col-md-2 d-flex">
-      <button id="btnRefreshPhiChuaDong"
-              class="btn btn-secondary w-100 mt-auto">
-        Làm mới
-      </button>
-    </div>
-  </div>
+		<div class="col-md-2">
+			<label for="searchThang">Chọn tháng</label>
+			<select id="searchThang" class="form-select">
+				<option value="">Chọn tháng</option>
+				{{#each (range 1 12)}}
+					<option value="{{this}}">{{this}}</option>
+				{{/each}}
+			</select>
+		</div>
 
-  {{#if phi.length}}
-  <table class="table table-bordered my-custom-table" id="phiChuaDongTable">
-    <thead>
-      <tr>
-        <th>Loại phí</th>
-        <th>Số tiền</th>
-        <th>Trạng thái</th>
-        <th>Tháng</th>
-        <th>Năm</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each phi}}
-      <tr>
-        <td>{{this.loaiPhi}}</td>
-        <td>{{this.soTien}} VND</td>
-        <td>{{this.trangThai}}</td>
-        <td>{{this.thang}}</td>
-        <td>{{this.nam}}</td>
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
-  {{else}}
-    <p>Không có khoản phí nào chưa đóng.</p>
-  {{/if}}
+		<div class="col-md-2">
+			<label for="searchNam">Chọn năm</label>
+			<select id="searchNam" class="form-select">
+				<option value="">Chọn năm</option>
+				<option value="2023">2023</option>
+				<option value="2024">2024</option>
+				<option value="2025">2025</option>
+				<!-- Thêm các năm nếu cần -->
+			</select>
+		</div>
+		<div class="col-md-2 d-flex">
+			<button id="btnSearchPhiChuaDong" class="btn btn-primary w-100 mt-auto">
+				Tìm kiếm
+			</button>
+		</div>
+		<div class="col-md-2 d-flex">
+			<button id="btnRefreshPhiChuaDong" class="btn btn-secondary w-100 mt-auto">
+				Làm mới
+			</button>
+		</div>
+	</div>
+
+	{{#if phi.length}}
+		<table class="table table-bordered my-custom-table" id="phiChuaDongTable">
+			<thead>
+				<tr>
+					<th>Loại phí</th>
+					<th>Số tiền</th>
+					<th>Trạng thái</th>
+					<th>Tháng</th>
+					<th>Năm</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{#each phi}}
+					<tr>
+						<td>{{this.loaiPhi}}</td>
+						<td>{{this.soTien}} VND</td>
+						<td>{{this.trangThai}}</td>
+						<td>{{this.thang}}</td>
+						<td>{{this.nam}}</td>
+					</tr>
+				{{/each}}
+			</tbody>
+		</table>
+	{{else}}
+		<p>Không có khoản phí nào chưa đóng.</p>
+	{{/if}}
 </div>
 
 <script>
-  function removeVietnameseTones(str) {
-    return str.normalize('NFD')
-              .replace(/[\u0300-\u036f]/g, '')
-              .replace(/đ/g, 'd')
-              .replace(/Đ/g, 'D');
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const btnSearch = document.getElementById('btnSearchPhiChuaDong');
-    const btnRefresh = document.getElementById('btnRefreshPhiChuaDong');
-    const searchLoaiPhiInput = document.getElementById('searchLoaiPhi');
-    const searchThangInput = document.getElementById('searchThang');
-    const searchNamInput = document.getElementById('searchNam');
-    const rows = document.querySelectorAll('#phiChuaDongTable tbody tr');
-
-    btnSearch.addEventListener('click', () => {
-      const searchLoaiPhi = removeVietnameseTones(searchLoaiPhiInput.value.trim().toLowerCase());
-      const searchThang = searchThangInput.value.trim();
-      const searchNam = searchNamInput.value.trim();
-
-      rows.forEach(row => {
-        const loaiPhi = removeVietnameseTones(row.children[0].textContent.trim().toLowerCase());
-        const thang = row.children[3].textContent.trim();
-        const nam = row.children[4].textContent.trim();
-
-        const matchLoaiPhi = loaiPhi.includes(searchLoaiPhi);
-        const matchThang = !searchThang || thang === searchThang;
-        const matchNam = !searchNam || nam === searchNam;
-
-        row.style.display = (matchLoaiPhi && matchThang && matchNam) ? '' : 'none';
-      });
-    });
-
-    btnRefresh.addEventListener('click', () => {
-      searchLoaiPhiInput.value = '';
-      searchThangInput.value = '';
-      searchNamInput.value = '';
-      rows.forEach(row => row.style.display = '');
-    });
-  });
+	function removeVietnameseTones(str) { return str.normalize('NFD') .replace(/[\u0300-\u036f]/g, '') .replace(/đ/g,
+	'd') .replace(/Đ/g, 'D'); } document.addEventListener('DOMContentLoaded', () => { const btnSearch =
+	document.getElementById('btnSearchPhiChuaDong'); const btnRefresh =
+	document.getElementById('btnRefreshPhiChuaDong'); const searchLoaiPhiInput =
+	document.getElementById('searchLoaiPhi'); const searchThangInput = document.getElementById('searchThang'); const
+	searchNamInput = document.getElementById('searchNam'); const rows = document.querySelectorAll('#phiChuaDongTable
+	tbody tr'); btnSearch.addEventListener('click', () => { const searchLoaiPhi =
+	removeVietnameseTones(searchLoaiPhiInput.value.trim().toLowerCase()); const searchThang =
+	searchThangInput.value.trim(); const searchNam = searchNamInput.value.trim(); rows.forEach(row => { const loaiPhi =
+	removeVietnameseTones(row.children[0].textContent.trim().toLowerCase()); const thang =
+	row.children[3].textContent.trim(); const nam = row.children[4].textContent.trim(); const matchLoaiPhi =
+	loaiPhi.includes(searchLoaiPhi); const matchThang = !searchThang || thang === searchThang; const matchNam =
+	!searchNam || nam === searchNam; row.style.display = (matchLoaiPhi && matchThang && matchNam) ? '' : 'none'; }); });
+	btnRefresh.addEventListener('click', () => { searchLoaiPhiInput.value = ''; searchThangInput.value = '';
+	searchNamInput.value = ''; rows.forEach(row => row.style.display = ''); }); });
 </script>
