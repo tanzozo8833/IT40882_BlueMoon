@@ -3,6 +3,7 @@ const Phi = require('../models/Phi');
 const TuThienPayment = require('../models/TuThienPayment');
 const CanHo = require('../models/CanHo');
 const QuyTuThien = require('../models/QuyTuThien');
+const SoHoKhau = require('../models/SoHoKhau');
 
 class ThongKeController {
     listCanHo(req, res, next) {
@@ -12,11 +13,26 @@ class ThongKeController {
 
         CanHo.find({}).lean()
             .then(canHoList => {
-                // Lọc những căn hộ có idSoHoKhau
                 const filteredCanHoList = canHoList.filter(canHo => !!canHo.idSoHoKhau);
 
+                // Tạo danh sách idSoHoKhau để lấy dữ liệu SoHoKhau
+                const listIdSoHoKhau = filteredCanHoList.map(c => c.idSoHoKhau);
+
+                // Lấy dữ liệu sổ hộ khẩu liên quan
+                return Promise.all([
+                    filteredCanHoList,
+                    SoHoKhau.find({ idSoHoKhau: { $in: listIdSoHoKhau } }).lean()
+                ]);
+            })
+            .then(([canHoList, soHoKhauList]) => {
+                // Tạo map để tra nhanh sổ hộ khẩu
+                const soHoKhauMap = {};
+                soHoKhauList.forEach(shk => {
+                    soHoKhauMap[shk.idSoHoKhau] = shk.soSoHoKhau;
+                });
+
                 return Promise.all(
-                    filteredCanHoList.map(canHo => {
+                    canHoList.map(canHo => {
                         return Promise.all([
                             Phi.find({ idCanHo: canHo.idCanHo, thang, nam }).lean(),
                             TuThienPayment.find({
@@ -37,7 +53,7 @@ class ThongKeController {
 
                             return {
                                 idCanHo: canHo.idCanHo,
-                                idSoHoKhau: canHo.idSoHoKhau,
+                                soSoHoKhau: soHoKhauMap[canHo.idSoHoKhau] || '',
                                 tongPhiThang: totalPhi,
                                 daDongPhi,
                                 daTuThien
@@ -57,6 +73,7 @@ class ThongKeController {
             })
             .catch(next);
     }
+
 
     async postFilter(req, res, next) {
         const { thang, nam } = req.body;
