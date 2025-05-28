@@ -1,4 +1,3 @@
-
 const { mutipleMongooseToObject } = require('../../utils/mongoose');
 const Phi = require('../models/Phi');
 const TuThienPayment = require('../models/TuThienPayment');
@@ -11,6 +10,7 @@ class ThongKeController {
         const now = new Date();
         const thang = parseInt(req.query.thang) || now.getMonth() + 1;
         const nam = parseInt(req.query.nam) || now.getFullYear();
+
         CanHo.find({}).lean()
             .then(canHoList => {
                 const filteredCanHoList = canHoList.filter(canHo => !!canHo.idSoHoKhau);
@@ -90,23 +90,31 @@ class ThongKeController {
             // Tìm thông tin căn hộ
             const canHo = await CanHo.findOne({ idCanHo }).lean();
             if (!canHo) {
-                return res.status(404).send("Không tìm thấy căn hộ");
+                return res.status(404).send('Không tìm thấy căn hộ');
             }
 
             // Lấy danh sách phí của căn hộ trong tháng năm đó
             const danhSachPhi = await Phi.find({ idCanHo, thang, nam }).lean();
 
-            const danhSachPhiCoDaDong = danhSachPhi.map((phi) => ({
+            const danhSachPhiCoDaDong = danhSachPhi.map(phi => ({
                 ...phi,
-                daDong: phi.trangThai === "da_dong",
+                daDong: phi.trangThai === 'da_dong'
             }));
             // Bạn có thể kết hợp hoặc xử lý thêm nếu cần
-        } catch (error) {
-            console.error('Lỗi khi lấy chi tiết căn hộ:', error);
-            return res.status(500).send('Lỗi server');
+
+            res.render('admin/KeToan/ThongKe/chitiet', {
+                layout: 'adminLayout',
+                title: `Chi tiết căn hộ ${idCanHo} tháng ${thang}/${nam}`,
+                idCanHo,
+                thang,
+                nam,
+                danhSachPhi: danhSachPhiCoDaDong,
+                canHo,
+            });
+        } catch (err) {
+            next(err);
         }
     }
-
 
     // PUT /thongke/:idCanHo/:loaiPhi/:thang/:nam- Xử lý đóng tiền
     async dongtien(req, res, next) {
@@ -139,6 +147,8 @@ class ThongKeController {
             next(error);
         }
     }
+
+
 }
 
 module.exports = new ThongKeController();
