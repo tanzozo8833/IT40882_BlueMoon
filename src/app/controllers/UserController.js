@@ -8,10 +8,11 @@ const TuThienPayment = require("../models/TuThienPayment.js");
 const Quy = require("../models/QuyTuThien.js");
 class UserController {
 	// [GET] /user/:email
-	index(req, res) {
+	async index(req, res) {
+		const user = await TaikhoanUser.findOne({ email: req.session.taiKhoan.email }).lean();
 		res.render("user/home", {
 			title: "home",
-			layout: "userLayout",
+			TaiKhoanUser: mongooseToObject(user),
 		});
 	}
 	async listNhanKhau(req, res, next) {

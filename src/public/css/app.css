@@ -45,8 +45,22 @@
   border-spacing: 0;
   /* Nếu muốn bo góc cho các cell của bảng */
 }
-.my-custom-table th, .my-custom-table td {
+.my-custom-table th,
+.my-custom-table td {
   border: inherit; /* Giữ nguyên border của bảng cha */
+}
+
+.nav-link.active {
+  background-color: #009fa1;
+  border-radius: 0.25rem;
+  color: #ffffff !important;
+}
+
+.green-header {
+  background-color: #009fa1;
+  color: white !important;
+  padding: 12px 20px;
+  border-radius: 8px;
 }
 
 /*# sourceMappingURL=app.css.map */
