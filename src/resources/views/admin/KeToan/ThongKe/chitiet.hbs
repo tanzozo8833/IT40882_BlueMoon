@@ -1,13 +1,23 @@
 <div class="container py-5">
-    <a href="/admin/thongke" class="btn btn-secondary mb-3">← Quay lại</a>
+    <!-- Nút quay lại -->
+    <div class="back-link-wrapper">
+        <a href="/admin/thongke" class="back-link">
+            <span class="back-link__icon">←</span>
+            <span class="back-link__text">Trở về danh sách thống kê</span>
+        </a>
+    </div>
 
-    <h2 class="fw-bold mb-4">Chi tiết khoản phí căn hộ {{idCanHo}} - Tháng {{thang}}/{{nam}}</h2>
+    <!-- Tiêu đề -->
+    <h1 class="fw-bold mb-4 green-header" style="text-align: center;">
+        Chi tiết khoản phí căn hộ {{idCanHo}} - Tháng {{thang}}/{{nam}}
+    </h1>
 
+    <!-- Bảng dữ liệu -->
     <div class="table-responsive">
-        <table class="table table-bordered table-striped align-middle">
-            <thead class="table-dark">
+        <table class="table table-bordered align-middle my-custom-table">
+            <thead class="table-light">
                 <tr>
-                    <th>#</th>
+                    <th>STT</th>
                     <th>Tên khoản phí</th>
                     <th>Số tiền</th>
                     <th>Trạng thái</th>
@@ -22,24 +32,23 @@
                     <td>{{this.loaiPhi}}</td>
                     <td>{{this.soTien}} VND</td>
                     <td>
-                        <span class="badge {{#if this.daDong}}bg-success{{else}}bg-warning{{/if}}">
-                            {{#if this.daDong}}Đã đóng{{else}}Chưa đóng{{/if}}
+                        <span class="badge {{#if (eq this.trangThai 'da_dong')}}bg-success{{else}}bg-warning{{/if}}">
+                            {{this.trangThai}}
                         </span>
                     </td>
                     <td>{{this.moTa}}</td>
                     <td>
-                        {{#unless this.daDong}}
+                        {{#if (eq this.trangThai 'chua_dong')}}
                         <button class="btn btn-sm btn-success btn-dong-tien"
-                            data-link="/admin/thongke/{{../idCanHo}}/dongtien/{{this._id}}?thang={{../thang}}&nam={{../nam}}"
+                            data-link="/admin/thongke/{{../idCanHo}}/{{loaiPhi}}/{{thang}}/{{nam}}/dongtien"
                             data-ten="{{this.loaiPhi}}" data-thang="{{../thang}}" data-nam="{{../nam}}"
                             data-sotien="{{this.soTien}}" data-idcanho="{{../idCanHo}}">
                             Đóng tiền
                         </button>
                         {{else}}
                         <span class="text-muted">Đã đóng</span>
-                        {{/unless}}
+                        {{/if}}
                     </td>
-
                 </tr>
                 {{else}}
                 <tr>
@@ -51,7 +60,7 @@
     </div>
 </div>
 
-<!-- Modal Xác nhận -->
+<!-- Modal xác nhận -->
 <div class="modal fade" id="xacNhanDongTienModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -104,20 +113,21 @@
                 modalTenKhoanPhi.textContent = ten;
                 modalSoTien.textContent = soTien;
                 modalThangNam.textContent = `${thang}/${nam}`;
-                modalXacNhanLink.href = link;
+                modalXacNhanLink.dataset.link = link;
 
                 currentButton = btn;
                 modal.show();
             });
         });
 
-        modalXacNhanLink.addEventListener('click', e => {
+        modalXacNhanLink.addEventListener('click', (e) => {
             e.preventDefault();
-            const url = modalXacNhanLink.href;
+            const link = modalXacNhanLink.dataset.link;
 
-            fetch(url, {
+            fetch(link, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' }
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({})
             })
                 .then(res => res.json())
                 .then(data => {
@@ -126,16 +136,18 @@
                         if (currentButton) {
                             const td = currentButton.parentElement;
                             td.innerHTML = '<span class="text-muted">Đã đóng</span>';
-                            const badge = td.parentElement.querySelector('span.badge');
+                            const badge = td.parentElement.querySelector('.badge');
                             badge.classList.remove('bg-warning');
                             badge.classList.add('bg-success');
-                            badge.textContent = 'Đã đóng';
+                            badge.textContent = 'da_dong';
                         }
                     } else {
                         alert('Có lỗi xảy ra: ' + data.message);
                     }
                 })
-                .catch(err => alert('Lỗi kết nối: ' + err.message));
+                .catch(err => {
+                    alert('Lỗi kết nối: ' + err.message);
+                });
         });
     });
 </script>

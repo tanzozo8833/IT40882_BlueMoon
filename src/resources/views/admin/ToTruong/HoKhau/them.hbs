@@ -1,5 +1,12 @@
 <div class="container mt-5">
-  <h2 class="mb-4">📝 Thêm nhân khẩu mới</h2>
+  <!-- Nút quay lại -->
+    <div class="back-link-wrapper">
+        <a href="/admin/hokhau" class="back-link">
+            <span class="back-link__icon">←</span>
+            <span class="back-link__text">Trở về danh sách hộ khẩu</span>
+        </a>
+    </div>
+  <h2 class="green-header text-center mb-4">Thêm mới sổ hộ khẩu</h2>
 
   <form method="POST" action="/admin/hokhau/add" class="p-4 border rounded shadow-sm bg-light">
     <div class="mb-3">
@@ -18,8 +25,7 @@
     </div>
 
     <div class="d-flex gap-2">
-      <button type="submit" class="btn btn-success">💾 Lưu</button>
-      <a href="/admin/hokhau" class="btn btn-secondary">↩️ Huỷ</a>
+      <button type="submit" class="btn btn-success">Lưu</button>
     </div>
   </form>
 </div>

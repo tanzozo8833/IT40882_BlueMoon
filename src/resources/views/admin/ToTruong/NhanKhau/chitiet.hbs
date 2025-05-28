@@ -1,4 +1,12 @@
-<h2 class="text-center display-6 fw-bold text-dark mb-5">Chi tiết nhân khẩu</h2>
+<!-- Nút quay lại -->
+<div class="back-link-wrapper">
+    <a href="/admin/nhankhau" class="back-link">
+        <span class="back-link__icon">←</span>
+        <span class="back-link__text">Trở về danh sách hộ khẩu</span>
+    </a>
+</div>
+
+<h2 class="green-header text-center mb-4">Chi tiết nhân khẩu</h2>
 
 <form id="nhanKhauForm" action="/admin/nhankhau/{{nhanKhau.idNhanKhau}}/update" method="POST">
   <div class="row g-3 mb-4">

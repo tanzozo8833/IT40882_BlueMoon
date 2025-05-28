@@ -1,7 +1,12 @@
 <div class="container py-5">
     <!-- Nút quay lại -->
-    <a href="/admin/tuthien">← Quay lại</a>
-    <h2 class="fw-bold mb-4">Danh sách đóng góp</h2>
+    <div class="back-link-wrapper">
+        <a href="/admin/tuthien" class="back-link">
+            <span class="back-link__icon">←</span>
+            <span class="back-link__text">Trở về danh sách từ thiện</span>
+        </a>
+    </div>
+    <h2 class="fw-bold mb-4 green-header" style="text-align: center;">{{quy.tenQuy}}</h2>
 
     <!-- Bộ lọc -->
     <form class="d-flex align-items-center mb-4" method="GET">
@@ -11,28 +16,34 @@
                 value="{{idCanHo}}">
         </div>
 
-        <button type="submit" class="btn btn-primary me-2 mt-4">Lọc</button>
+        <button type="submit" class="btn btn-primary me-2 mt-4">Tìm kiếm</button>
         <a href="/admin/tuthien/{{quy.idQuyTuThien}}-{{quy.slug}}" class="btn btn-secondary mt-4">Làm mới</a>
     </form>
 
     <!-- Nút thêm mới -->
-    <a href="/admin/tuthien/{{quy.idQuyTuThien}}-{{quy.slug}}/ungho" class="btn btn-success mb-3">+ Thêm mới</a>
+    <a href="/admin/tuthien/{{quy.idQuyTuThien}}-{{quy.slug}}/ungho" class="btn btn-success mb-3">+ Ủng hộ</a>
 
 
     <!-- Thông tin tổng quan -->
-    <div class="mb-3">
-        {{#if quy}}
-        <p><strong>Tên quỹ:</strong> {{quy.tenQuy}}</p>
-        {{else}}
-        <p class="text-danger">Không có dữ liệu quỹ</p>
-        {{/if}}
-
-        <p><strong>Mô tả:</strong> {{quy.mota}}</p>
-        <p><strong>Trạng thái:</strong> {{trangThai}}</p>
-        <p><strong>Thời gian:</strong> {{formatDate quy.ngayBatDau}} đến {{formatDate quy.ngayKetThuc}}</p>
-        <p><strong>Tổng số tiền đã đóng góp:</strong> {{tongSoTien}} VND</p>
-        <p><strong>Số lượng căn hộ đã đóng góp:</strong> {{soLuongCanHo}}</p>
+    <div class="mb-4 p-3 border rounded bg-light">
+        <div class="row">
+            <div class="col-md-6">
+                {{#if quy}}
+                <p><strong>Tên quỹ:</strong> {{quy.tenQuy}}</p>
+                {{else}}
+                <p class="text-danger">Không có dữ liệu quỹ</p>
+                {{/if}}
+                <p><strong>Mô tả:</strong> {{quy.mota}}</p>
+                <p><strong>Trạng thái:</strong> {{trangThai}}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Thời gian:</strong> {{formatDate quy.ngayBatDau}} đến {{formatDate quy.ngayKetThuc}}</p>
+                <p><strong>Tổng số tiền đã đóng góp:</strong> {{tongSoTien}} VND</p>
+                <p><strong>Số lượng căn hộ đã đóng góp:</strong> {{soLuongCanHo}}</p>
+            </div>
+        </div>
     </div>
+
 
     <!-- Bảng dữ liệu -->
     <div class="table-responsive">
