@@ -1,54 +1,32 @@
-<style>
-    body {
-        background-color: #f0f0f0;
-    }
+<div class="container mt-5">
+    <h2 class="mb-4">🤝 Thêm khoản từ thiện</h2>
 
-    .form-container {
-        max-width: 700px;
-        margin: 50px auto;
-        background: #fff;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
+    <form method="POST" action="/admin/tuthien" class="p-4 border rounded shadow-sm bg-light">
+        <div class="mb-3">
+            <label for="name" class="form-label">Tên quỹ từ thiện</label>
+            <input type="text" class="form-control" id="name" name="tenQuy" placeholder="Nhập tên quỹ từ thiện"
+                required>
+        </div>
 
-    .btn-custom {
-        background-color: #7b68ee;
-        color: white;
-        font-weight: bold;
-    }
+        <div class="mb-3">
+            <label for="description" class="form-label">Mô tả</label>
+            <input type="text" class="form-control" id="description" name="mota" placeholder="Nhập mô tả">
+        </div>
 
-    .btn-custom:hover {
-        background-color: #6a5acd;
-    }
-</style>
-<div class="container">
-    <div class="form-container">
-        <h2 class="text-center mb-4">Thêm khoản từ thiện</h2>
-        <form method="POST" action="/admin/tuthien" id="form-add-fee">
-            <div class="mb-3">
-                <label for="name" class="form-label">Tên quỹ từ thiện</label>
-                <input type="text" class="form-control" id="name" name="tenQuy" placeholder="Nhập tên quỹ từ thiện">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="startDate" class="form-label">Ngày bắt đầu</label>
+                <input type="date" class="form-control" id="startDate" name="ngayBatDau" required>
             </div>
+            <div class="col-md-6 mb-3">
+                <label for="endDate" class="form-label">Ngày kết thúc</label>
+                <input type="date" class="form-control" id="endDate" name="ngayKetThuc" required>
+            </div>
+        </div>
 
-            <div class="mb-3">
-                <label for="description" class="form-label">Mô tả</label>
-                <input type="text" class="form-control" id="description" name="mota" placeholder="Nhập mô tả">
-            </div>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="startDate" class="form-label">Ngày bắt đầu</label>
-                    <input type="date" class="form-control" id="startDate" name="ngayBatDau">
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="endDate" class="form-label">Ngày kết thúc</label>
-                    <input type="date" class="form-control" id="endDate" name="ngayKetThuc">
-                </div>
-            </div>
-
-            <div class="d-grid">
-                <button type="submit" class="btn btn-custom">Xác nhận thêm</button>
-            </div>
-        </form>
-    </div>
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-success">💾 Xác nhận thêm</button>
+            <a href="/admin/tuthien" class="btn btn-secondary">↩️ Huỷ</a>
+        </div>
+    </form>
 </div>

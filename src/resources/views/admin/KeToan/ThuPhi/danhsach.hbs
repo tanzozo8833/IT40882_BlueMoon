@@ -1,38 +1,126 @@
-<div class="container mt-4">
-    <h3 class="mb-4">Danh sách các loại phí</h3>
+<div class="container py-4">
 
-    <table class="table table-bordered mt-3">
-        <thead class="table-primary">
-            <tr>
-                <th>Loại phí</th>
-                <th>Tháng</th>
-                <th>Năm</th>
-                <th>Tổng số tiền</th>
-                <th>Số tiền đã thu</th> <!-- Thêm cột này -->
-                <th>Số căn hộ đã đóng</th>
-                <th>Chi tiết</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each danhSach}}
-            <tr>
-                <td>{{this.loaiPhi}}</td>
-                <td>{{this.thang}}</td>
-                <td>{{this.nam}}</td>
-                <td>{{this.tongSoTien}}</td>
-                <td>{{this.tongSoTienDaThu}}</td> <!-- Hiển thị số tiền đã thu -->
-                <td>{{this.soCanHo}}</td>
-                <td>
-                    <a href="/admin/thuphi/{{this.loaiPhi}}/{{this.thang}}/{{this.nam}}"
-                        class="btn btn-sm btn-primary">Xem chi tiết</a>
-                </td>
-            </tr>
-            {{else}}
-            <tr>
-                <td colspan="7" class="text-center">Không có dữ liệu.</td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
+    <h2 class="mb-4">Danh sách các loại phí</h2>
 
-</div>
+    <!-- Bộ lọc Thu phí -->
+    <div class="container py-4">
+        <h2 class="mb-4">📋 Danh sách các loại phí</h2>
+
+        <!-- Form bộ lọc -->
+        <form class="mb-4">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label for="filterLoaiPhi" class="form-label">Loại phí</label>
+                    <select class="form-select" id="filterLoaiPhi" name="loaiPhi">
+                        <option value="">-- Tất cả loại phí --</option>
+                        <option value="dien">Điện</option>
+                        <option value="nuoc">Nước</option>
+                        <option value="Phi quan ly">Phí quản lý chung cư</option>
+                        <option value="Phidichvu">Phí dịch vụ chung cư</option>
+                        <option value="Phuongtien">Phương tiện</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="filterThang" class="form-label">Tháng</label>
+                    <input type="number" class="form-control" id="filterThang" name="thang" min="1" max="12"
+                        placeholder="Tháng">
+                </div>
+                <div class="col-md-4">
+                    <label for="filterNam" class="form-label">Năm</label>
+                    <input type="number" class="form-control" id="filterNam" name="nam" min="2000" placeholder="Năm">
+                </div>
+            </div>
+
+            <div class="mt-3 d-flex gap-2">
+                <button type="button" class="btn btn-secondary" onclick="resetFilter()">Làm mới</button>
+                <button type="button" class="btn btn-primary" onclick="filterTable()">Lọc</button>
+            </div>
+        </form>
+
+        <!-- Bảng danh sách Thu phí -->
+        <div class="table-responsive">
+            <table class="table table-bordered my-custom-table" id="thuPhiTable">
+                <thead class="table-light">
+                    <tr>
+                        <th>Loại phí</th>
+                        <th>Tháng</th>
+                        <th>Năm</th>
+                        <th>Tổng số tiền</th>
+                        <th>Số tiền đã thu</th>
+                        <th>Số căn hộ có khoản thu</th>
+                        <th>Xem chi tiết</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each danhSach}}
+                    <tr>
+                        <td>{{this.loaiPhi}}</td>
+                        <td>{{this.thang}}</td>
+                        <td>{{this.nam}}</td>
+                        <td>{{this.tongSoTien}}</td>
+                        <td>{{this.tongSoTienDaThu}}</td>
+                        <td>{{this.soCanHo}}</td>
+                        <td>
+                            <a href="/admin/thuphi/{{this.loaiPhi}}/{{this.thang}}/{{this.nam}}"
+                                class="btn btn-link p-0 me-2"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                    height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2" />
+                                </svg></a>
+                        </td>
+                    </tr>
+                    {{else}}
+                    <tr>
+                        <td colspan="7" class="text-center">Không có dữ liệu.</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Lọc bảng Thu phí theo bộ lọc
+        function filterTable() {
+            const loaiPhi = document.getElementById('filterLoaiPhi').value;
+            const thang = document.getElementById('filterThang').value;
+            const nam = document.getElementById('filterNam').value;
+
+            const rows = document.querySelectorAll('#thuPhiTable tbody tr');
+            rows.forEach(row => {
+                const rowLoaiPhi = row.cells[0].innerText.trim();
+                const rowThang = row.cells[1].innerText.trim();
+                const rowNam = row.cells[2].innerText.trim();
+
+                let matchLoaiPhi = false;
+
+                if (!loaiPhi) {
+                    // Nếu không chọn loại phí => tất cả
+                    matchLoaiPhi = true;
+                } else if (loaiPhi === 'Phidichvu') {
+                    // Nếu chọn Phidichvu thì tìm các loại phí con
+                    matchLoaiPhi = (rowLoaiPhi === 'Phi dich vu nha o' || rowLoaiPhi === 'Phi dich vu cao cap');
+                } else if (loaiPhi === 'Phuongtien') {
+                    // Nếu chọn Phuongtien thì tìm xemay hoặc oto
+                    matchLoaiPhi = (rowLoaiPhi.toLowerCase() === 'xemay' || rowLoaiPhi.toLowerCase() === 'oto');
+                } else {
+                    // Các loại phí khác thì so sánh chính xác
+                    matchLoaiPhi = (rowLoaiPhi === loaiPhi);
+                }
+
+                const matchThang = !thang || rowThang === thang;
+                const matchNam = !nam || rowNam === nam;
+
+                row.style.display = (matchLoaiPhi && matchThang && matchNam) ? '' : 'none';
+            });
+
+        }
+
+
+        function resetFilter() {
+            document.getElementById('filterLoaiPhi').value = '';
+            document.getElementById('filterThang').value = '';
+            document.getElementById('filterNam').value = '';
+            filterTable();
+        }
+    </script>

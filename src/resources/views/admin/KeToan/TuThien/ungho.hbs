@@ -1,45 +1,22 @@
-<style>
-    body {
-        background-color: #f0f0f0;
-    }
+<div class="container mt-5">
+    <h2 class="mb-4">🤝 Ủng hộ quỹ {{quy.tenQuy}}</h2>
 
-    .form-container {
-        max-width: 700px;
-        margin: 50px auto;
-        background: #fff;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
+    <form method="POST" action="/admin/tuthien/{{quy.idQuyTuThien}}-{{quy.slug}}"
+        class="p-4 border rounded shadow-sm bg-light">
+        <div class="mb-3">
+            <label for="idCanHo" class="form-label">ID Căn hộ</label>
+            <input type="text" class="form-control" id="idCanHo" name="idCanHo" placeholder="Nhập ID Căn hộ" required>
+        </div>
 
-    .btn-custom {
-        background-color: #7b68ee;
-        color: white;
-        font-weight: bold;
-    }
+        <div class="mb-3">
+            <label for="soTienDaDong" class="form-label">Số tiền ủng hộ</label>
+            <input type="text" class="form-control" id="soTienDaDong" name="soTienDaDong" placeholder="Nhập số tiền"
+                required>
+        </div>
 
-    .btn-custom:hover {
-        background-color: #6a5acd;
-    }
-</style>
-<div class="container">
-    <div class="form-container">
-        <h2 class="text-center mb-4"></h2>
-        <p class="text-center mb-4">Ủng hộ quỹ {{quy.tenQuy}}</p>
-        <form method="POST" action="/admin/tuthien/{{quy.idQuyTuThien}}-{{quy.slug}}" id="ungho-form">
-            <div class="mb-3">
-                <label for="name" class="form-label">ID Căn hộ</label>
-                <input type="text" class="form-control" id="idCanHo" name="idCanHo" placeholder="ID Căn hộ">
-            </div>
-
-            <div class="mb-3">
-                <label for="description" class="form-label">Số tiền</label>
-                <input type="text" class="form-control" id="soTienDaDong" name="soTienDaDong"
-                    placeholder="Số tiền ủng hộ">
-            </div>
-            <div class="d-grid">
-                <button type="submit" class="btn btn-custom">Ủng hộ</button>
-            </div>
-        </form>
-    </div>
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-success">💖 Ủng hộ</button>
+            <a href="/admin/tuthien" class="btn btn-secondary">↩️ Huỷ</a>
+        </div>
+    </form>
 </div>
