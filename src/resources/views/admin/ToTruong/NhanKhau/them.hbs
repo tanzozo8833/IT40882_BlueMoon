@@ -1,4 +1,12 @@
-<h2 class="text-center display-6 fw-bold text-dark mb-5">Thêm nhân khẩu mới</h2>
+<!-- Nút quay lại -->
+<div class="back-link-wrapper">
+    <a href="/admin/nhankhau" class="back-link">
+        <span class="back-link__icon">←</span>
+        <span class="back-link__text">Trở về danh sách hộ khẩu</span>
+    </a>
+</div>
+
+<h2 class="green-header text-center mb-4">Thêm nhân khẩu mới</h2>
 
 <form method="POST" action="/admin/nhankhau/add" class="container">
   <div class="row g-3 mb-4">
@@ -110,6 +118,5 @@
 
   <div class="text-center">
     <button type="submit" class="btn btn-primary px-5 fw-bold me-2">Lưu</button>
-    <a href="/admin/nhankhau" class="btn btn-secondary px-4">Huỷ</a>
   </div>
 </form>

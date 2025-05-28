@@ -22,7 +22,7 @@
 
     .form-container {
       width: 1120px;
-      height: 700px;
+      height: 800px;
       background-color: #fff;
       border-radius: 12px;
       padding: 40px 100px;
@@ -69,10 +69,16 @@
   </style>
 </head>
 <body>
+  <div class="back-link-wrapper">
+        <a href="/admin/hokhau" class="back-link">
+            <span class="back-link__icon">←</span>
+            <span class="back-link__text">Trở về danh sách hộ khẩu</span>
+        </a>
+    </div>
   <div class="form-wrapper">
     <div class="form-container">
       <div>
-        <h2 class="form-title">Thêm tài khoản người dùng</h2>
+        <h2 class="green-header text-center mb-4">Thêm tài khoản người dùng</h2>
         <form id="account-form" class="form-content" method="POST" action="/admin/taikhoan/add">
           <div class="form-group">
             <label for="tenDangNhap" class="form-label">Tên đăng nhập</label>
