@@ -1,228 +1,87 @@
-<!DOCTYPE html>
 <html lang="vi">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Đăng nhập Bluemoon</title>
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Đăng nhập Bluemoon</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #0d6efd;
-            --bg-color: #f8f9fa;
-            --text-color: #343a40;
-        }
+		<!-- Bootstrap 5 CSS + Icons -->
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+		<!-- Google Font -->
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
 
-        html,
-        body {
-            height: 100%;
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-        }
+		<style>
+			body, html { height: 100%; margin: 0; font-family: 'Inter', sans-serif; background-color: #f0f2f5; }
+			.login-container { height: 100vh; display: flex; } /* Cột trái */ .login-left { flex: 1; background:
+			url('https://cms.thainguyen.vn/documents/1329041/2264722/1.CUC+BAC+1.jpg/5745b2af-9970-4c75-b5d9-5010da28111a?t=1722235658467')
+			center/cover no-repeat; position: relative; overflow: hidden; } .login-left::before { content: ""; position:
+			absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.2); } @keyframes zoom { 0% {
+			transform: scale(1); } 100% { transform: scale(1.1); } } .login-left img, .login-left { animation: zoom 10s
+			ease-in-out infinite alternate; } /* Cột phải */ .login-right { flex: 1; display: flex; justify-content:
+			center; align-items: center; padding: 2rem; } .login-card { width: 100%; max-width: 400px; background: #fff;
+			border-radius: 1rem; box-shadow: 0 8px 24px rgba(0,0,0,0.1); padding: 2.5rem; } .login-card h2 {
+			font-weight: 600; margin-bottom: 1.5rem; text-align: center; } .login-card h2 span { color: #00A5A5; }
+			.form-control:focus { border-color: #00A5A5; box-shadow: 0 0 0 0.25rem rgba(0,165,165,0.25); } .btn-login {
+			background-color: #00A5A5; color: #fff; font-weight: 600; } .btn-login:hover { background-color: #008F8F; }
+			.error-msg { color: #dc3545; text-align: center; margin-bottom: 1rem; }
+		</style>
+	</head>
+	<body>
 
-        .container {
-            display: flex;
-            height: 100vh;
-            width: 100%;
-        }
+		<div class="login-container">
+			<!-- trái: ảnh chung cư -->
+			<div class="login-left d-none d-lg-block"></div>
 
-        .left {
-            flex: 1;
-            background-image: url('https://cms.thainguyen.vn/documents/1329041/2264722/1.CUC+BAC+1.jpg/5745b2af-9970-4c75-b5d9-5010da28111a?t=1722235658467');
-            background-size: cover;
-            background-position: center;
-            animation: zoomIn 8s ease-in-out infinite alternate;
-        }
+			<!-- phải: form -->
+			<div class="login-right">
+				<div class="login-card">
+					<h2>Chào mừng đến chung cư <span>Bluemoon!</span></h2>
 
-        @keyframes zoomIn {
-            from {
-                background-size: 100%;
-            }
+					{{#if error}}
+						<div class="error-msg">{{error}}</div>
+					{{/if}}
 
-            to {
-                background-size: 110%;
-            }
-        }
+					<form method="POST" action="/login">
+						<div class="mb-3">
+							<label for="email" class="form-label">Tên đăng nhập</label>
+							<input
+								type="text"
+								id="email"
+								name="email"
+								class="form-control"
+								placeholder="Nhập tên đăng nhập"
+								required
+								value="{{email}}"
+							/>
+						</div>
 
-        .right {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
-        }
+						<div class="mb-3">
+							<label for="password" class="form-label">Mật khẩu</label>
+							<input
+								type="password"
+								id="password"
+								name="password"
+								class="form-control"
+								placeholder="Nhập mật khẩu"
+								required
+							/>
+						</div>
 
-        .login-box {
-            width: 100%;
-            max-width: 400px;
-            background: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
-            padding: 40px;
-            transition: all 0.3s ease;
-        }
+						<div class="form-check mb-3">
+							<input class="form-check-input" type="checkbox" value="" id="remember" name="remember" />
+							<label class="form-check-label" for="remember">
+								Lưu đăng nhập
+							</label>
+						</div>
 
-        .login-box:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 16px 45px rgba(0, 0, 0, 0.15);
-        }
+						<button type="submit" class="btn btn-login w-100 py-2">Đăng nhập</button>
+					</form>
+				</div>
+			</div>
+		</div>
 
-        .login-box h2 {
-            font-size: 28px;
-            margin-bottom: 28px;
-            color: var(--text-color);
-            text-align: center;
-        }
-
-        .login-box h2 span {
-            color: var(--primary-color);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 8px;
-            color: #495057;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 14px;
-            font-size: 14px;
-            border: 1px solid #ced4da;
-            border-radius: 10px;
-            transition: 0.3s;
-        }
-
-        .form-group input:focus {
-            border-color: var(--primary-color);
-            outline: none;
-            box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.2);
-        }
-
-        .options {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 14px;
-            margin-bottom: 24px;
-        }
-
-        .options label {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .options a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .options a:hover {
-            text-decoration: underline;
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 14px;
-            font-size: 16px;
-            font-weight: 600;
-            color: #fff;
-            background-color: var(--primary-color);
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .login-btn:hover {
-            background-color: #0b5ed7;
-        }
-
-        .error-msg {
-            color: #dc3545;
-            font-size: 14px;
-            margin-bottom: 16px;
-            text-align: center;
-        }
-
-        @media (max-width: 992px) {
-            .container {
-                flex-direction: column;
-            }
-
-            .left {
-                height: 300px;
-            }
-
-            .right {
-                padding: 20px;
-            }
-
-            .login-box {
-                padding: 30px;
-                max-width: 350px;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .login-box {
-                padding: 24px;
-            }
-
-            .login-box h2 {
-                font-size: 24px;
-            }
-        }
-    </style>
-</head>
-
-<body>
-    <div class="container">
-        <div class="left"></div>
-
-        <div class="right">
-            <div class="login-box">
-                <h2>Chào mừng đến chung cư <span>Bluemoon</span>!</h2>
-
-                {{#if error}}
-                <p class="error-msg">{{error}}</p>
-                {{/if}}
-
-                <form method="POST" action="/login">
-                    <div class="form-group">
-                        <label for="email">Tên đăng nhập</label>
-                        <input type="text" id="email" name="email" placeholder="Nhập tên đăng nhập" required
-                            value="{{email}}">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="password">Mật khẩu</label>
-                        <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required>
-                    </div>
-
-                    <div class="options">
-                        <label><input type="checkbox" name="remember"> Lưu đăng nhập</label>
-                    </div>
-
-                    <button type="submit" class="login-btn">Đăng nhập</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</body>
-
+		<!-- Bootstrap JS -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+	</body>
 </html>
