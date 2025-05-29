@@ -7,6 +7,12 @@
     <title>Đăng nhập Bluemoon</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #0d6efd;
+            --bg-color: #f8f9fa;
+            --text-color: #343a40;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -17,13 +23,13 @@
         body {
             height: 100%;
             font-family: 'Inter', sans-serif;
-            background-color: #f8f9fa;
+            background-color: var(--bg-color);
         }
 
         .container {
             display: flex;
             height: 100vh;
-            width: 100vw;
+            width: 100%;
         }
 
         .left {
@@ -46,7 +52,6 @@
 
         .right {
             flex: 1;
-            background-color: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -57,25 +62,26 @@
             width: 100%;
             max-width: 400px;
             background: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
             padding: 40px;
             transition: all 0.3s ease;
         }
 
         .login-box:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+            transform: translateY(-6px);
+            box-shadow: 0 16px 45px rgba(0, 0, 0, 0.15);
         }
 
         .login-box h2 {
-            font-size: 26px;
-            margin-bottom: 24px;
-            color: #343a40;
+            font-size: 28px;
+            margin-bottom: 28px;
+            color: var(--text-color);
+            text-align: center;
         }
 
         .login-box h2 span {
-            color: #0d6efd;
+            color: var(--primary-color);
         }
 
         .form-group {
@@ -86,23 +92,23 @@
             display: block;
             font-size: 14px;
             font-weight: 500;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             color: #495057;
         }
 
         .form-group input {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             font-size: 14px;
             border: 1px solid #ced4da;
-            border-radius: 8px;
-            transition: 0.2s;
+            border-radius: 10px;
+            transition: 0.3s;
         }
 
         .form-group input:focus {
-            border-color: #0d6efd;
+            border-color: var(--primary-color);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.2);
+            box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.2);
         }
 
         .options {
@@ -110,12 +116,19 @@
             justify-content: space-between;
             align-items: center;
             font-size: 14px;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
+        }
+
+        .options label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .options a {
-            color: #0d6efd;
+            color: var(--primary-color);
             text-decoration: none;
+            font-weight: 500;
         }
 
         .options a:hover {
@@ -124,15 +137,15 @@
 
         .login-btn {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             font-size: 16px;
             font-weight: 600;
             color: #fff;
-            background-color: #0d6efd;
+            background-color: var(--primary-color);
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: 0.2s;
+            transition: 0.3s;
         }
 
         .login-btn:hover {
@@ -143,20 +156,35 @@
             color: #dc3545;
             font-size: 14px;
             margin-bottom: 16px;
+            text-align: center;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 992px) {
             .container {
                 flex-direction: column;
             }
 
             .left {
-                height: 250px;
+                height: 300px;
             }
 
             .right {
-                flex: none;
                 padding: 20px;
+            }
+
+            .login-box {
+                padding: 30px;
+                max-width: 350px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .login-box {
+                padding: 24px;
+            }
+
+            .login-box h2 {
+                font-size: 24px;
             }
         }
     </style>
@@ -188,6 +216,7 @@
 
                     <div class="options">
                         <label><input type="checkbox" name="remember"> Lưu đăng nhập</label>
+                        <a href="#">Quên mật khẩu?</a>
                     </div>
 
                     <button type="submit" class="login-btn">Đăng nhập</button>
