@@ -9,11 +9,11 @@ mongoose.connect('mongodb://localhost:27017/BlueMoon', {
 (async () => {
   try {
     // 1. Nếu đã seed rồi thì bỏ qua
-    const existing = await TuThienPayment.countDocuments();
-    if (existing > 0) {
-      console.log(`⚠️ Đã có ${existing} bản ghi đóng từ thiện. Bỏ qua seed.`);
-      return mongoose.connection.close();
-    }
+    // const existing = await TuThienPayment.countDocuments();
+    // if (existing > 0) {
+    //   console.log(`⚠️ Đã có ${existing} bản ghi đóng từ thiện. Bỏ qua seed.`);
+    //   return mongoose.connection.close();
+    // }
 
     // 2. Lấy danh sách quỹ và các căn hộ đang 'không trống'
     const quys = await QuyTuThien.find().exec();
@@ -45,7 +45,7 @@ mongoose.connect('mongodb://localhost:27017/BlueMoon', {
             idQuyTuThien: q.idQuyTuThien,      // số tự tăng (_id là Number)
             idCanHo: ch.idCanHo,
             soTienDaDong: amount,
-            thoiGianDongTien: new Date(),
+            thoiGianDongTien: new Date(2025,0,5)
           });
         }
         // nếu không đóng, không tạo bản ghi

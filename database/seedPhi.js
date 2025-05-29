@@ -17,7 +17,7 @@ mongoose.connect('mongodb://localhost:27017/BlueMoon', {
 
 
         const now = new Date();
-        const thang = now.getMonth() + 1;
+        const thang = now.getMonth() - 3;
         const nam = now.getFullYear();
 
         // Lấy các căn hộ không trống
