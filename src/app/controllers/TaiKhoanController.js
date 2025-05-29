@@ -1,4 +1,5 @@
 const TaiKhoan = require('../models/TaiKhoan');
+const SoHoKhau = require('../models/SoHoKhau');
 
 class TaiKhoanController {
     // Hiển thị danh sách tài khoản
@@ -26,25 +27,47 @@ class TaiKhoanController {
     }
 
     // Tạo mới tài khoản
-    createTaiKhoan(req, res) {
-        const { email, tenDangNhap, hoTen, password, role, idSoHoKhau } = req.body;
+    async createTaiKhoan(req, res) {
+        const { email, tenDangNhap, hoTen, password, role, soSoHoKhau } = req.body;
 
-        const newTaiKhoan = new TaiKhoan({
-            email,
-            tenDangNhap,
-            hoTen,
-            password,
-            role,
-            idSoHoKhau
-        });
+        try {
+            // Tìm idSoHoKhau từ số sổ hộ khẩu
+            const soHoKhau = await SoHoKhau.findOne({ soSoHoKhau });
+            if (!soHoKhau) {
+                req.flash('error_msg', 'Không tìm thấy sổ hộ khẩu với số đã nhập.');
+                return res.redirect('/admin/taikhoan/add');
+            }
 
-        newTaiKhoan.save()
-            .then(() => res.redirect('/admin/taikhoan'))
-            .catch(err => {
-                console.error('Lỗi khi tạo tài khoản:', err);
-                res.status(400).send('Không thể tạo tài khoản. Có thể email hoặc tên đăng nhập đã tồn tại.');
+            // Kiểm tra email hoặc tên đăng nhập đã tồn tại
+            const existing = await TaiKhoan.findOne({
+                $or: [{ email }, { tenDangNhap }]
             });
+
+            if (existing) {
+                req.flash('error_msg', 'Email hoặc tên đăng nhập đã tồn tại.');
+                return res.redirect('/admin/taikhoan/add');
+            }
+
+            // Tạo tài khoản
+            const newTaiKhoan = new TaiKhoan({
+                email,
+                tenDangNhap,
+                hoTen,
+                password,
+                role,
+                idSoHoKhau: soHoKhau.idSoHoKhau
+            });
+
+            await newTaiKhoan.save();
+            req.flash('success_msg', 'Tạo tài khoản thành công.');
+            res.redirect('/admin/taikhoan');
+        } catch (err) {
+            console.error('Lỗi khi tạo tài khoản:', err);
+            req.flash('error_msg', 'Đã xảy ra lỗi khi tạo tài khoản.');
+            res.redirect('/admin/taikhoan/add');
+        }
     }
+
 
     // Cập nhật thông tin tài khoản
     updateTaiKhoan(req, res) {
