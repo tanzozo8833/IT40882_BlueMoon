@@ -35,7 +35,9 @@ app.engine('hbs', engine({
         allowProtoMethodsByDefault: true
     },
     helpers: {
-        eq: (a, b) => a === b
+        eq: (a, b) => a === b,
+        multiply: (a, b) => a * b,
+        type: (val, feeText, donationText) => val === 'fee' ? feeText : donationText,
     }
 }));
 app.set('view engine', 'hbs');

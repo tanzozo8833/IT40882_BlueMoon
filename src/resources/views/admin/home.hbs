@@ -1,5 +1,22 @@
 
 <style>
+    #transactions-list {
+        max-height: 200px; /* Bạn có thể điều chỉnh tùy theo thiết kế */
+        overflow-y: auto;
+        padding-right: 8px; /* để tránh thanh cuộn đè lên nội dung */
+    }
+
+    .transaction-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+    }
+
+    .transaction-divider {
+        border-bottom: 1px solid #ccc;
+        margin: 0 0 8px 0;
+    }
+
     body {
         background: #f8f9fa;
     }
@@ -177,16 +194,16 @@
         <div class="col-md-8">
             <!-- Doanh thu -->
             <section class="bg-white p-4 rounded shadow">
-                <h2 class="text-sm fw-bold text-dark" id="revenue-title">Doanh thu tháng 10/2024
+                <h2 class="text-sm fw-bold text-dark" id="revenue-title">Doanh thu tháng {{currentMonth}}/{{currentYear}}
                 </h2>
-                <span class="fw-semibold ${spanClass}">100%</span>
+                <span class="fw-semibold ${spanClass}">{{growthPercentage}}%</span>
                 <span class="text-muted"> so với tháng trước</span>
             </section>
             <section class="bg-white p-4 rounded shadow">
-                <h2 class="text-sm fw-bold text-dark" id="revenue-title">Doanh thu năm 2024
+                <h2 class="text-sm fw-bold text-dark" id="revenue-title">Doanh thu năm {{currentYear}}
                 </h2>
 
-                <!-- Biểu đồ doanh thu (HTML tĩnh) -->
+                {{!-- <!-- Biểu đồ doanh thu (HTML tĩnh) -->
                 <div class="d-flex align-items-end gap-3 mt-4" id="chart-container">
                     <!-- Tháng 1 -->
                     <div class="d-flex flex-column align-items-center mx-2">
@@ -260,7 +277,19 @@
                         <div class="chart-bar voluntary-bar" style="height: 30px;"></div>
                         <span class="month-label mt-2">12</span>
                     </div>
+                </div> --}}
+
+                <!-- Biểu đồ doanh thu (Động) -->
+                <div class="d-flex align-items-end gap-3 mt-4" id="chart-container">
+                    {{#each doanhThuTheoThang}}
+                        <div class="d-flex flex-column align-items-center mx-2">
+                            <div class="chart-bar regular-bar" style="height: {{this.heightPhi}}px;"></div>
+                            <div class="chart-bar voluntary-bar" style="height: {{this.heightTuThien}}px;"></div>
+                            <span class="month-label mt-2">{{this.thang}}</span>
+                        </div>
+                    {{/each}}
                 </div>
+
 
                 <!-- Chú thích -->
                 <div class="d-flex justify-content-between mt-3">
@@ -281,7 +310,7 @@
                     <div class="col-md-6 text-dark d-flex flex-column align-items-center">
                         <h2>Dân cư</h2>
                         <div class="circle-container residents-circle">
-                            <pre id="residents-count">500<br>người</pre>
+                            <pre id="residents-count">{{soDanCu}}<br>người</pre>
                             <svg class="outer-ring" viewBox="0 0 100 100">
                                 <circle cx="50" cy="50" r="45" stroke-dasharray="282.6" stroke-dashoffset="141.3"
                                     stroke="#FFD700"></circle>
@@ -291,7 +320,7 @@
                     <div class="col-md-6 text-dark d-flex flex-column align-items-center">
                         <h2>Căn hộ</h2>
                         <div class="circle-container apartments-circle">
-                            <pre id="apartments-count">120 / 300<br>căn hộ</pre>
+                            <pre id="apartments-count">{{soCanHoTrong}} / {{tongCanHo}}<br>căn hộ</pre>
                             <svg class="outer-ring" viewBox="0 0 100 100">
                                 <circle cx="50" cy="50" r="45" stroke-dasharray="282.6" stroke-dashoffset="226"
                                     stroke="#8de5f9"></circle>
@@ -310,24 +339,16 @@
                 <canvas id="myDoughnutChart" width="300" height="300" style="margin: left 30px;"></canvas>
             </div>
 
-            <!-- Khoản thu gần đây -->
             <div class="transactions-container mt-4">
                 <h2 class="text-sm fw-bold">Khoản thu gần đây</h2>
                 <div id="transactions-list">
+                    {{#each recentTransactions}}
                     <div class="transaction-item">
-                        <div>CH001 đã nộp phí điện</div>
-                        <div class="fw-semibold">VND 450.000</div>
+                        <div>Căn hộ {{this.canHo}} đã nộp {{type this.type "phí" "từ thiện"}} {{this.name}}</div>
+                        <div class="fw-semibold">VND {{this.amount}}</div>
                     </div>
                     <div class="transaction-divider"></div>
-                    <div class="transaction-item">
-                        <div>CH002 đã nộp phí dịch vụ</div>
-                        <div class="fw-semibold">VND 700.000</div>
-                    </div>
-                    <div class="transaction-divider"></div>
-                    <div class="transaction-item">
-                        <div>CH003 đã nộp phí bảo trì</div>
-                        <div class="fw-semibold">VND 300.000</div>
-                    </div>
+                    {{/each}}
                 </div>
             </div>
         </div>
@@ -343,7 +364,7 @@
         ],
         datasets: [{
             label: 'Sô lượng phương tiện',
-            data: [300, 50],
+            data: [{{tongOto}}, {{tongXeMay}}],
             backgroundColor: [
                 'rgb(99, 102, 241)',
                 'rgb(129, 140, 248)',
