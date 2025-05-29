@@ -63,16 +63,38 @@
           </select>
         </td>
         <td>
-          <form action="/admin/taikhoan/{{this.idTaiKhoan}}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa tài khoản này không?');">
-            <button type="submit" class="btn btn-danger">
-              <i class="bi bi-trash"></i>
-            </button>
-          </form>
+          <button 
+            type="button" 
+            class="btn btn-danger open-delete-modal" 
+            data-id="{{this.idTaiKhoan}}">
+            <i class="bi bi-trash"></i>
+          </button>
         </td>
       </tr>
       {{/each}}
     </tbody>
   </table>
+
+  <!-- Modal xác nhận xóa -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="deleteModalForm" method="POST">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Xác nhận xóa</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+        </div>
+        <div class="modal-body">
+          Bạn có chắc chắn muốn xóa tài khoản này?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+          <button type="submit" class="btn btn-danger">Xác nhận</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
   <!-- Nút lưu thay đổi -->
   <div id="saveChangesContainer" class="text-end mt-3" style="display: none;">
@@ -129,6 +151,19 @@
     });
 
     document.getElementById('updatedRoles').value = JSON.stringify(updates);
+  });
+</script>
+
+<script>
+  const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+  const deleteForm = document.getElementById('deleteModalForm');
+
+  document.querySelectorAll('.open-delete-modal').forEach(button => {
+    button.addEventListener('click', function () {
+      const id = this.getAttribute('data-id');
+      deleteForm.action = `/admin/taikhoan/${id}`; // Cập nhật đúng route bạn dùng để xoá
+      deleteModal.show();
+    });
   });
 </script>
 </body>

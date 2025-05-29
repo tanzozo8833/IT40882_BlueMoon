@@ -90,9 +90,11 @@
     <button type="submit" id="saveBtn" class="btn btn-primary fw-bold px-4 d-none">Xác nhận thay đổi</button>
   </div>
 </form>
-<form action="/admin/nhankhau/{{nhanKhau.idNhanKhau}}/delete" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa nhân khẩu này không?')" style="text-align:center; margin-top: 1rem;">
-  <button type="submit" class="btn btn-danger fw-bold px-4">Xóa nhân khẩu</button>
-</form>
+<div class="text-center mt-4">
+  <button type="button" class="btn btn-danger fw-bold px-4" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+    Xóa nhân khẩu
+  </button>
+</div>
 
 <script>
   const inputs = document.querySelectorAll('#nhanKhauForm input, #nhanKhauForm select');
@@ -115,3 +117,25 @@
     saveBtn.classList.toggle('d-none', !enable);
   }
 </script>
+
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmDeleteModalLabel">Xác nhận xóa?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+      </div>
+      <div class="modal-body text-center">
+        Bạn có chắc muốn xóa nhân khẩu
+        <strong>{{nhanKhau.hoTen}}</strong>
+        không?
+      </div>
+      <div class="modal-footer justify-content-center">
+        <form action="/admin/nhankhau/{{nhanKhau.idNhanKhau}}/delete" method="POST">
+          <button type="submit" class="btn btn-success px-4">Đồng ý</button>
+        </form>
+        <button type="button" class="btn btn-danger px-4" data-bs-dismiss="modal">Từ chối</button>
+      </div>
+    </div>
+  </div>
+</div>

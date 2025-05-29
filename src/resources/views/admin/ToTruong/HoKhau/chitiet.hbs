@@ -1,19 +1,22 @@
 <div class="container mt-5">
   <!-- Nút quay lại -->
-    <div class="back-link-wrapper">
-        <a href="/admin/hokhau" class="back-link">
-            <span class="back-link__icon">←</span>
-            <span class="back-link__text">Trở về danh sách hộ khẩu</span>
-        </a>
-    </div>
+  <div class="back-link-wrapper">
+    <a href="/admin/hokhau" class="back-link">
+      <span class="back-link__icon">←</span>
+      <span class="back-link__text">Trở về danh sách hộ khẩu</span>
+    </a>
+  </div>
+
   <h2 class="green-header text-center mb-4">Chi tiết Nhân Khẩu</h2>
+
   {{#if success_msg}}
-  <div class="alert alert-success">{{success_msg}}</div>
+    <div class="alert alert-success">{{success_msg}}</div>
   {{/if}}
 
   {{#if error_msg}}
-  <div class="alert alert-danger">{{error_msg}}</div>
+    <div class="alert alert-danger">{{error_msg}}</div>
   {{/if}}
+
   <form id="nhanKhauForm" action="/admin/hokhau/{{hokhau.idSoHoKhau}}/update" method="POST">
     <div class="card shadow">
       <div class="card-body">
@@ -46,15 +49,36 @@
           <button type="button" id="editBtn" class="btn btn-warning">Chỉnh sửa</button>
           <button type="submit" id="saveBtn" class="btn btn-success" style="display: none;">Lưu</button>
         </div>
+        <div>
+          <!-- Nút xóa mở modal -->
+          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">Xóa</button>
+        </div>
       </div>
     </div>
   </form>
 
-  <form id="deleteForm" action="/admin/hokhau/{{hokhau.idSoHoKhau}}/delete" method="POST" class="mt-3 text-end">
-    <button type="submit" id="deleteBtn" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa nhân khẩu này không?')">
-      Xóa
-    </button>
-  </form>
+  <!-- Modal xác nhận xoá -->
+  <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmDeleteModalLabel">Xác nhận xóa?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+        </div>
+        <div class="modal-body text-center">
+          Bạn có chắc muốn xóa sổ hộ khẩu
+          <strong>{{hokhau.soSoHoKhau}}</strong>
+          không?
+        </div>
+        <div class="modal-footer justify-content-center">
+          <form action="/admin/hokhau/{{hokhau.idSoHoKhau}}/delete" method="POST">
+            <button type="submit" class="btn btn-success px-4">Đồng ý</button>
+          </form>
+          <button type="button" class="btn btn-danger px-4" data-bs-dismiss="modal">Từ chối</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -62,7 +86,6 @@
     document.querySelectorAll('.view-mode').forEach(el => el.style.display = 'none');
     document.querySelectorAll('.edit-mode').forEach(el => el.style.display = 'block');
     document.getElementById('editBtn').style.display = 'none';
-    document.getElementById('deleteBtn').style.display = 'none';
     document.getElementById('saveBtn').style.display = 'inline-block';
   });
 </script>
