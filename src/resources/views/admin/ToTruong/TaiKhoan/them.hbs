@@ -77,6 +77,13 @@
     </div>
   <div class="form-wrapper">
     <div class="form-container">
+      {{#if error_msg}}
+        <div class="alert alert-danger text-center">{{error_msg}}</div>
+      {{/if}}
+
+      {{#if success_msg}}
+        <div class="alert alert-success text-center">{{success_msg}}</div>
+      {{/if}}
       <div>
         <h2 class="green-header text-center mb-4">Thêm tài khoản người dùng</h2>
         <form id="account-form" class="form-content" method="POST" action="/admin/taikhoan/add">

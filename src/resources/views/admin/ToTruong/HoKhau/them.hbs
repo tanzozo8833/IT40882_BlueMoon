@@ -7,7 +7,13 @@
         </a>
     </div>
   <h2 class="green-header text-center mb-4">Thêm mới sổ hộ khẩu</h2>
+  {{#if success_msg}}
+  <div class="alert alert-success">{{success_msg}}</div>
+  {{/if}}
 
+  {{#if error_msg}}
+  <div class="alert alert-danger">{{error_msg}}</div>
+  {{/if}}
   <form method="POST" action="/admin/hokhau/add" class="p-4 border rounded shadow-sm bg-light">
     <div class="mb-3">
       <label for="soSoHoKhau" class="form-label">Số sổ hộ khẩu</label>

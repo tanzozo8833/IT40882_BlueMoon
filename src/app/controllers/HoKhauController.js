@@ -39,13 +39,25 @@ class HoKhauController {
     createHoKhau(req, res) {
         const { soSoHoKhau, hoTenChu, thongTinThem } = req.body;
 
-        const newHoKhau = new SoHoKhau({ soSoHoKhau, hoTenChu, thongTinThem });
+        SoHoKhau.findOne({ soSoHoKhau: soSoHoKhau.trim() })
+            .then(existing => {
+                if (existing) {
+                    req.flash('error_msg', 'Số sổ hộ khẩu đã tồn tại trong hệ thống.');
+                    return res.redirect('/admin/hokhau/add'); // Trang thêm mới
+                }
 
-        newHoKhau.save()
-            .then(() => res.redirect('/admin/hokhau'))
+                const newHoKhau = new SoHoKhau({ soSoHoKhau, hoTenChu, thongTinThem });
+
+                return newHoKhau.save()
+                    .then(() => {
+                        req.flash('success_msg', 'Thêm sổ hộ khẩu thành công.');
+                        return res.redirect('/admin/hokhau'); // Trang danh sách
+                    });
+            })
             .catch(err => {
                 console.error('Lỗi khi tạo mới hộ khẩu:', err);
-                res.status(400).send('Không thể tạo hộ khẩu. Có thể số sổ đã tồn tại.');
+                req.flash('error_msg', 'Đã xảy ra lỗi khi thêm sổ hộ khẩu.');
+                return res.redirect('/admin/hokhau/add');
             });
     }
 
@@ -69,24 +81,43 @@ class HoKhauController {
     }
 
     // Cập nhật thông tin hộ khẩu
-    updateHoKhau(req, res) {
-        const idSoHoKhau = Number(req.params.id);
-        const { soSoHoKhau, hoTenChu, thongTinThem } = req.body;
+    async updateHoKhau(req, res) {
+        try {
+            const idSoHoKhau = Number(req.params.id);
+            const { soSoHoKhau, hoTenChu, thongTinThem } = req.body;
 
-        SoHoKhau.findOneAndUpdate(
-            { idSoHoKhau },
-            { soSoHoKhau, hoTenChu, thongTinThem },
-            { new: true }
-        )
-            .then(hokhau => {
-                if (!hokhau) return res.status(404).send('Không tìm thấy hộ khẩu');
-                res.redirect(`/admin/hokhau/${idSoHoKhau}`);
-            })
-            .catch(err => {
-                console.error('Lỗi khi cập nhật hộ khẩu:', err);
-                res.status(400).send('Không thể cập nhật hộ khẩu');
-            });
+            // Tìm hộ khẩu cần cập nhật
+            const currentHoKhau = await SoHoKhau.findOne({ idSoHoKhau });
+            if (!currentHoKhau) {
+                req.flash('error_msg', 'Không tìm thấy sổ hộ khẩu.');
+                return res.redirect('/admin/hokhau');
+            }
+
+            // Nếu số sổ mới khác với hiện tại → kiểm tra trùng
+            if (currentHoKhau.soSoHoKhau !== soSoHoKhau) {
+                const existing = await SoHoKhau.findOne({ soSoHoKhau });
+                if (existing) {
+                    req.flash('error_msg', 'Số sổ hộ khẩu đã tồn tại.');
+                    return res.redirect(`/admin/hokhau/${idSoHoKhau}`);
+                }
+            }
+
+            // Cập nhật
+            await SoHoKhau.findOneAndUpdate(
+                { idSoHoKhau },
+                { soSoHoKhau, hoTenChu, thongTinThem },
+                { new: true }
+            );
+
+            req.flash('success_msg', 'Cập nhật sổ hộ khẩu thành công.');
+            res.redirect(`/admin/hokhau/${idSoHoKhau}`);
+        } catch (err) {
+            console.error('Lỗi khi cập nhật sổ hộ khẩu:', err);
+            req.flash('error_msg', 'Đã xảy ra lỗi khi cập nhật sổ hộ khẩu.');
+            res.redirect(`/admin/hokhau/${req.params.id}`);
+        }
     }
+
 
     // Xóa hộ khẩu
     deleteHoKhau(req, res) {
