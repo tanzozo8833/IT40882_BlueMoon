@@ -3,85 +3,82 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Đăng nhập Bluemoon</title>
-
-		<!-- Bootstrap 5 CSS + Icons -->
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" />
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
-
-		<!-- Google Font -->
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-
 		<style>
-			body, html { height: 100%; margin: 0; font-family: 'Inter', sans-serif; background-color: #f0f2f5; }
-			.login-container { height: 100vh; display: flex; } /* Cột trái */ .login-left { flex: 1; background:
-			url('https://cms.thainguyen.vn/documents/1329041/2264722/1.CUC+BAC+1.jpg/5745b2af-9970-4c75-b5d9-5010da28111a?t=1722235658467')
-			center/cover no-repeat; position: relative; overflow: hidden; } .login-left::before { content: ""; position:
-			absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.2); } @keyframes zoom { 0% {
-			transform: scale(1); } 100% { transform: scale(1.1); } } .login-left img, .login-left { animation: zoom 10s
-			ease-in-out infinite alternate; } /* Cột phải */ .login-right { flex: 1; display: flex; justify-content:
-			center; align-items: center; padding: 2rem; } .login-card { width: 100%; max-width: 400px; background: #fff;
-			border-radius: 1rem; box-shadow: 0 8px 24px rgba(0,0,0,0.1); padding: 2.5rem; } .login-card h2 {
-			font-weight: 600; margin-bottom: 1.5rem; text-align: center; } .login-card h2 span { color: #00A5A5; }
+			html, body { height: 100%; margin: 0; padding: 0; font-family: 'Inter', sans-serif; overflow: hidden; /* ẩn
+			scrollbar nếu carousel full */ } /* Carousel full screen */ #bgCarousel, #bgCarousel .carousel-inner,
+			#bgCarousel .carousel-item { position: absolute; top: 0; left: 0; width: 100%; height: 100vh; } #bgCarousel
+			.carousel-item img { width: 100%; height: 100vh; object-fit: cover; } /* Overlay full screen */ .overlay {
+			position: absolute; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.4); z-index: 1; }
+			/* Login Card chính giữa */ .login-card { position: absolute; top: 50%; left: 50%; transform:
+			translate(-50%, -50%); z-index: 2; width: 90%; max-width: 400px; background: rgba(255,255,255,0.95);
+			border-radius: 1rem; box-shadow: 0 8px 24px rgba(0,0,0,0.2); padding: 2rem; } .login-card h2 { font-weight:
+			600; margin-bottom: 1.5rem; text-align: center; } .login-card h2 span { color: #00A5A5; }
 			.form-control:focus { border-color: #00A5A5; box-shadow: 0 0 0 0.25rem rgba(0,165,165,0.25); } .btn-login {
 			background-color: #00A5A5; color: #fff; font-weight: 600; } .btn-login:hover { background-color: #008F8F; }
 			.error-msg { color: #dc3545; text-align: center; margin-bottom: 1rem; }
 		</style>
 	</head>
 	<body>
-
-		<div class="login-container">
-			<!-- trái: ảnh chung cư -->
-			<div class="login-left d-none d-lg-block"></div>
-
-			<!-- phải: form -->
-			<div class="login-right">
-				<div class="login-card">
-					<h2>Chào mừng đến chung cư <span>Bluemoon!</span></h2>
-
-					{{#if error}}
-						<div class="error-msg">{{error}}</div>
-					{{/if}}
-
-					<form method="POST" action="/login">
-						<div class="mb-3">
-							<label for="email" class="form-label">Tên đăng nhập</label>
-							<input
-								type="text"
-								id="email"
-								name="email"
-								class="form-control"
-								placeholder="Nhập tên đăng nhập"
-								required
-								value="{{email}}"
-							/>
-						</div>
-
-						<div class="mb-3">
-							<label for="password" class="form-label">Mật khẩu</label>
-							<input
-								type="password"
-								id="password"
-								name="password"
-								class="form-control"
-								placeholder="Nhập mật khẩu"
-								required
-							/>
-						</div>
-
-						<div class="form-check mb-3">
-							<input class="form-check-input" type="checkbox" value="" id="remember" name="remember" />
-							<label class="form-check-label" for="remember">
-								Lưu đăng nhập
-							</label>
-						</div>
-
-						<button type="submit" class="btn btn-login w-100 py-2">Đăng nhập</button>
-					</form>
+		<!-- Carousel -->
+		<div id="bgCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000">
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+					<img src="https://images.pexels.com/photos/323705/pexels-photo-323705.jpeg" alt="..." />
+				</div>
+				<div class="carousel-item">
+					<img src="https://images.pexels.com/photos/439391/pexels-photo-439391.jpeg" alt="..." />
+				</div>
+				<div class="carousel-item">
+					<img src="https://images.pexels.com/photos/373912/pexels-photo-373912.jpeg" alt="..." />
+				</div>
+				<div class="carousel-item">
+					<img src="https://images.pexels.com/photos/259950/pexels-photo-259950.jpeg" alt="..." />
 				</div>
 			</div>
 		</div>
 
-		<!-- Bootstrap JS -->
+		<!-- Overlay -->
+		<div class="overlay"></div>
+
+		<!-- Login Card -->
+		<div class="login-card">
+			<h2>Chào mừng đến chung cư <span>Bluemoon</span>!</h2>
+			{{#if error}}<div class="error-msg">{{error}}</div>{{/if}}
+			<form method="POST" action="/login">
+				<div class="mb-3">
+					<label for="email" class="form-label">Tên đăng nhập</label>
+					<input
+						type="text"
+						id="email"
+						name="email"
+						class="form-control"
+						placeholder="Nhập tên đăng nhập"
+						required
+						value="{{email}}"
+					/>
+				</div>
+				<div class="mb-3">
+					<label for="password" class="form-label">Mật khẩu</label>
+					<input
+						type="password"
+						id="password"
+						name="password"
+						class="form-control"
+						placeholder="Nhập mật khẩu"
+						required
+					/>
+				</div>
+				<div class="form-check mb-3">
+					<input class="form-check-input" type="checkbox" id="remember" name="remember" />
+					<label class="form-check-label" for="remember">Lưu đăng nhập</label>
+				</div>
+				<button type="submit" class="btn btn-login w-100 py-2">Đăng nhập</button>
+			</form>
+		</div>
+
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
 	</body>
 </html>
