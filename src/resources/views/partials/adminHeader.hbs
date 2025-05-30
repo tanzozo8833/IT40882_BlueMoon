@@ -40,86 +40,94 @@
 
 <!-- Sidebar -->
 <style>
-  /* Thiết lập màu trắng cho mũi tên */
-  .arrow-icon {
-    filter: invert(1);
-    transition: transform 0.3s ease;
-  }
-
-  /* Xoay mũi tên khi mở menu */
-  .collapsed .arrow-icon {
-    transform: rotate(180deg);
-  }
+	/* Thiết lập màu trắng cho mũi tên */ .arrow-icon { filter: invert(1); transition: transform 0.3s ease; } /* Xoay
+	mũi tên khi mở menu */ .collapsed .arrow-icon { transform: rotate(180deg); }
 </style>
-<nav class="d-flex flex-column bg-dark text-white p-3"
-  style="width: 250px; height: 100vh; position: fixed; left: 0; top: 0;">
+<nav
+	class="d-flex flex-column bg-dark text-white p-3"
+	style="width: 250px; height: 100vh; position: fixed; left: 0; top: 0;"
+>
 
-  <!-- Profile -->
-  <div class="text-center mb-4" id="profile-container">
-    <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/28c12a65e22d1818976375bffb56964a37fe1cba"
-      class="rounded-circle img-fluid" alt="Admin profile" width="60">
-    <p class="mt-2 text-secondary">{{currentUser.role}}</p>
-    <p class="h5">{{currentUser.email}}</p>
-  </div>
+	<!-- Profile -->
+	<div class="text-center mb-4" id="profile-container">
+		<img
+			src="https://cdn.builder.io/api/v1/image/assets/TEMP/28c12a65e22d1818976375bffb56964a37fe1cba"
+			class="rounded-circle img-fluid"
+			alt="Admin profile"
+			width="60"
+		/>
+		<p class="mt-2 text-secondary">{{currentUser.role}}</p>
+		<p class="h5">{{currentUser.email}}</p>
+	</div>
 
-  <!-- Sidebar Menu -->
-  <ul class="nav flex-column" id="sidebarMenu">
-    <li class="nav-item">
-      <a class="nav-link text-white py-2" href="/admin">Tổng quan</a>
-    </li>
+	<!-- Sidebar Menu -->
+	<ul class="nav flex-column" id="sidebarMenu">
+		<li class="nav-item">
+			<a class="nav-link text-white py-2" href="/admin">Tổng quan</a>
+		</li>
 
-    <!-- Quản lý dân cư -->
-    <li class="nav-item">
-      <button class="nav-link text-white py-2 d-flex justify-content-between w-100 collapse" data-bs-toggle="collapse"
-        data-bs-target="#quanLyDanCu">
-        Quản lý dân cư
-        <img src="https://cdn-icons-png.flaticon.com/512/130/130906.png" alt="Arrow" class="arrow-icon ms-2" width="12"
-          height="12">
-      </button>
-      <div id="quanLyDanCu" class="collapse show">
-        <ul class="nav flex-column ms-3">
-          <li class="nav-item"><a class="nav-link text-white py-2" href="/admin/hokhau">Danh
-              sách sổ hộ khẩu</a></li>
-          <li class="nav-item"><a class="nav-link text-white py-2" href="/admin/nhankhau">Danh sách nhân
-              khẩu</a></li>
-          <li class="nav-item"><a class="nav-link text-white py-2" href="/admin/canho">Danh sách căn
-              hộ</a></li>
-        </ul>
-      </div>
-    </li>
+		<!-- Quản lý dân cư -->
+		<li class="nav-item">
+			<button
+				class="nav-link text-white py-2 d-flex justify-content-between w-100 collapse"
+				data-bs-toggle="collapse"
+				data-bs-target="#quanLyDanCu"
+			>
+				Quản lý dân cư
+				<img
+					src="https://cdn-icons-png.flaticon.com/512/130/130906.png"
+					alt="Arrow"
+					class="arrow-icon ms-2"
+					width="12"
+					height="12"
+				/>
+			</button>
+			<div id="quanLyDanCu" class="collapse show">
+				<ul class="nav flex-column ms-3">
+					<li class="nav-item"><a class="nav-link text-white py-2" href="/admin/hokhau">Danh sách sổ hộ khẩu</a></li>
+					<li class="nav-item"><a class="nav-link text-white py-2" href="/admin/nhankhau">Danh sách nhân khẩu</a></li>
+					<li class="nav-item"><a class="nav-link text-white py-2" href="/admin/canho">Danh sách căn hộ</a></li>
+				</ul>
+			</div>
+		</li>
 
-    <!-- Quản lý thu phí -->
-    <li class="nav-item">
-      <button class="nav-link text-white py-2 d-flex justify-content-between w-100 collapse" data-bs-toggle="collapse"
-        data-bs-target="#quanLyThuPhi">
-        Quản lý thu phí
-        <img src="https://cdn-icons-png.flaticon.com/512/130/130906.png" alt="Arrow" class="arrow-icon ms-2" width="12"
-          height="12">
-      </button>
-      <div id="quanLyThuPhi" class="collapse show">
-        <ul class="nav flex-column ms-3">
-          <li class="nav-item"><a class="nav-link text-white py-2" href="/admin/thuphi">Danh sách thu
-              phí</a></li>
-          <li class="nav-item"><a class="nav-link text-white py-2" href="/admin/tuthien">Danh sách
-              từ thiện</a></li>
-          <li class="nav-item"><a class="nav-link text-white py-2" href="/admin/thongke">Thống kê theo căn hộ</a></li>
-        </ul>
-      </div>
-    </li>
+		<!-- Quản lý thu phí -->
+		<li class="nav-item">
+			<button
+				class="nav-link text-white py-2 d-flex justify-content-between w-100 collapse"
+				data-bs-toggle="collapse"
+				data-bs-target="#quanLyThuPhi"
+			>
+				Quản lý thu phí
+				<img
+					src="https://cdn-icons-png.flaticon.com/512/130/130906.png"
+					alt="Arrow"
+					class="arrow-icon ms-2"
+					width="12"
+					height="12"
+				/>
+			</button>
+			<div id="quanLyThuPhi" class="collapse show">
+				<ul class="nav flex-column ms-3">
+					<li class="nav-item"><a class="nav-link text-white py-2" href="/admin/thuphi">Danh sách thu phí</a></li>
+					<li class="nav-item"><a class="nav-link text-white py-2" href="/admin/tuthien">Danh sách từ thiện</a></li>
+					<li class="nav-item"><a class="nav-link text-white py-2" href="/admin/thongke">Thống kê theo căn hộ</a></li>
+				</ul>
+			</div>
+		</li>
 
-    <!-- Quản lý tài khoản (Không mở rộng) -->
-    <li class="nav-item">
-      <a class="nav-link text-white py-2" href="/admin/taikhoan">Quản lý tài khoản</a>
-    </li>
+		<!-- Quản lý tài khoản (Không mở rộng) -->
+		<li class="nav-item">
+			<a class="nav-link text-white py-2" href="/admin/taikhoan">Quản lý tài khoản</a>
+		</li>
 
-    <!--Tài khoản-->
-    <li class="nav-item">
-      <a class="nav-link text-white py-2" href="/admin/userInfo">Tài khoản</a>
-    </li>
-  </ul>
+		<!--Tài khoản-->
+		<li class="nav-item">
+			<a class="nav-link text-white py-2" href="/admin/userInfo">Tài khoản</a>
+		</li>
+	</ul>
 
-  <!-- Logout Button -->
-  <button class="btn btn-outline-light mt-3 w-100" onclick="location.href='/logOut'">Đăng
-    xuất</button>
+	<!-- Logout Button -->
+	<button class="btn btn-outline-light mt-3 w-100" onclick="location.href='/logOut'">Đăng xuất</button>
 
 </nav>

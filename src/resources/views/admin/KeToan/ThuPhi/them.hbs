@@ -1,0 +1,107 @@
+<div class="container mt-5">
+	<!-- Nút quay lại -->
+	<div class="back-link-wrapper">
+		<a href="/admin/thuphi" class="back-link">
+			<span class="back-link__icon">←</span>
+			<span class="back-link__text">Trở về danh sách từ thiện</span>
+		</a>
+	</div>
+
+	<h2 class="mb-4 green-header" style="text-align: center;">
+		Thêm khoản thu phí
+	</h2>
+	{{#if error}}
+		<div class="alert alert-danger">{{error}}</div>
+	{{/if}}
+	<form method="POST" action="/admin/thuphi" class="p-4 border rounded shadow-sm bg-light">
+		<div class="row g-3">
+			<div class="col-md-6">
+				<label for="idCanHo" class="form-label">ID Căn hộ</label>
+				<input
+					type="number"
+					class="form-control"
+					id="idCanHo"
+					name="idCanHo"
+					placeholder="Nhập ID căn hộ"
+					required
+				/>
+			</div>
+			<div class="col-md-6">
+				<label for="loaiPhi" class="form-label">Loại phí</label>
+				<select class="form-select" id="loaiPhi" name="loaiPhi" required>
+					<option value="">Chọn loại phí…</option>
+					<option value="dien">Điện</option>
+					<option value="nuoc">Nước</option>
+					<option value="xemay">Xe máy</option>
+					<option value="oto">Ô tô</option>
+					<option value="Phi dich vu nha o">Phí dịch vụ nhà ở</option>
+					<option value="Phi dich vu cao cap">Phí dịch vụ cao cấp</option>
+					<option value="Phi quan ly">Phí quản lý chung cư</option>
+				</select>
+			</div>
+
+			<div class="col-md-6">
+				<label for="soTien" class="form-label">Số tiền (VND)</label>
+				<input
+					type="number"
+					class="form-control"
+					id="soTien"
+					name="soTien"
+					placeholder="Nhập số tiền"
+					min="0"
+					required
+				/>
+			</div>
+			<div class="col-md-6">
+				<label for="trangThai" class="form-label">Trạng thái</label>
+				<select class="form-select" id="trangThai" name="trangThai" required>
+					<option value="">Chọn trạng thái…</option>
+					<option value="chua_dong">Chưa đóng</option>
+					<option value="da_dong">Đã đóng</option>
+				</select>
+			</div>
+
+			<div class="col-md-3">
+				<label for="thang" class="form-label">Tháng</label>
+				<input
+					type="number"
+					class="form-control"
+					id="thang"
+					name="thang"
+					placeholder="1–12"
+					min="1"
+					max="12"
+					required
+				/>
+			</div>
+			<div class="col-md-3">
+				<label for="nam" class="form-label">Năm</label>
+				<input
+					type="number"
+					class="form-control"
+					id="nam"
+					name="nam"
+					placeholder="2000–2100"
+					min="2000"
+					max="2100"
+					required
+				/>
+			</div>
+
+			<div class="col-12">
+				<label for="moTa" class="form-label">Mô tả</label>
+				<textarea
+					class="form-control"
+					id="moTa"
+					name="moTa"
+					rows="2"
+					placeholder="Nhập mô tả (nếu có)"
+				></textarea>
+			</div>
+		</div>
+
+		<div class="mt-4 text-end">
+			<button type="submit" class="btn btn-success">Xác nhận thêm</button>
+		</div>
+	</form>
+</div>
