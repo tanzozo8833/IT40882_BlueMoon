@@ -1,39 +1,43 @@
 <div class="container mt-5">
-    <!-- Nút quay lại -->
-    <div class="back-link-wrapper">
-        <a href="/admin/tuthien" class="back-link">
-            <span class="back-link__icon">←</span>
-            <span class="back-link__text">Trở về danh sách từ thiện</span>
-        </a>
-    </div>
-    <h2 class="mb-4 green-header" style="text-align: center;">🤝 Thêm khoản từ thiện</h2>
-    <form method="POST" action="/admin/tuthien" class="p-4 border rounded shadow-sm bg-light">
-        <div class="mb-3">
-            <label for="name" class="form-label">Tên quỹ từ thiện</label>
-            <input type="text" class="form-control" id="name" name="tenQuy" placeholder="Nhập tên quỹ từ thiện"
-                required>
-        </div>
+	<!-- Nút quay lại -->
+	<div class="back-link-wrapper">
+		<a href="/admin/tuthien" class="back-link">
+			<span class="back-link__icon">←</span>
+			<span class="back-link__text">Trở về danh sách từ thiện</span>
+		</a>
+	</div>
+	<h2 class="mb-4 green-header" style="text-align: center;">Thêm khoản từ thiện</h2>
+	<form method="POST" action="/admin/tuthien" class="p-4 border rounded shadow-sm bg-light">
+		<div class="mb-3">
+			<label for="name" class="form-label">Tên quỹ từ thiện</label>
+			<input
+				type="text"
+				class="form-control"
+				id="name"
+				name="tenQuy"
+				placeholder="Nhập tên quỹ từ thiện"
+				required
+			/>
+		</div>
 
-        <div class="mb-3">
-            <label for="description" class="form-label">Mô tả</label>
-            <input type="text" class="form-control" id="description" name="mota" placeholder="Nhập mô tả">
-        </div>
+		<div class="mb-3">
+			<label for="description" class="form-label">Mô tả</label>
+			<input type="text" class="form-control" id="description" name="mota" placeholder="Nhập mô tả" />
+		</div>
 
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label for="startDate" class="form-label">Ngày bắt đầu</label>
-                <input type="date" class="form-control" id="startDate" name="ngayBatDau" required>
-            </div>
-            <div class="col-md-6 mb-3">
-                <label for="endDate" class="form-label">Ngày kết thúc</label>
-                <input type="date" class="form-control" id="endDate" name="ngayKetThuc" required>
-            </div>
-        </div>
+		<div class="row">
+			<div class="col-md-6 mb-3">
+				<label for="startDate" class="form-label">Ngày bắt đầu</label>
+				<input type="date" class="form-control" id="startDate" name="ngayBatDau" required />
+			</div>
+			<div class="col-md-6 mb-3">
+				<label for="endDate" class="form-label">Ngày kết thúc</label>
+				<input type="date" class="form-control" id="endDate" name="ngayKetThuc" required />
+			</div>
+		</div>
 
-        <div class="d-flex gap-2">
-            <button type="submit" class="btn btn-success"> Xác nhận thêm</button>
-        </div>
-    </form>
+		<div class="d-flex gap-2">
+			<button type="submit" class="btn btn-success"> Xác nhận thêm</button>
+		</div>
+	</form>
 </div>
-
-
