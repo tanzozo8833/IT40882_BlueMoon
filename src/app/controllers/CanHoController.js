@@ -51,30 +51,33 @@ class CanHoController {
 
     updateCanHo = async (req, res) => {
         try {
-            const idCanHo = req.params.id; // Lấy id từ URL
-            const { trangThai } = req.body; // Lấy trạng thái mới từ form
+            const idCanHo = Number(req.params.id);
+            const { trangThai, soXeMay, soOto } = req.body;
 
-            // Kiểm tra giá trị trạng thái có hợp lệ không
             if (!['trống', 'không trống'].includes(trangThai)) {
-                return res.status(400).json({ message: 'Trạng thái không hợp lệ.' });
+            return res.status(400).json({ message: 'Trạng thái không hợp lệ.' });
             }
 
-            // Tìm căn hộ theo id và cập nhật trạng thái
+            const updateFields = {
+            trangThai,
+            soXeMay: Number(soXeMay),
+            soOto: Number(soOto),
+            };
+
             const canHo = await CanHo.findOneAndUpdate(
-                { idCanHo: idCanHo },
-                { trangThai: trangThai },
-                { new: true } // Trả về document đã cập nhật
+            { idCanHo: idCanHo },
+            updateFields,
+            { new: true }
             );
 
             if (!canHo) {
-                return res.status(404).json({ message: 'Không tìm thấy căn hộ.' });
+            return res.status(404).json({ message: 'Không tìm thấy căn hộ.' });
             }
 
-            // Trả về dữ liệu mới sau khi cập nhật (hoặc redirect nếu dùng HTML form)
-            res.redirect('/admin/canho'); // Redirect về danh sách căn hộ
+            res.redirect('/admin/canho');
         } catch (err) {
             console.error(err);
-            res.status(500).json({ message: 'Lỗi server khi cập nhật trạng thái.' });
+            res.status(500).json({ message: 'Lỗi server khi cập nhật.' });
         }
     };
 }

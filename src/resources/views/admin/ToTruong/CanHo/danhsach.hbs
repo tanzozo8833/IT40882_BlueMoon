@@ -47,6 +47,8 @@
         <th>ID Căn hộ</th>
         <th>Loại căn hộ</th>
         <th>Diện tích (m²)</th>
+        <th>Số xe máy</th>           <!-- Thêm -->
+        <th>Số ô tô</th>             <!-- Thêm -->
         <th>Trạng thái</th>
         <th>Chỉnh sửa</th>
       </tr>
@@ -57,10 +59,17 @@
         <td>{{idCanHo}}</td>
         <td>{{loai}}</td>
         <td>{{dienTich}}</td>
+        <td>{{soXeMay}}</td>           <!-- Thêm -->
+        <td>{{soOto}}</td>             <!-- Thêm -->
         <td>{{trangThai}}</td>
         <td>
-          <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal"
-                  data-id="{{idCanHo}}" data-trangthai="{{trangThai}}">
+          <button class="btn btn-sm btn-warning"
+                  data-bs-toggle="modal"
+                  data-bs-target="#editModal"
+                  data-id="{{idCanHo}}"
+                  data-trangthai="{{trangThai}}"
+                  data-xemay="{{soXeMay}}"
+                  data-oto="{{soOto}}">
             Chỉnh sửa
           </button>
         </td>
@@ -87,6 +96,14 @@
               <option value="không trống">Không trống</option>
             </select>
           </div>
+          <div class="mb-3">
+            <label for="xeMayInput" class="form-label">Số xe máy</label>
+            <input type="number" class="form-control" id="xeMayInput" name="soXeMay" min="0" required>
+          </div>
+          <div class="mb-3">
+            <label for="otoInput" class="form-label">Số ô tô</label>
+            <input type="number" class="form-control" id="otoInput" name="soOto" min="0" required>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">Lưu</button>
@@ -102,14 +119,21 @@
 <script>
   // Hiển thị lại modal và cập nhật form action
   const editModal = document.getElementById('editModal');
+
   editModal.addEventListener('show.bs.modal', function (event) {
     const button = event.relatedTarget;
     const id = button.getAttribute('data-id');
     const trangThai = button.getAttribute('data-trangthai');
+    const soXeMay = button.getAttribute('data-xemay');
+    const soOto = button.getAttribute('data-oto');
 
     const form = document.getElementById('updateForm');
     form.action = `/admin/canho/${id}/update`;
+
+    // Gán giá trị mặc định vào các input
     document.getElementById('trangThaiSelect').value = trangThai;
+    document.getElementById('xeMayInput').value = soXeMay || 0;
+    document.getElementById('otoInput').value = soOto || 0;
   });
 
   // Lọc bảng theo input
