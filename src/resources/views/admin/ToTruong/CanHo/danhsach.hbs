@@ -143,9 +143,9 @@
 
     const rows = document.querySelectorAll('#tuthienTable tbody tr');
     rows.forEach(row => {
-      const idText = row.cells[0].innerText.toLowerCase();
-      const loaiText = row.cells[1].innerText;
-      const trangThaiText = row.cells[3].innerText;
+      const idText = row.cells[0].innerText.toLowerCase();      // ID Căn hộ
+      const loaiText = row.cells[1].innerText;                  // Loại căn hộ
+      const trangThaiText = row.cells[5].innerText;             // Trạng thái (chính là cột thứ 6, index 5)
 
       const idMatch = idText.includes(idValue);
       const loaiMatch = !loaiValue || loaiText === loaiValue;
@@ -154,6 +154,7 @@
       row.style.display = (idMatch && loaiMatch && trangThaiMatch) ? '' : 'none';
     });
   }
+
 
   function resetFilter() {
     document.getElementById('filterId').value = '';
