@@ -11,6 +11,7 @@ class NhanKhauController {
 
         NhanKhau.find(filter)
             .then((nhanKhaus) => {
+                console.log('Danh sách nhân khẩu:', nhanKhaus);
                 res.render('admin/ToTruong/NhanKhau/danhsach', {
                     nhanKhaus: nhanKhaus,
                     title: 'Danh sách nhân khẩu',

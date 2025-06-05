@@ -1,19 +1,22 @@
 <div class="container mt-5">
   <!-- Nút quay lại -->
-    <div class="back-link-wrapper">
-        <a href="/admin/hokhau" class="back-link">
-            <span class="back-link__icon">←</span>
-            <span class="back-link__text">Trở về danh sách hộ khẩu</span>
-        </a>
-    </div>
+  <div class="back-link-wrapper">
+    <a href="/admin/hokhau" class="back-link">
+      <span class="back-link__icon">←</span>
+      <span class="back-link__text">Trở về danh sách hộ khẩu</span>
+    </a>
+  </div>
+
   <h2 class="green-header text-center mb-4">Thêm mới sổ hộ khẩu</h2>
+
   {{#if success_msg}}
-  <div class="alert alert-success">{{success_msg}}</div>
+    <div class="alert alert-success">{{success_msg}}</div>
   {{/if}}
 
   {{#if error_msg}}
-  <div class="alert alert-danger">{{error_msg}}</div>
+    <div class="alert alert-danger">{{error_msg}}</div>
   {{/if}}
+
   <form method="POST" action="/admin/hokhau/add" class="p-4 border rounded shadow-sm bg-light">
     <div class="mb-3">
       <label for="soSoHoKhau" class="form-label">Số sổ hộ khẩu</label>
@@ -30,8 +33,21 @@
       <input type="text" class="form-control" id="thongTinThem" name="thongTinThem">
     </div>
 
+    <div class="mb-3">
+      <label for="idCanHo" class="form-label">ID Căn hộ còn trống</label>
+      {{#if canHoTrongList.length}}
+        <select class="form-select" id="idCanHo" name="idCanHo" required>
+          {{#each canHoTrongList}}
+            <option value="{{this.idCanHo}}">Căn hộ {{this.idCanHo}} - {{this.loai}}</option>
+          {{/each}}
+        </select>
+      {{else}}
+        <div class="alert alert-warning">Không còn căn hộ nào trống để gán.</div>
+      {{/if}}
+    </div>
+
     <div class="d-flex gap-2">
-      <button type="submit" class="btn btn-success">Lưu</button>
+      <button type="submit" class="btn btn-success" {{#unless canHoTrongList.length}}disabled{{/unless}}>Lưu</button>
     </div>
   </form>
 </div>

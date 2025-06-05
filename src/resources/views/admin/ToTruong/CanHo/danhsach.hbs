@@ -50,7 +50,6 @@
         <th>Số xe máy</th>           <!-- Thêm -->
         <th>Số ô tô</th>             <!-- Thêm -->
         <th>Trạng thái</th>
-        <th>Chỉnh sửa</th>
       </tr>
     </thead>
     <tbody>
@@ -62,7 +61,7 @@
         <td>{{soXeMay}}</td>           <!-- Thêm -->
         <td>{{soOto}}</td>             <!-- Thêm -->
         <td>{{trangThai}}</td>
-        <td>
+        {{!-- <td>
           <button class="btn btn-sm btn-warning"
                   data-bs-toggle="modal"
                   data-bs-target="#editModal"
@@ -72,7 +71,7 @@
                   data-oto="{{soOto}}">
             Chỉnh sửa
           </button>
-        </td>
+        </td> --}}
       </tr>
       {{/each}}
     </tbody>

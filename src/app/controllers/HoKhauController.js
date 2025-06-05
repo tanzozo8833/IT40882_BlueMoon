@@ -29,29 +29,55 @@ class HoKhauController {
 
     // Điều hướng đến trang thêm mới hộ khẩu
     addHoKhau(req, res) {
-        res.render('admin/ToTruong/HoKhau/them', {
-            title: 'Thêm hộ khẩu',
-            layout: 'adminLayout'
+        CanHo.find({ trangThai: 'trống' })
+        .then(canHoTrongList => {
+            res.render('admin/ToTruong/HoKhau/them', {
+                title: 'Thêm hộ khẩu',
+                layout: 'adminLayout',
+                canHoTrongList,
+                success_msg: req.flash('success_msg'),
+                error_msg: req.flash('error_msg'),
+            });
+        })
+        .catch(err => {
+            console.error('Lỗi khi load căn hộ trống:', err);
+            req.flash('error_msg', 'Không thể tải danh sách căn hộ trống.');
+            res.redirect('/admin/hokhau');
         });
     }
 
     // Tạo mới hộ khẩu
     createHoKhau(req, res) {
-        const { soSoHoKhau, hoTenChu, thongTinThem } = req.body;
+        const { soSoHoKhau, hoTenChu, thongTinThem, idCanHo } = req.body;
 
         SoHoKhau.findOne({ soSoHoKhau: soSoHoKhau.trim() })
             .then(existing => {
                 if (existing) {
                     req.flash('error_msg', 'Số sổ hộ khẩu đã tồn tại trong hệ thống.');
-                    return res.redirect('/admin/hokhau/add'); // Trang thêm mới
+                    return res.redirect('/admin/hokhau/add');
                 }
 
-                const newHoKhau = new SoHoKhau({ soSoHoKhau, hoTenChu, thongTinThem });
+                // Kiểm tra căn hộ có tồn tại và còn trống
+                return CanHo.findOne({ idCanHo: Number(idCanHo), trangThai: 'trống' })
+                    .then(canHo => {
+                        if (!canHo) {
+                            req.flash('error_msg', 'Căn hộ không hợp lệ hoặc đã có người ở.');
+                            return res.redirect('/admin/hokhau/add');
+                        }
 
-                return newHoKhau.save()
-                    .then(() => {
-                        req.flash('success_msg', 'Thêm sổ hộ khẩu thành công.');
-                        return res.redirect('/admin/hokhau'); // Trang danh sách
+                        const newHoKhau = new SoHoKhau({ soSoHoKhau, hoTenChu, thongTinThem });
+
+                        return newHoKhau.save()
+                            .then(savedHoKhau => {
+                                // Cập nhật trạng thái và gán id sổ hộ khẩu cho căn hộ
+                                canHo.trangThai = 'không trống';
+                                canHo.idSoHoKhau = savedHoKhau.idSoHoKhau;
+                                return canHo.save();
+                            })
+                            .then(() => {
+                                req.flash('success_msg', 'Thêm sổ hộ khẩu thành công.');
+                                return res.redirect('/admin/hokhau');
+                            });
                     });
             })
             .catch(err => {
@@ -60,6 +86,7 @@ class HoKhauController {
                 return res.redirect('/admin/hokhau/add');
             });
     }
+
 
     // Xem chi tiết hộ khẩu
     getHoKhauById(req, res) {
@@ -123,9 +150,20 @@ class HoKhauController {
     deleteHoKhau(req, res) {
         const idSoHoKhau = Number(req.params.id);
 
-        SoHoKhau.findOneAndDelete({ idSoHoKhau })
+        SoHoKhau.findOne({ idSoHoKhau })
             .then(hokhau => {
                 if (!hokhau) return res.status(404).send('Không tìm thấy hộ khẩu để xóa');
+
+                // Tìm căn hộ có chứa idSoHoKhau này
+                return CanHo.findOneAndUpdate(
+                    { idSoHoKhau: idSoHoKhau },
+                    { $set: { trangThai: 'trống', idSoHoKhau: null } }
+                ).then(() => {
+                    // Xóa hộ khẩu sau khi cập nhật căn hộ
+                    return SoHoKhau.deleteOne({ idSoHoKhau });
+                });
+            })
+            .then(() => {
                 res.redirect('/admin/hokhau');
             })
             .catch(err => {
@@ -133,6 +171,7 @@ class HoKhauController {
                 res.status(500).send('Không thể xóa hộ khẩu');
             });
     }
+
 }
 
 module.exports = new HoKhauController();
